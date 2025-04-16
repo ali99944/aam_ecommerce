@@ -30,13 +30,15 @@ export function TextLoader({ width = 'w-24', className = '' }: { width?: string,
     )
   }
   
-  export function LinesLoader({ lines = 3, className = '' }: { lines?: number, className?: string }) {
+  export function LinesLoader({ lines = 3, variant = 'default', className = '' }: { lines?: number, variant?: 'default' | 'secondary', className?: string }) {
     return (
       <div className={`space-y-2 ${className}`}>
         {Array.from({ length: lines }).map((_, index) => (
           <div 
             key={index} 
-            className={`h-4 bg-[#D3EBE8] rounded animate-pulse ${
+            className={`h-4 rounded animate-pulse ${
+              variant === 'default' ? 'bg-[#D3EBE8]' : 'bg-[#00998F]'
+            } ${
               index === lines - 1 ? 'w-3/4' : 'w-full'
             }`}
           ></div>

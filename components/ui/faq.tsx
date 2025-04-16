@@ -45,7 +45,9 @@ export function FAQItem({ question, answer }: FAQItemProps) {
             className="overflow-hidden"
           >
             <div className="p-4 bg-white border-t border-gray-200">
-              <p className="text-gray-700">{answer}</p>
+              <p className="text-gray-700" dangerouslySetInnerHTML={{
+                __html: answer
+              }} />
             </div>
           </motion.div>
         )}

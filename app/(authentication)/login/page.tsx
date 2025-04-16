@@ -7,6 +7,12 @@ import Link from "next/link"
 import { Eye, EyeOff, Mail, Lock, ShieldCheck, Truck, Package, CreditCard } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { useMutationAction } from "@/src/providers/hooks/queries-actions"
+import { useToast } from "@/components/ui/toast"
+import { AxiosError } from "axios"
+import { useAppDispatch, useAppSelector } from "@/src/store/hook"
+import { loginUser } from "@/src/store/slices/auth-slice"
+import { useRouter } from "next/navigation"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -15,15 +21,22 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
+    const { addToast } = useToast()
+    const dispatch = useAppDispatch()
+    const router = useRouter()
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsLoading(true)
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false)
-      // Handle login logic
-    }, 1500)
+    await dispatch(loginUser({ email, password })).unwrap().then(() => {
+      addToast("تم تسجيل الدخول بنجاح", 'success', 3000)
+      router.replace('/')
+    }).catch((error) => {
+      console.log(error );
+      
+      addToast((error as AxiosError).response?.data.message, 'error', 3000)
+    })
+
   }
 
   return (

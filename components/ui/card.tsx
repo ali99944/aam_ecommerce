@@ -19,7 +19,7 @@ export function Card({
 }: CardProps) {
   return (
     <div 
-      className={`bg-[#00998F] ${
+      className={`bg-[#D2EAE8] ${
         bordered ? 'border border-gray-200' : ''
       } ${
         hoverable ? 'transition-shadow hover:shadow-md' : ''

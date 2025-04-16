@@ -8,15 +8,18 @@ import Image from "next/image"
 import { Eye, EyeOff, Mail, Lock, User, Phone, ShieldCheck, Clock, Gift, CreditCard } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { useMutationAction } from "@/src/providers/hooks/queries-actions"
+import { useToast } from "@/components/ui/toast"
+import { AxiosError } from "axios"
+import { useRouter } from "next/navigation"
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
     phone: "",
     password: "",
-    confirmPassword: "",
+    password_confirmation: "",
   })
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -28,15 +31,35 @@ export default function RegisterPage() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const registerAction = useMutationAction({
+    url: "auth/customer/register",
+    method: "post"
+  })
+
+  const { addToast } = useToast()
+  const router = useRouter()
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
-    // Simulate API call
-    setTimeout(() => {
+    if(formData.password != formData.password_confirmation) {
+      addToast("كلمات المرور غير متطابقة", 'error', 3000)
       setIsLoading(false)
-      // Handle registration logic
-    }, 1500)
+      return
+    }
+
+    await registerAction.mutateAsync(formData, {
+      onSuccess: () => {
+        addToast("تم التسجيل بنجاح", 'success', 3000)
+        setIsLoading(false)
+        router.replace('/login')
+      },
+      onError: (error) => {
+        addToast((error as AxiosError).response?.data.message, 'error', 3000)
+        setIsLoading(false)
+      }
+    })
   }
 
   return (
@@ -53,23 +76,12 @@ export default function RegisterPage() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="">
                   <Input
-                    label="الاسم الأول"
-                    name="firstName"
-                    placeholder="الاسم الأول"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    icon={User}
-                    iconPosition="right"
-                    required
-                  />
-
-                  <Input
-                    label="الاسم الأخير"
-                    name="lastName"
-                    placeholder="الاسم الأخير"
-                    value={formData.lastName}
+                    label="الاسم"
+                    name="name"
+                    placeholder="الاسم"
+                    value={formData.name}
                     onChange={handleChange}
                     icon={User}
                     iconPosition="right"
@@ -126,9 +138,9 @@ export default function RegisterPage() {
                   <Input
                     label="تأكيد كلمة المرور"
                     type={showConfirmPassword ? "text" : "password"}
-                    name="confirmPassword"
+                    name="password_confirmation"
                     placeholder="أعد إدخال كلمة المرور"
-                    value={formData.confirmPassword}
+                    value={formData.password_confirmation}
                     onChange={handleChange}
                     icon={Lock}
                     iconPosition="right"

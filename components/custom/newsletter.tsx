@@ -58,8 +58,8 @@ export function Newsletter({
 
   // Variant styles
   const variantStyles = {
-    default: "bg-white p-6 rounded-sm shadow-sm border border-gray-200",
-    primary: "bg-[#00998F] p-6 rounded-sm shadow-sm text-white",
+    default: "bg-white p-6 rounded-sm  border border-gray-200",
+    primary: "bg-[#00998F] p-6 rounded-sm  text-white",
     minimal: "",
   }
 
@@ -75,11 +75,11 @@ export function Newsletter({
       {isSubscribed ? (
         <div
           className={`flex items-center gap-3 p-4 rounded-sm ${
-            variant === "primary" ? "bg-white/20" : "bg-green-50 border border-green-100"
+            variant === "primary" ? "bg-white/20" : "bg-[#D2EAE8] border border-green-100"
           }`}
         >
-          <CheckCircle className={`h-5 w-5 flex-shrink-0 ${variant === "primary" ? "text-white" : "text-green-500"}`} />
-          <span className={variant === "primary" ? "text-white" : "text-green-700"}>{successMessage}</span>
+          <CheckCircle className={`h-5 w-5 flex-shrink-0 ${variant === "primary" ? "text-white" : "text-[#00998F]"}`} />
+          <span className={variant === "primary" ? "text-white" : "text-[#00998F]"}>{successMessage}</span>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-2">

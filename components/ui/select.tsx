@@ -9,22 +9,26 @@ interface Option {
 }
 
 interface SelectProps {
+  name?: string
   options: Option[]
   value?: string
   onChange: (value: string) => void
   placeholder?: string
   label?: string
+  required?: boolean
   error?: string
   searchable?: boolean
   className?: string
 }
 
 export function Select({
+  name,
   options,
   value,
   onChange,
   placeholder = 'اختر...',
   label,
+  required = false,
   error,
   searchable = false,
   className = '',
@@ -59,6 +63,7 @@ export function Select({
       {label && (
         <label className="block text-base font-medium mb-1 text-right">
           {label}
+          {required && <span className="text-red-500">*</span>}
         </label>
       )}
       
@@ -82,6 +87,7 @@ export function Select({
               <div className="sticky top-0 p-2 bg-white border-b border-gray-100">
                 <div className="relative">
                   <input
+                    name={name}
                     type="text"
                     placeholder="بحث..."
                     className="w-full border border-gray-200 rounded-sm py-1.5 px-3 pr-8 text-sm focus:outline-none "
@@ -139,3 +145,4 @@ export function Select({
     </div>
   )
 }
+

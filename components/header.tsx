@@ -2,9 +2,13 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Search, ShoppingCart, Menu, X, User, Phone, MapPin, ChevronDown, Globe } from "lucide-react"
+import { ShoppingCart, Menu, X, User, Phone, MapPin, ChevronDown, Globe } from "lucide-react"
 import { Dropdown } from "./ui/dropdown"
-import { Input } from "./ui/input"
+import { useAppDispatch, useAppSelector } from "@/src/store/hook"
+import { logout, selectIsAuthenticated } from "@/src/store/slices/auth-slice"
+import { Button } from "./ui/button"
+import { useRouter } from "next/navigation"
+import { RichSearch } from "./custom/rich-search"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -22,6 +26,17 @@ export default function Header() {
     { code: "AE", name: "الإمارات", flag: "🇦🇪", currency: "AED" },
     { code: "EG", name: "مصر", flag: "🇪🇬", currency: "EGP" },
   ]
+
+  const isAuthenticated = useAppSelector(selectIsAuthenticated)
+
+  const dispatch = useAppDispatch()
+  const router = useRouter()
+
+  const handleLogout = () => {
+    dispatch(logout())
+    router.replace('/login')
+  }
+
 
   return (
     <header className="bg-white z-50 shadow-sm">
@@ -57,12 +72,7 @@ export default function Header() {
 
             <div className="hidden md:flex items-center gap-6">
               <div className="relative">
-                <Input
-                  type="text"
-                  placeholder="ابحث عن منتج..."
-                  className="border border-gray-200 rounded-sm py-2 px-4 pl-10 w-64 text-sm"
-                  icon={Search}
-                />
+                <RichSearch />
               </div>
 
               {/* Language Selector */}
@@ -115,7 +125,18 @@ export default function Header() {
               </Dropdown>
 
               {/* Auth Links */}
-              <div className="flex items-center gap-4 border-r border-gray-200 pr-4">
+              {
+                isAuthenticated ? (
+                  <div className="flex items-center gap-4 border-r border-gray-200 pr-4">
+                    <Link href="/profile" className="text-sm text-gray-600 hover:text-[#00998F] transition-colors">
+                      حسابي
+                    </Link>
+                    <Button onClick={handleLogout} variant='danger'>
+                      تسجيل الخروج
+                    </Button>
+                  </div>
+                ): (
+                  <div className="flex items-center gap-4 border-r border-gray-200 pr-4">
                 <Link href="/login" className="text-sm text-gray-600 hover:text-[#00998F] transition-colors">
                   تسجيل الدخول
                 </Link>
@@ -123,10 +144,8 @@ export default function Header() {
                   إنشاء حساب
                 </Link>
               </div>
-
-              <Link href="/account" className="p-2 text-[#393e41] hover:text-[#00998F] transition-colors">
-                <User className="h-5 w-5" />
-              </Link>
+                )
+              }
 
               <Link href="/cart" className="p-2 relative text-[#393e41] hover:text-[#00998F] transition-colors">
                 <ShoppingCart className="h-5 w-5" />
@@ -168,19 +187,13 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link href="/offers" className="text-sm hover:text-[#00998F] font-medium relative group">
-                العروض
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#00998F] transition-all duration-300 group-hover:w-full"></span>
-              </Link>
-            </li>
-            <li>
               <Link href="/about" className="text-sm hover:text-[#00998F] font-medium relative group">
                 من نحن
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#00998F] transition-all duration-300 group-hover:w-full"></span>
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="text-sm hover:text-[#00998F] font-medium relative group">
+              <Link href="/contact-us" className="text-sm hover:text-[#00998F] font-medium relative group">
                 اتصل بنا
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#00998F] transition-all duration-300 group-hover:w-full"></span>
               </Link>
@@ -206,11 +219,7 @@ export default function Header() {
             </div>
 
             <div className="relative my-4">
-              <Input
-                type="text"
-                placeholder="ابحث عن منتج..."
-                className="border border-gray-200 rounded-sm py-2 px-4 pl-10 w-full text-sm"
-              />
+              <RichSearch />
             </div>
 
             {/* Auth Links Mobile */}
