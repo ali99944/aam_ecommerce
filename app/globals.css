@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @font-face {
-    font-family: 'alilato';
-    src: url('/fonts/alilato.ttf') format('truetype'); /* Path to the font file */
+    font-family: 'din';
+    src: url('/fonts/din.ttf') format('truetype'); /* Path to the font file */
     font-weight: normal;
     font-style: normal;
   }
@@ -9,10 +9,22 @@
   body {
     direction: rtl;
     text-align: right;
-    font-family: 'alilato', sans-serif;
+    font-family: 'din', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
   
-  
+:root {
+  --primary: #004d5c;
+  --secondary: #6b7280;
+  --accent: #10b981;
+  --background: #f2f1f1;
+}
+
+@theme inline {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-background: var(--background);
+}

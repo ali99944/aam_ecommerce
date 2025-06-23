@@ -74,7 +74,7 @@ export function Carousel({
               variant="primary"
               onClick={nextSlide}
               aria-label="Next slide"
-              className="bg-white/80 text-[#00998F] hover:bg-white"
+              className="bg-white/80 text-primary hover:bg-white"
             />
           </div>
           <div className="absolute top-1/2 right-2 transform -translate-y-1/2">
@@ -83,7 +83,7 @@ export function Carousel({
               variant="primary"
               onClick={prevSlide}
               aria-label="Previous slide"
-              className="bg-white/80 text-[#00998F] hover:bg-white"
+              className="bg-white/80 text-primary hover:bg-white"
             />
           </div>
         </>
@@ -96,7 +96,7 @@ export function Carousel({
               key={index}
               onClick={() => goToSlide(index)}
               className={`h-2 w-2 rounded-full transition-all ${
-                index === currentIndex ? "bg-[#00998F] w-4" : "bg-white/70"
+                index === currentIndex ? "bg-primary w-4" : "bg-white/70"
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />
@@ -122,7 +122,7 @@ export const CarouselPrevious = ({ onClick }: { onClick: () => void }) => {
       variant="primary"
       onClick={onClick}
       aria-label="Previous slide"
-      className="bg-white/80 text-[#00998F] hover:bg-white"
+      className="bg-white/80 text-primary hover:bg-white"
     />
   )
 }
@@ -134,7 +134,7 @@ export const CarouselNext = ({ onClick }: { onClick: () => void }) => {
       variant="primary"
       onClick={onClick}
       aria-label="Next slide"
-      className="bg-white/80 text-[#00998F] hover:bg-white"
+      className="bg-white/80 text-primary hover:bg-white"
     />
   )
 }

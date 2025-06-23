@@ -1,45 +1,32 @@
-import React from 'react'
+import type { ReactNode } from "react"
 
 interface CardProps {
-  children: React.ReactNode
+  children: ReactNode
   className?: string
-  header?: React.ReactNode
-  footer?: React.ReactNode
-  bordered?: boolean
-  hoverable?: boolean
+  padding?: "none" | "sm" | "md" | "lg"
+  shadow?: "none" | "sm" | "md" | "lg"
 }
 
-export function Card({ 
-  children, 
-  className = '', 
-  header, 
-  footer,
-  bordered = false,
-  hoverable = false
-}: CardProps) {
+export default function Card({ children, className = "", padding = "md" }: CardProps) {
+  const paddings = {
+    none: "",
+    sm: "p-3",
+    md: "p-4",
+    lg: "p-6",
+  }
+
+  // const shadows = {
+  //   none: "",
+  //   sm: "shadow-sm",
+  //   md: "shadow-md",
+  //   lg: "shadow-lg",
+  // }
+
   return (
-    <div 
-      className={`bg-[#D2EAE8] ${
-        bordered ? 'border border-gray-200' : ''
-      } ${
-        hoverable ? 'transition-shadow hover:shadow-md' : ''
-      } ${className}`}
-    >
-      {header && (
-        <div className="border-b border-gray-200 p-4">
-          {header}
-        </div>
-      )}
-      
-      <div className="p-4">
-        {children}
-      </div>
-      
-      {footer && (
-        <div className="border-t border-gray-200 p-4">
-          {footer}
-        </div>
-      )}
+    <div className={`bg-white border border-gray-200 rounded-lg ${paddings[padding]}  ${className}`}>
+      {children}
     </div>
   )
 }
+
+// ${shadows[shadow]}

@@ -1,169 +1,149 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
-import Link from "next/link"
-import { Eye, EyeOff, Mail, Lock, ShieldCheck, Truck, Package, CreditCard } from 'lucide-react'
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { useMutationAction } from "@/src/providers/hooks/queries-actions"
-import { useToast } from "@/components/ui/toast"
-import { AxiosError } from "axios"
-import { useAppDispatch, useAppSelector } from "@/src/store/hook"
-import { loginUser } from "@/src/store/slices/auth-slice"
-import { useRouter } from "next/navigation"
+import { Eye, EyeOff, Mail, Lock } from 'lucide-react'
+import Alert from "@/components/ui/alert"
+import Button from "@/components/ui/button"
+import Checkbox from "@/components/ui/checkbox"
+import Input from "@/components/ui/input"
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    rememberMe: false,
+  })
   const [showPassword, setShowPassword] = useState(false)
-  const [rememberMe, setRememberMe] = useState(false)
+  const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-
-    const { addToast } = useToast()
-    const dispatch = useAppDispatch()
-    const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsLoading(true)
+    setError("")
 
-    await dispatch(loginUser({ email, password })).unwrap().then(() => {
-      addToast("تم تسجيل الدخول بنجاح", 'success', 3000)
-      router.replace('/')
-    }).catch((error) => {
-      console.log(error );
-      
-      addToast((error as AxiosError).response?.data.message, 'error', 3000)
-    })
-
+    // Simulate login process
+    setTimeout(() => {
+      if (formData.email === "test@example.com" && formData.password === "password") {
+        // Success - redirect to home
+        window.location.href = "/"
+      } else {
+        setError("البريد الإلكتروني أو كلمة المرور غير صحيحة")
+      }
+      setIsLoading(false)
+    }, 1000)
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="min-h-screen bg-background" dir="rtl">
 
-      <main className="flex-grow py-10 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {/* Login Form */}
-            <div className="bg-white p-8 rounded-sm border border-gray-200">
-              <div className="text-center mb-8">
-                <h1 className="text-2xl font-bold mb-2">تسجيل الدخول</h1>
-                <p className="text-gray-600">أهلاً بك مجدداً! قم بتسجيل الدخول للوصول إلى حسابك</p>
-              </div>
+      <div className="flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8">
+          {/* Header */}
+          <div className="text-center">
+            <img
+              src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=80&h=80&fit=crop"
+              alt="متجر سلة"
+              className="mx-auto w-16 h-16 rounded-lg object-cover"
+            />
+            <h2 className="mt-4 text-3xl font-bold text-[var(--primary)]">تسجيل الدخول</h2>
+            <p className="mt-2 text-sm text-gray-600">
+              أو{" "}
+              <a href="/register" className="font-medium text-[var(--accent)] hover:text-[var(--accent)]/80">
+                إنشاء حساب جديد
+              </a>
+            </p>
+          </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Form */}
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+            <div className="bg-white rounded-lg  p-6 space-y-4">
+              {error && <Alert type="error" message={error} />}
+
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                  البريد الإلكتروني
+                </label>
                 <Input
-                  label="البريد الإلكتروني"
+                  id="email"
                   type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="أدخل بريدك الإلكتروني"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  icon={Mail}
-                  iconPosition="right"
+                  icon={<Mail className="w-5 h-5" />}
                   required
                 />
+              </div>
 
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                  كلمة المرور
+                </label>
                 <div className="relative">
                   <Input
-                    label="كلمة المرور"
+                    id="password"
                     type={showPassword ? "text" : "password"}
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     placeholder="أدخل كلمة المرور"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    icon={Lock}
-                    iconPosition="right"
+                    icon={<Lock className="w-5 h-5" />}
                     required
                   />
                   <button
                     type="button"
-                    className="absolute left-3 top-9 text-gray-400"
                     onClick={() => setShowPassword(!showPassword)}
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                   >
-                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
                 </div>
+              </div>
 
-                <div className="flex justify-between items-center">
-                  <label className="flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="h-4 w-4 text-[#00998F] border-gray-300 rounded-sm focus:ring-[#00998F]"
-                      checked={rememberMe}
-                      onChange={() => setRememberMe(!rememberMe)}
-                    />
-                    <span className="mr-2 text-sm">تذكرني</span>
-                  </label>
+              <div className="flex items-center justify-between">
+                <Checkbox
+                  checked={formData.rememberMe}
+                  onChange={(e) => setFormData({ ...formData, rememberMe: e.target.checked })}
+                  label="تذكرني"
+                />
+                <a href="/forgot-password" className="text-sm text-[var(--accent)] hover:text-[var(--accent)]/80">
+                  نسيت كلمة المرور؟
+                </a>
+              </div>
 
-                  <Link href="/forgot-password" className="text-sm text-[#00998F] hover:underline">
-                    نسيت كلمة المرور؟
-                  </Link>
+              <Button type="submit" variant="primary" size="sm" className="w-full" loading={isLoading}>
+                تسجيل الدخول
+              </Button>
+            </div>
+
+
+            {/* Social Login */}
+            <div className="bg-white rounded-lg  p-6">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-300" />
                 </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white text-gray-500">أو تسجيل الدخول بواسطة</span>
+                </div>
+              </div>
 
-                <Button type="submit" fullWidth disabled={isLoading}>
-                  {isLoading ? "جاري تسجيل الدخول..." : "تسجيل الدخول"}
+              <div className="mt-6 grid grid-cols-2 gap-3">
+                <Button variant="outline" className="w-full">
+                  <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" className="w-5 h-5" />
+                  Google
                 </Button>
-
-                <div className="text-center mt-6">
-                  <p className="text-sm text-gray-600">
-                    ليس لديك حساب؟{" "}
-                    <Link href="/register" className="text-[#00998F] hover:underline">
-                      إنشاء حساب جديد
-                    </Link>
-                  </p>
-                </div>
-              </form>
-            </div>
-
-            {/* Info Column */}
-            <div className="bg-[#00998F] p-8 rounded-sm text-white">
-              <h2 className="text-2xl font-bold mb-6">مرحباً بك في محلات علي أبو مسعود</h2>
-              
-              <div className="mb-8">
-                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                  <ShieldCheck className="h-6 w-6" />
-                  لماذا تنضم إلينا؟
-                </h3>
-                <ul className="space-y-4">
-                  <li className="flex items-start gap-3">
-                    <div className="bg-white/20 p-1 rounded-sm mt-1">
-                      <Package className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold">سهولة في تقييم المنتجات وتتبع الطلبات</h4>
-                      <p className="text-white/80 text-sm">يمكنك متابعة طلباتك وتقييم المنتجات التي اشتريتها بسهولة</p>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="bg-white/20 p-1 rounded-sm mt-1">
-                      <CreditCard className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold">الوصول إلى قائمة المفضلات وحفظ المنتجات</h4>
-                      <p className="text-white/80 text-sm">احفظ منتجاتك المفضلة للرجوع إليها لاحقاً بسهولة</p>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="bg-white/20 p-1 rounded-sm mt-1">
-                      <Truck className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold">الحصول على كل الإشعارات بخصوص طلبك</h4>
-                      <p className="text-white/80 text-sm">تلقي إشعارات فورية عن حالة طلبك ومواعيد التوصيل</p>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="border-t border-white/20 pt-6">
-                <h3 className="text-lg font-bold mb-4">هل أنت مورّد أو شركة توصيل؟</h3>
-                <p className="mb-4 text-white/80">نحن دائماً نبحث عن شركاء جدد للعمل معهم. تواصل معنا لمناقشة فرص التعاون.</p>
-                <Button variant="secondary">تواصل معنا</Button>
+                <Button variant="outline" className="w-full">
+                  <div className="w-5 h-5 bg-blue-600 rounded text-white text-xs flex items-center justify-center font-bold">
+                    f
+                  </div>
+                  Facebook
+                </Button>
               </div>
             </div>
-          </div>
+
+          </form>
         </div>
-      </main>
+      </div>
 
     </div>
   )

@@ -1,157 +1,190 @@
-'use client'
+"use client"
 
-import Link from "next/link"
-import Image from "next/image"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
-import { Button } from "@/components/ui/button"
-import { Breadcrumb } from "@/components/ui/breadcrumb"
-import BenefitsSection from "@/components/custom/benefits"
-import { useGetQuery } from "@/src/providers/hooks/queries-actions"
-import { Category } from "@/src/types"
-import { WithPagination } from "@/src/types/with-pagination"
+import { useState } from "react"
+import {
+  Zap,
+  Wrench,
+  Truck,
+  Building,
+
+} from "lucide-react"
+import Navbar from "@/components/header"
+import Footer from "@/components/custom/footer"
+import Button from "@/components/ui/button"
 
 export default function CategoriesPage() {
-  const { data: categories } = useGetQuery<WithPagination<Category[]>>({
-    url: "/categories",
-    key: ["categories"], 
-  });
+  const [, setHoveredCategory] = useState<number | null>(null)
+
+  const mainCategories = [
+    {
+      id: 1,
+      name: "الأدوات الكهربائية",
+      description: "مثاقب، مناشير، وجميع الأدوات الكهربائية المتطورة",
+      icon: Zap,
+      image: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=300&fit=crop",
+      productCount: 450,
+      subcategories: ["مثاقب كهربائية", "مناشير", "صنفرة", "أدوات قياس", "كابلات وأسلاك"],
+      bgColor: "from-blue-500 to-blue-700",
+    },
+    {
+      id: 2,
+      name: "أدوات السباكة",
+      description: "مواسير، تركيبات، ومضخات المياه",
+      icon: Wrench,
+      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
+      productCount: 320,
+      subcategories: ["مواسير", "تركيبات", "مضخات", "صمامات", "عدد سباكة"],
+      bgColor: "from-teal-500 to-teal-700",
+    },
+    {
+      id: 3,
+      name: "مواد البناء",
+      description: "أسمنت، طوب، حديد، وجميع مواد البناء الأساسية",
+      icon: Building,
+      image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400&h=300&fit=crop",
+      productCount: 280,
+      subcategories: ["أسمنت", "طوب", "حديد تسليح", "رمل وحصى", "بلاط وسيراميك"],
+      bgColor: "from-orange-500 to-red-600",
+    },
+    {
+      id: 4,
+      name: "الخرسانة الجاهزة",
+      description: "خرسانة جاهزة بمواصفات عالية للمشاريع الكبيرة",
+      icon: Truck,
+      image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=300&fit=crop",
+      productCount: 85,
+      subcategories: ["خرسانة عادية", "خرسانة مسلحة", "خرسانة خاصة", "إضافات خرسانة"],
+      bgColor: "from-gray-600 to-gray-800",
+    },
+
+    {
+      id: 5,
+      name: "أدوات الميكانيك",
+      description: "أدوات لصيانة السيارات والآلات",
+      icon: Wrench,
+      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
+      productCount: 150,
+      subcategories: ["أدوات ميكانيكية", "أدوات لصيانة السيارات", "أدوات لصيانة الآلات"],
+      bgColor: "from-teal-500 to-teal-700",
+    },
+    {
+      id: 6,
+      name: "أدوات الكهرباء",
+      description: "أدوات لصيانة الكهرباء والكهربائية",
+      icon: Zap,
+      image: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=300&fit=crop",
+      productCount: 120,
+      subcategories: ["أدوات كهربائية", "أدوات لصيانة الكهرباء", "أدوات لصيانة الكهربائية"],
+      bgColor: "from-blue-500 to-blue-700",
+    },
+    {
+      id: 7,
+      name: "أدوات النجارة",
+      description: "أدوات لصناعة الأثاث والنجارة",
+      icon: Wrench,
+      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
+      productCount: 100,
+      subcategories: ["أدوات نجارة", "أدوات لصناعة الأثاث", "أدوات لصيانة النجارة"],
+      bgColor: "from-teal-500 to-teal-700",
+    },
+    {
+      id: 8,
+      name: "أدوات الزراعة",
+      description: "أدوات لزراعة النباتات والبساتين",
+      icon: Truck,
+      image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=300&fit=crop",
+      productCount: 80,
+      subcategories: ["أدوات زراعية", "أدوات لزراعة النباتات", "أدوات لصيانة البساتين"],
+      bgColor: "from-gray-600 to-gray-800",
+    },
+  ]
+
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
+    <div className="min-h-screen bg-background" dir="rtl">
+      <Navbar />
 
-      <main className="flex-grow py-10 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <Breadcrumb items={[{ label: "الرئيسية", href: "/" }, { label: "الأقسام" }]} className="mb-6" />
-
-          <div className="mb-10">
-            <h1 className="text-3xl font-bold mb-2">أقسام المتجر</h1>
-            <p className="text-gray-600 max-w-3xl">
-              تصفح مجموعتنا الواسعة من المنتجات المصنفة في أقسام متخصصة لتسهيل وصولك إلى ما تبحث عنه
-            </p>
-          </div>
-
-          {/* Featured Categories */}
-          <section className="mb-12">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold flex items-center gap-2">
-                <span className="h-6 w-1.5 bg-[#00998F] inline-block"></span>
-                الأقسام المميزة
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {(categories?.data.filter((category) => category.is_featured) || []).slice(0, 2).map((category) => (
-                <div key={category.id} className="relative overflow-hidden rounded-sm group">
-                  <div className="relative h-80 w-full">
-                    <Image
-                      src={category.cover_image || "/placeholder.svg"}
-                      alt={category.name || ''}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-
-                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                      <h3 className="text-2xl font-bold mb-2">{category.name}</h3>
-                      <p className="mb-4 opacity-90 line-clamp-2">{category.description}</p>
-                      <div className="flex gap-4">
-                        <span className="text-sm bg-white/20 px-3 py-1 rounded-sm">
-                          {category.total_sub_categories} أقسام فرعية
-                        </span>
-                        <span className="text-sm bg-white/20 px-3 py-1 rounded-sm">{0} منتج</span>
-                      </div>
-                      <Link href={`/categories/${category.id}`}>
-                      <Button className="mt-4">
-                        تصفح القسم
-                      </Button>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-              {(categories?.data.filter((category) => category.is_featured) ?? []).slice(2, 5).map((category) => (
-                <div key={category.id} className="relative overflow-hidden rounded-sm group">
-                  <div className="relative h-60 w-full">
-                    <Image
-                      src={category.cover_image || "/placeholder.svg"}
-                      alt={category.name ??' '}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-
-                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                      <h3 className="text-xl font-bold mb-1">{category.name}</h3>
-                      <p className="mb-3 opacity-90 text-sm line-clamp-2">{category.description}</p>
-                      <Link href={`/categories/${category.id}`}>
-                        <Button size="sm">
-                          تصفح القسم
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* All Categories */}
-          <section>
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold flex items-center gap-2">
-                <span className="h-6 w-1.5 bg-[#00998F] inline-block"></span>
-                جميع الأقسام
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {categories?.data.map((category) => (
-                <Link
-                  key={category.id}
-                  href={`/categories/${category.id}`}
-                  className="bg-white rounded-sm border border-gray-200 overflow-hidden group transition-shadow"
-                >
-                  <div className="relative h-48">
-                    <Image
-                      src={category.cover_image || "/placeholder.svg"}
-                      alt={category.name ?? ''}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    {category.is_featured && (
-                      <div className="absolute top-2 right-2 bg-[#00998F] text-white text-xs px-2 py-1 rounded-sm">
-                        مميز
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="p-4">
-                    <h3 className="font-bold text-lg mb-2 group-hover:text-[#00998F] transition-colors">
-                      {category.name}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-3 line-clamp-2">{category.description}</p>
-
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-500">{category.total_sub_categories} أقسام فرعية</span>
-                      <span className="text-[#00998F] font-medium">{0} منتج</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-
-          <BenefitsSection />
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-primary mb-4">فئات المنتجات</h1>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            تصفح مجموعتنا الواسعة من الأدوات الكهربائية ومعدات السباكة ومواد البناء والخرسانة
+          </p>
         </div>
-      </main>
+
+        {/* Main Categories */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+          {mainCategories.map((category) => (
+            <div
+              key={category.id}
+              className="relative overflow-hidden rounded-xl cursor-pointer group"
+              onMouseEnter={() => setHoveredCategory(category.id)}
+              onMouseLeave={() => setHoveredCategory(null)}
+            >
+              <div className={`absolute inset-0 bg-gradient-to-br bg-gray-900`}></div>
+              <div className="absolute inset-0 bg-black/40"></div>
+
+              {/* Background Image */}
+              <div
+                className="absolute inset-0 bg-cover bg-center opacity-30"
+                style={{ backgroundImage: `url(${category.image})` }}
+              ></div>
+
+              <div className="relative p-4 h-80 flex flex-col justify-end text-white">
+                <div>
+                  <h3 className="text-2xl font-bold mb-2">{category.name}</h3>
+                  {/* <p className="text-white/90 mb-4">{category.description}</p> */}
+                  <p className="text-sm text-white/80">{category.productCount} منتج</p>
+                </div>
+
+                
+              </div>
+            </div>
+          ))}
+        </div>
+
+
+
+        {/* Stats Section */}
+        <div className="bg-primary rounded-xl p-8 text-white text-center">
+          <h2 className="text-2xl font-bold mb-6">إحصائيات متجرنا</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div>
+              <div className="text-3xl font-bold mb-2">1,500+</div>
+              <div className="text-white/90">منتج متاح</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold mb-2">50+</div>
+              <div className="text-white/90">علامة تجارية</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold mb-2">10,000+</div>
+              <div className="text-white/90">عميل راضٍ</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold mb-2">24/7</div>
+              <div className="text-white/90">خدمة العملاء</div>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="text-center mt-16 py-12 bg-gray-900 rounded-xl">
+          <h2 className="text-2xl font-bold text-white/80 mb-4">لم تجد ما تبحث عنه؟</h2>
+          <p className="text-white/70 mb-6">تواصل معنا وسنساعدك في العثور على المنتج المناسب</p>
+          <div className="flex gap-4 justify-center">
+            <Button variant="primary" size="sm">
+              تواصل معنا
+            </Button>
+            <Button variant="secondary" size="sm">
+              طلب عرض سعر
+            </Button>
+          </div>
+        </div>
+      </div>
 
       <Footer />
     </div>
   )
 }
-

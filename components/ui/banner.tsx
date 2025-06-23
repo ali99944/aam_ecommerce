@@ -34,7 +34,7 @@ export function Banner({
   if (!isVisible) return null
 
   const variantStyles = {
-    info: "bg-[#D2EAE8] border-[#00998F] text-[#00998F]",
+    info: "bg-secondary border-primary text-primary",
     success: "bg-green-50 border-green-200 text-green-800",
     warning: "bg-amber-50 border-amber-200 text-amber-800",
     error: "bg-red-50 border-red-200 text-red-800",

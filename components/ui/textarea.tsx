@@ -1,36 +1,32 @@
-import React from 'react'
+"use client"
 
-interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  label?: string
+import type { TextareaHTMLAttributes } from "react"
+
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  size?: "sm" | "md" | "lg"
   error?: string
 }
 
-export function Textarea({ 
-  label, 
-  error, 
-  className = '', 
-  rows = 4,
-  ...props 
-}: TextareaProps) {
+export default function Textarea({ size = "md", error, className = "", ...props }: TextareaProps) {
+  const baseClasses =
+    "border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-all duration-200 resize-none"
+
+  const sizes = {
+    sm: "px-3 py-2 text-sm",
+    md: "px-4 py-3 text-base",
+    lg: "px-5 py-4 text-lg",
+  }
+
+  const errorClasses = error ? "border-red-500 focus:ring-red-500 focus:border-red-500" : ""
+
   return (
     <div className="w-full">
-      {label && (
-        <label className="block text-base font-medium mb-1 text-right">
-          {label}
-        </label>
-      )}
-      
       <textarea
-        rows={rows}
-        className={`w-full border-2 border-[#D3EBE8] outline-none rounded-sm py-2 px-4 text-base focus:outline-none focus:ring-1 focus:ring-[#00998F] focus:border-[#00998F] transition-colors resize-vertical
-          ${error ? 'border-red-500' : ''}
-          ${className}
-        `}
+        className={`${baseClasses} ${sizes[size]} ${errorClasses} ${className} w-full text-right`}
         {...props}
       />
-      
       {error && (
-        <p className="mt-1 text-sm text-red-500 text-right">{error}</p>
+        <p className="mt-1 text-sm text-red-600 text-right">{error}</p>
       )}
     </div>
   )

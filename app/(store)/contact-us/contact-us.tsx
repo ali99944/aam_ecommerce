@@ -3,20 +3,12 @@
 import type React from "react"
 
 import { useState } from "react"
-import Image from "next/image"
-import { MapPin, Phone, Mail, Clock, Send, User, MessageSquare, CheckCircle, Twitter, Instagram, Facebook } from "lucide-react"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
-import { Select } from "@/components/ui/select"
-import { Breadcrumb } from "@/components/ui/breadcrumb"
-import { FAQItem } from "@/components/ui/faq"
-import { useGetQuery, useMutationAction } from "@/src/providers/hooks/queries-actions"
-import Faq from "@/src/types/faq"
-import { Settings } from "@/src/types/settings"
-import { CardLoader, LinesLoader } from "@/components/ui/loaders"
+import { MapPin, Phone, Mail, Clock, Send, MessageSquare, Headphones, Users } from "lucide-react"
+import Navbar from "@/components/header"
+import Footer from "@/components/custom/footer"
+import Button from "@/components/ui/button"
+import Input from "@/components/ui/input"
+import Select from "@/components/ui/select"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -25,324 +17,256 @@ export default function ContactPage() {
     phone: "",
     subject: "",
     message: "",
+    type: "general",
   })
   const [isLoading, setIsLoading] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [success, setSuccess] = useState(false)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+  const contactInfo = [
+    {
+      icon: Phone,
+      title: "اتصل بنا",
+      details: ["+966 11 123 4567", "+966 50 123 4567"],
+      description: "متاح من السبت إلى الخميس، 9 صباحاً - 9 مساءً",
+    },
+    {
+      icon: Mail,
+      title: "راسلنا",
+      details: ["info@salla-store.com", "support@salla-store.com"],
+      description: "سنرد عليك خلال 24 ساعة",
+    },
+    {
+      icon: MapPin,
+      title: "زورنا",
+      details: ["شارع الملك فهد، حي العليا", "الرياض 12345، المملكة العربية السعودية"],
+      description: "مفتوح من السبت إلى الخميس، 10 صباحاً - 10 مساءً",
+    },
+    {
+      icon: Clock,
+      title: "ساعات العمل",
+      details: ["السبت - الخميس: 9:00 - 21:00", "الجمعة: 14:00 - 21:00"],
+      description: "خدمة العملاء متاحة على مدار الساعة",
+    },
+  ]
 
-  const contactMessageAction = useMutationAction({
-    url: 'contact-messages',
-    method: 'post'
-  })
+  const supportTypes = [
+    { value: "general", label: "استفسار عام", icon: MessageSquare },
+    { value: "order", label: "استفسار عن طلب", icon: Users },
+    { value: "technical", label: "مشكلة تقنية", icon: Headphones },
+    { value: "complaint", label: "شكوى", icon: Mail },
+  ]
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    await contactMessageAction.mutateAsync(formData, {
-      onSuccess: () => {
-        setIsSubmitted(true)
-        setIsLoading(false)
-      },
-      onError: () => {
-        setIsLoading(false)
-      }
-    })
+    setIsLoading(true)
+
+    // Simulate form submission
+    setTimeout(() => {
+      setSuccess(true)
+      setIsLoading(false)
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+        type: "general",
+      })
+    }, 1000)
   }
 
-  const subjectOptions = [
-    { value: "", label: "اختر الموضوع" },
-    { value: "inquiry", label: "استفسار عام" },
-    { value: "order", label: "استفسار عن طلب" },
-    { value: "product", label: "استفسار عن منتج" },
-    { value: "complaint", label: "شكوى" },
-    { value: "feedback", label: "اقتراح" },
-    { value: "other", label: "أخرى" },
+  const faqItems = [
+    {
+      question: "كيف يمكنني تتبع طلبي؟",
+      answer: "يمكنك تتبع طلبك من خلال صفحة 'تتبع الطلب' باستخدام رقم الطلب المرسل إليك عبر البريد الإلكتروني.",
+    },
+    {
+      question: "ما هي طرق الدفع المتاحة؟",
+      answer: "نقبل جميع البطاقات الائتمانية (فيزا، ماستركارد، مدى)، أبل باي، والدفع عند الاستلام.",
+    },
+    {
+      question: "كم تستغرق عملية الشحن؟",
+      answer: "عادة ما يستغرق التوصيل من 2-5 أيام عمل داخل المملكة، حسب موقعك الجغرافي.",
+    },
+    {
+      question: "هل يمكنني إرجاع المنتج؟",
+      answer: "نعم، يمكنك إرجاع المنتج خلال 14 يوم من تاريخ الاستلام، بشرط أن يكون في حالته الأصلية.",
+    },
   ]
 
-  const { data: faqs, isLoading: faqsLoading } = useGetQuery<Faq[]>({
-    url: 'faq-categories/contact-us/faqs',
-    key: ['faqs', 'contact-us']
-  })
-
-  const { data: settings, isLoading: settingsLoading } = useGetQuery<Settings>({
-    url: 'settings',
-    key: ['settings']
-  })
+  if (success) {
+    return (
+      <div className="min-h-screen bg-background" dir="rtl">
+        <Navbar />
+        <div className="max-w-2xl mx-auto px-4 py-12">
+          <div className="bg-white rounded-xl p-8 text-center border border-gray-100">
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Send className="w-10 h-10 text-green-600" />
+            </div>
+            <h2 className="text-3xl font-bold text-[var(--primary)] mb-4">تم إرسال رسالتك بنجاح!</h2>
+            <p className="text-gray-600 mb-6">شكراً لتواصلك معنا. سيقوم فريقنا بالرد عليك في أقرب وقت ممكن.</p>
+            <div className="flex gap-3 justify-center">
+              <Button variant="primary" size="sm" onClick={() => setSuccess(false)}>
+                إرسال رسالة أخرى
+              </Button>
+              <Button variant="secondary" size="sm">
+                <a href="/">العودة للرئيسية</a>
+              </Button>
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    )
+  }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
+    <div className="min-h-screen bg-background" dir="rtl">
+      <Navbar />
 
-      <main className="flex-grow">
-        {/* Hero Section */}
-        <section className="relative bg-[#00998F] text-white py-12">
 
-          <div className="container mx-auto px-4 relative z-10">
-            <Breadcrumb items={[{ label: "الرئيسية", href: "/" }, { label: "اتصل بنا" }]} className="mb-6 text-white" />
-
-            <div className="text-center">
-              <h1 className="text-4xl font-bold mb-4">اتصل بنا</h1>
-              <div className="h-1 w-24 bg-white mx-auto mb-6"></div>
-              <p className="max-w-2xl mx-auto opacity-90">
-                نحن هنا للإجابة على جميع استفساراتكم. يمكنكم التواصل معنا من خلال النموذج أدناه أو من خلال معلومات
-                الاتصال المتوفرة.
-              </p>
-            </div>
-          </div>
-        </section>
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h1 className="text-4xl font-bold text-[var(--primary)] mb-6">تواصل معنا</h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            نحن هنا لمساعدتك! لا تتردد في التواصل معنا لأي استفسار أو مساعدة تحتاجها
+          </p>
+        </div>
 
         {/* Contact Info Cards */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 -mt-24 relative z-10">
-              <div className="bg-[#D2EAE8] p-6 rounded-sm  ">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-[#00998F] rounded-full flex items-center justify-center">
-                    <Phone className="h-6 w-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg">اتصل بنا</h3>
-                    <p className="text-gray-600 text-sm">نحن متاحون للرد على استفساراتكم</p>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <p className="flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-[#00998F]" />
-                    <span dir="ltr">{settings?.contact.primary_phone}</span>
-                  </p>
-                  <p className="flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-[#00998F]" />
-                    <span dir="ltr">{settings?.contact.secondary_phone}</span>
-                  </p>
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+          {contactInfo.map((info, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl p-4 text-center border border-gray-100  transition-shadow"
+            >
+              <div className="w-16 h-16 bg-[var(--primary)]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <info.icon className="w-8 h-8 text-[var(--primary)]" />
               </div>
-
-              <div className="bg-[#D2EAE8] p-6 rounded-sm  ">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-[#00998F] rounded-full flex items-center justify-center">
-                    <MapPin className="h-6 w-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg">موقعنا</h3>
-                    <p className="text-gray-600 text-sm">يمكنكم زيارتنا في أي وقت</p>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <p className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-[#00998F]" />
-                    <span>عمان، الأردن - شارع الملك عبدالله الثاني</span>
+              <h3 className="text-lg font-bold text-[var(--primary)] mb-3">{info.title}</h3>
+              <div className="space-y-1 mb-3">
+                {info.details.map((detail, idx) => (
+                  <p key={idx} className="text-gray-700 font-medium">
+                    {detail}
                   </p>
-                  <p className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-[#00998F]" />
-                    <span>بجانب مجمع الجنوب - مقابل البنك العربي</span>
-                  </p>
-                </div>
-              </div>
-
-              <div className="bg-[#D2EAE8] p-6 rounded-sm  ">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-[#00998F] rounded-full flex items-center justify-center">
-                    <Clock className="h-6 w-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg">ساعات العمل</h3>
-                    <p className="text-gray-600 text-sm">نحن متاحون للخدمة</p>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <p className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-[#00998F]" />
-                    <span>السبت - الخميس: 8 صباحاً - 8 مساءً</span>
-                  </p>
-                  <p className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-[#00998F]" />
-                    <span>الجمعة: مغلق</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Contact Form & Map */}
-        <section className="py-12 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Contact Form */}
-              <div className=" p-6 rounded-sm bg-white border border-gray-100 ">
-                <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                  <MessageSquare className="h-6 w-6 text-[#00998F]" />
-                  <span>ارسل لنا رسالة</span>
-                </h2>
-
-                {isSubmitted ? (
-                  <div className="bg-[#D2EAE8] border border-green-200 rounded-sm p-6 text-center">
-                    <CheckCircle className="h-12 w-12 text-[#00998F] mx-auto mb-4" />
-                    <h3 className="text-xl font-bold text-[#00998F] mb-2">تم إرسال رسالتك بنجاح</h3>
-                    <p className="text-[#00998F]">شكراً لتواصلك معنا. سنقوم بالرد عليك في أقرب وقت ممكن.</p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <Input
-                        label="الاسم"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        icon={User}
-                        iconPosition="right"
-                        required
-                      />
-
-                      <Input
-                        label="البريد الإلكتروني"
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        icon={Mail}
-                        iconPosition="right"
-                        required
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <Input
-                        label="رقم الهاتف"
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        icon={Phone}
-                        iconPosition="right"
-                      />
-
-                      <Select
-                        label="الموضوع"
-                        name="subject"
-                        value={formData.subject}
-                        onChange={(value) => setFormData((prev) => ({ ...prev, subject: value }))}
-                        options={subjectOptions}
-                        required
-                      />
-                    </div>
-
-                    <Textarea
-                      label="الرسالة"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      rows={5}
-                      required
-                    />
-
-                    <Button
-                      type="submit"
-                      icon={Send}
-                      loading={isLoading}
-                      iconPosition="right"
-                      disabled={isLoading}
-                    >
-                      {isLoading ? "جاري الإرسال..." : "إرسال الرسالة"}
-                    </Button>
-                  </form>
-                )}
-              </div>
-
-              {/* Map */}
-              <div className="bg-[#D2EAE8] p-6 rounded-sm  ">
-                <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                  <MapPin className="h-6 w-6 text-[#00998F]" />
-                  <span>موقعنا على الخريطة</span>
-                </h2>
-
-                <div className="relative h-96 w-full rounded-sm overflow-hidden">
-                  <Image
-                    src="/placeholder.svg?height=600&width=800&text=خريطة"
-                    alt="موقعنا على الخريطة"
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="bg-white p-4 rounded-sm ">
-                      <p className="font-bold">محلات علي ابو مسعود</p>
-                      <p className="text-sm text-gray-600">عمان، الأردن - شارع الملك عبدالله الثاني</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <h3 className="font-bold text-lg mb-2">معلومات إضافية</h3>
-                  <p className="text-gray-600 mb-4">
-                    يمكنكم أيضاً التواصل معنا عبر البريد الإلكتروني: info@abumassoud.com أو من خلال حساباتنا على مواقع
-                    التواصل الاجتماعي.
-                  </p>
-
-                  {
-                    settingsLoading ? (
-                        <LinesLoader variant="secondary" lines={1} />
-                    ):(
-                        <div className="flex gap-3">
-                    <a target="_blank" href={settings?.social.facebook} className="bg-[#00998F] text-white p-2 rounded-sm hover:opacity-90 transition-opacity">
-                      <Facebook className="h-5 w-5" />
-                    </a>
-                    <a target="_blank" href={settings?.social.instagram} className="bg-[#00998F] text-white p-2 rounded-sm hover:opacity-90 transition-opacity">
-                      <Instagram className="h-5 w-5" />
-                    </a>
-                    <a target="_blank" href={settings?.social.twitter} className="bg-[#00998F] text-white p-2 rounded-sm hover:opacity-90 transition-opacity">
-                      <Twitter className="h-5 w-5" />
-                    </a>
-                  </div>
-                    )
-                  }
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* FAQ Section */}
-        <section className="py-12 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold mb-4">الأسئلة الشائعة</h2>
-              <div className="h-1 w-24 bg-[#00998F] mx-auto mb-6"></div>
-              <p className="max-w-2xl mx-auto text-gray-600">إليكم بعض الأسئلة الشائعة التي قد تساعدكم</p>
-            </div>
-
-            {
-                faqsLoading ? (
-                    <CardLoader />
-                ): (
-                    <div className="max-w-3xl mx-auto">
-              <div className="space-y-4">
-                {faqs?.map((faq, index) => (
-                  <FAQItem 
-                    key={index}
-                    question={faq.question}
-                    answer={faq.answer}
-                  />
                 ))}
               </div>
+              <p className="text-gray-600 text-sm">{info.description}</p>
+            </div>
+          ))}
+        </div>
 
-              <div className="text-center mt-8">
-                <p className="text-gray-600 mb-4">لم تجد إجابة لسؤالك؟ لا تتردد في التواصل معنا مباشرة</p>
-                <Button  icon={Phone} iconPosition="right">
-                  اتصل بنا الآن
-                </Button>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Contact Form */}
+          <div className="bg-white rounded-xl p-8 border border-gray-100">
+            <h2 className="text-2xl font-bold text-[var(--primary)] mb-6">أرسل لنا رسالة</h2>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">الاسم الكامل</label>
+                  <Input
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="أدخل اسمك الكامل"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">البريد الإلكتروني</label>
+                  <Input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="أدخل بريدك الإلكتروني"
+                    icon={<Mail className="w-5 h-5" />}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">رقم الهاتف</label>
+                  <Input
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    placeholder="05xxxxxxxx"
+                    icon={<Phone className="w-5 h-5" />}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">نوع الاستفسار</label>
+                  <Select
+                    value={formData.type}
+                    options={supportTypes}
+                    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">الموضوع</label>
+                <Input
+                  value={formData.subject}
+                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                  placeholder="موضوع الرسالة"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">الرسالة</label>
+                <textarea
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  placeholder="اكتب رسالتك هنا..."
+                  rows={5}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] resize-none"
+                  required
+                />
+              </div>
+
+              <Button type="submit" variant="primary" size="sm" className="w-full" loading={isLoading} icon={Send}>
+                إرسال الرسالة
+              </Button>
+            </form>
+          </div>
+
+          {/* FAQ Section */}
+          <div>
+            <h2 className="text-2xl font-bold text-[var(--primary)] mb-6">الأسئلة الشائعة</h2>
+            <div className="space-y-4">
+              {faqItems.map((item, index) => (
+                <div key={index} className="bg-white rounded-xl p-4 border border-gray-100">
+                  <h3 className="text-lg font-bold text-[var(--primary)] mb-3">{item.question}</h3>
+                  <p className="text-gray-700 leading-relaxed">{item.answer}</p>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+
+        {/* Map Section */}
+        <div className="mt-16">
+          <h2 className="text-2xl font-bold text-[var(--primary)] text-center mb-8">موقعنا</h2>
+          <div className="bg-white rounded-xl p-4 border border-gray-100">
+            <div className="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center">
+              <div className="text-center">
+                <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-600">خريطة الموقع</p>
+                <p className="text-sm text-gray-500">شارع الملك فهد، حي العليا، الرياض</p>
               </div>
             </div>
-                )
-            }
           </div>
-        </section>
-      </main>
+        </div>
+      </div>
 
       <Footer />
     </div>
   )
 }
-

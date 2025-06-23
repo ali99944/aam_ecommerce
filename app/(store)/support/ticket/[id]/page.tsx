@@ -154,7 +154,7 @@ export default function TicketDetailsPage({ params }: { params: { id: string } }
         <main className="flex-grow py-10 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="bg-white rounded-sm border border-gray-200 p-8 text-center">
-              <div className="animate-spin h-8 w-8 border-4 border-[#00998F] border-t-transparent rounded-full mx-auto mb-4"></div>
+              <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
               <p>جاري تحميل تفاصيل التذكرة...</p>
             </div>
           </div>
@@ -239,7 +239,7 @@ export default function TicketDetailsPage({ params }: { params: { id: string } }
               {/* Messages */}
               <div className="bg-white rounded-sm border border-gray-200 p-6">
                 <h2 className="text-lg font-bold mb-6 flex items-center gap-2">
-                  <MessageSquare className="h-5 w-5 text-[#00998F]" />
+                  <MessageSquare className="h-5 w-5 text-primary" />
                   المحادثة
                 </h2>
                 
@@ -253,14 +253,14 @@ export default function TicketDetailsPage({ params }: { params: { id: string } }
                         className={`max-w-[80%] rounded-lg p-4 ${
                           message.sender === 'customer' 
                             ? 'bg-gray-100 text-gray-800' 
-                            : 'bg-[#00998F]/10 text-gray-800'
+                            : 'bg-primary/10 text-gray-800'
                         }`}
                       >
                         <div className="flex items-center gap-2 mb-2">
                           <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
                             message.sender === 'customer' 
                               ? 'bg-blue-100 text-blue-600' 
-                              : 'bg-[#00998F]/20 text-[#00998F]'
+                              : 'bg-primary/20 text-primary'
                           }`}>
                             <User className="h-4 w-4" />
                           </div>
@@ -281,7 +281,7 @@ export default function TicketDetailsPage({ params }: { params: { id: string } }
                                   <Paperclip className="h-4 w-4 text-gray-500" />
                                   <span>{attachment.name}</span>
                                   <span className="text-gray-500">({attachment.size})</span>
-                                  <Button variant="ghost" size="sm" className="h-6 py-0 px-2 text-[#00998F]">
+                                  <Button variant="ghost" size="sm" className="h-6 py-0 px-2 text-primary">
                                     تحميل
                                   </Button>
                                 </div>
@@ -299,7 +299,7 @@ export default function TicketDetailsPage({ params }: { params: { id: string } }
                     <div className="mb-4">
                       <label className="block text-base font-medium mb-1 text-right">إضافة رد</label>
                       <textarea
-                        className="w-full border border-gray-200 rounded-sm py-2 px-4 text-base focus:outline-none focus:ring-1 focus:ring-[#00998F] focus:border-[#00998F] transition-colors resize-vertical min-h-[120px]"
+                        className="w-full border border-gray-200 rounded-sm py-2 px-4 text-base focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-colors resize-vertical min-h-[120px]"
                         placeholder="اكتب ردك هنا..."
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
@@ -310,7 +310,7 @@ export default function TicketDetailsPage({ params }: { params: { id: string } }
                     <div className="flex items-center justify-between">
                       <div>
                         <input type="file" id="attachment" className="hidden" multiple />
-                        <label htmlFor="attachment" className="flex items-center gap-1 text-gray-600 cursor-pointer hover:text-[#00998F]">
+                        <label htmlFor="attachment" className="flex items-center gap-1 text-gray-600 cursor-pointer hover:text-primary">
                           <Paperclip className="h-4 w-4" />
                           <span>إضافة مرفقات</span>
                         </label>
@@ -335,7 +335,7 @@ export default function TicketDetailsPage({ params }: { params: { id: string } }
               {/* Ticket Summary */}
               <div className="bg-white rounded-sm border border-gray-200 p-6">
                 <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-                  <FileText className="h-5 w-5 text-[#00998F]" />
+                  <FileText className="h-5 w-5 text-primary" />
                   ملخص التذكرة
                 </h2>
                 
@@ -398,17 +398,17 @@ export default function TicketDetailsPage({ params }: { params: { id: string } }
                 <h2 className="text-lg font-bold mb-4">مقالات ذات صلة</h2>
                 
                 <div className="space-y-3">
-                  <Link href="#" className="block p-3 bg-gray-50 rounded-sm hover:bg-[#D2EAE8]">
+                  <Link href="#" className="block p-3 bg-gray-50 rounded-sm hover:bg-secondary">
                     <h3 className="font-medium mb-1">كيفية تتبع طلبك</h3>
                     <p className="text-sm text-gray-600">دليل شامل لتتبع طلبك خطوة بخطوة</p>
                   </Link>
                   
-                  <Link href="#" className="block p-3 bg-gray-50 rounded-sm hover:bg-[#D2EAE8]">
+                  <Link href="#" className="block p-3 bg-gray-50 rounded-sm hover:bg-secondary">
                     <h3 className="font-medium mb-1">سياسة الإرجاع والاستبدال</h3>
                     <p className="text-sm text-gray-600">تعرف على شروط وإجراءات إرجاع المنتجات</p>
                   </Link>
                   
-                  <Link href="#" className="block p-3 bg-gray-50 rounded-sm hover:bg-[#D2EAE8]">
+                  <Link href="#" className="block p-3 bg-gray-50 rounded-sm hover:bg-secondary">
                     <h3 className="font-medium mb-1">الأسئلة الشائعة حول الضمان</h3>
                     <p className="text-sm text-gray-600">إجابات على الأسئلة الشائعة حول ضمان المنتجات</p>
                   </Link>
@@ -416,7 +416,7 @@ export default function TicketDetailsPage({ params }: { params: { id: string } }
               </div>
               
               {/* Need More Help */}
-              <div className="bg-[#00998F] rounded-sm border border-gray-200 p-6 text-white">
+              <div className="bg-primary rounded-sm border border-gray-200 p-6 text-white">
                 <h2 className="text-lg font-bold mb-4">تحتاج إلى مساعدة فورية؟</h2>
                 <p className="mb-4 opacity-90">
                   يمكنك التواصل مع فريق خدمة العملاء مباشرة عبر الهاتف خلال ساعات العمل.

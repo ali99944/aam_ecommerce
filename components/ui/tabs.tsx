@@ -1,51 +1,51 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, type ReactNode } from "react"
 
 interface Tab {
   id: string
   label: string
-  disabled?: boolean
+  content: ReactNode
 }
 
 interface TabsProps {
   tabs: Tab[]
-  activeTab: string
-  onChange: (tabId: string) => void
-  children: React.ReactNode
+  defaultTab?: string
   className?: string
 }
 
-export function Tabs({
-  tabs,
-  activeTab,
-  onChange,
-  children,
-  className = ''
-}: TabsProps) {
+export default function Tabs({ tabs, defaultTab, className = "" }: TabsProps) {
+  const [activeTab, setActiveTab] = useState(defaultTab || tabs[0]?.id)
+
   return (
     <div className={className}>
-      <div className="border-b border-gray-200">
-        <div className="flex overflow-x-auto">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              className={`px-4 py-2 text-sm font-medium border-b-2 whitespace-nowrap ${
-                activeTab === tab.id
-                  ? 'border-[#00998F] text-[#00998F]'
-                  : 'border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300'
-              } ${tab.disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-              onClick={() => !tab.disabled && onChange(tab.id)}
-              disabled={tab.disabled}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+      {/* Tab Headers */}
+      <div className="flex border-b border-gray-200 mb-6">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`px-6 py-2 font-medium text-sm transition-colors relative ${
+              activeTab === tab.id
+                ? "text-primary border-b-2 border-primary"
+                : "text-gray-600 hover:text-primary"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
       </div>
-      
-      <div className="mt-4">
-        {children}
+
+      {/* Tab Content */}
+      <div>
+        {tabs.map((tab) => (
+          <div
+            key={tab.id}
+            className={activeTab === tab.id ? "block" : "hidden"}
+          >
+            {tab.content}
+          </div>
+        ))}
       </div>
     </div>
   )

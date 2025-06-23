@@ -1,45 +1,47 @@
-import React from 'react';
-
-export const Placeholder = ({ type = 'text', className = '', ...props }) => {
-  const baseClasses = "bg-gradient-to-r animate-pulse rounded";
-  const colors = "from-[#D2EAE8] to-[#00998F]/20";
-  
-  const getTypeStyles = () => {
-    switch (type) {
-      case 'text':
-        return 'h-4 w-full';
-      case 'heading':
-        return 'h-8 w-3/4';
-      case 'button':
-        return 'h-10 rounded-md';
-      case 'sidebar':
-        return 'h-full w-full rounded-lg';
-      case 'breadcrumb':
-        return 'h-6 w-48';
-      case 'product-card':
-        return 'flex flex-col space-y-4 p-4 border border-[#D2EAE8] rounded-lg';
-      default:
-        return 'h-4 w-full';
-    }
-  };
-
-  if (type === 'product-card') {
-    return (
-      <div className={`${baseClasses} ${className}`} {...props}>
-        <div className={`${baseClasses} ${colors} h-40 w-full mb-4 rounded-md`}></div>
-        <div className={`${baseClasses} ${colors} h-6 w-3/4 mb-2`}></div>
-        <div className={`${baseClasses} ${colors} h-4 w-full mb-2`}></div>
-        <div className={`${baseClasses} ${colors} h-4 w-2/3 mb-4`}></div>
-        <div className={`${baseClasses} ${colors} h-8 w-1/3 self-end rounded-md`}></div>
-      </div>
-    );
-  }
-
+export function TextPlaceholder({ lines = 3, className = "" }: { lines?: number; className?: string }) {
   return (
-    <div 
-      className={`${baseClasses} ${colors} ${getTypeStyles()} ${className}`}
-      {...props}
-    />
-  );
-};
+    <div className={`animate-pulse ${className}`}>
+      {Array.from({ length: lines }).map((_, i) => (
+        <div key={i} className={`bg-gray-200 rounded h-4 mb-2 ${i === lines - 1 ? "w-3/4" : "w-full"}`} />
+      ))}
+    </div>
+  )
+}
 
+export function ImagePlaceholder({ className = "" }: { className?: string }) {
+  return (
+    <div className={`bg-gray-200 animate-pulse rounded flex items-center justify-center ${className}`}>
+      <svg className="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+        <path
+          fillRule="evenodd"
+          d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+          clipRule="evenodd"
+        />
+      </svg>
+    </div>
+  )
+}
+
+export function CardPlaceholder({ className = "" }: { className?: string }) {
+  return (
+    <div className={`bg-white border border-gray-200 rounded-lg p-4 animate-pulse ${className}`}>
+      <ImagePlaceholder className="w-full h-48 mb-4" />
+      <TextPlaceholder lines={2} className="mb-2" />
+      <div className="bg-gray-200 rounded h-6 w-1/3"></div>
+    </div>
+  )
+}
+
+export function ProductPlaceholder({ className = "" }: { className?: string }) {
+  return (
+    <div className={`bg-white border border-gray-200 rounded-lg overflow-hidden animate-pulse ${className}`}>
+      <ImagePlaceholder className="w-full h-48" />
+      <div className="p-4">
+        <div className="bg-gray-200 rounded h-4 w-1/2 mb-2"></div>
+        <div className="bg-gray-200 rounded h-5 w-3/4 mb-3"></div>
+        <div className="bg-gray-200 rounded h-6 w-1/3 mb-3"></div>
+        <div className="bg-gray-200 rounded h-10 w-full"></div>
+      </div>
+    </div>
+  )
+}

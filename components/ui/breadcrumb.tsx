@@ -1,59 +1,52 @@
-import type React from "react"
-import Link from "next/link"
-import { ChevronLeft, type LucideIcon } from "lucide-react"
-import { IconType } from "react-icons"
-
+import { ChevronLeft } from "lucide-react"
+import type { LucideIcon } from "lucide-react"
 
 interface BreadcrumbItem {
   label: string
   href?: string
-  icon?: LucideIcon | IconType
-  iconPosition?: 'left' | 'right'
+  icon?: LucideIcon
 }
 
 interface BreadcrumbProps {
   items: BreadcrumbItem[]
   className?: string
-  separator?: React.ReactNode
+  variant?: "light" | "dark"
 }
 
-export function Breadcrumb({
-  items,
-  className = "",
-  separator = <ChevronLeft className="h-4 w-4 mx-2 text-gray-400" />,
-}: BreadcrumbProps) {
+export default function Breadcrumb({ items, className = "", variant = "light" }: BreadcrumbProps) {
+  const variants = {
+    light: {
+      link: "text-gray-600 hover:text-[var(--primary)]",
+      current: "text-[var(--primary)] font-medium",
+      separator: "text-gray-400",
+    },
+    dark: {
+      link: "text-white/80 hover:text-white",
+      current: "text-white font-medium",
+      separator: "text-white/60",
+    },
+  }
+
+  const variantStyles = variants[variant]
+
   return (
-    <nav className={`flex ${className}`}>
-      <ol className="flex items-center">
-        {items.map((item, index) => {
-          const isLast = index === items.length - 1
-          const Icon = item.icon
-          const iconPosition = item.iconPosition || 'left'
-
-          return (
-            <li key={index} className="flex items-center">
-              {item.href && !isLast ? (
-                <Link 
-                  href={item.href} 
-                  className="text-sm text-gray-600 hover:text-[#00998F] flex items-center gap-1"
-                >
-                  {Icon && iconPosition === 'left' && <Icon size={16} className="text-gray-500" />}
-                  {item.label}
-                  {Icon && iconPosition === 'right' && <Icon size={16} className="text-gray-500" />}
-                </Link>
-              ) : (
-                <span className="text-sm font-medium text-gray-900 flex items-center gap-1">
-                  {Icon && iconPosition === 'left' && <Icon size={16} className={isLast ? "text-gray-900" : "text-gray-500"} />}
-                  {item.label}
-                  {Icon && iconPosition === 'right' && <Icon size={16} className={isLast ? "text-gray-900" : "text-gray-500"} />}
-                </span>
-              )}
-
-              {!isLast && separator}
-            </li>
-          )
-        })}
-      </ol>
+    <nav className={`flex items-center gap-2 text-sm ${className}`} aria-label="Breadcrumb">
+      {items.map((item, index) => (
+        <div key={index} className="flex items-center gap-2">
+          {item.href ? (
+            <a href={item.href} className={`${variantStyles.link} transition-colors flex items-center gap-1`}>
+              {item.icon && <item.icon className="w-4 h-4" />}
+              {item.label}
+            </a>
+          ) : (
+            <span className={`${variantStyles.current} flex items-center gap-1`}>
+              {item.icon && <item.icon className="w-4 h-4" />}
+              {item.label}
+            </span>
+          )}
+          {index < items.length - 1 && <ChevronLeft className={`w-4 h-4 ${variantStyles.separator}`} />}
+        </div>
+      ))}
     </nav>
   )
 }

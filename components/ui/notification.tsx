@@ -1,105 +1,84 @@
 "use client"
 
-import { useState, useEffect } from 'react'
-import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from 'lucide-react'
-
-type NotificationType = 'success' | 'error' | 'info' | 'warning'
+import { useEffect } from "react"
+import { CheckCircle, AlertCircle, Info, AlertTriangle, X } from "lucide-react"
 
 interface NotificationProps {
-  title: string
+  type: "success" | "error" | "warning" | "info"
+  title?: string
   message: string
-  type?: NotificationType
-  onClose?: () => void
-  duration?: number | null
-  action?: {
-    label: string
-    onClick: () => void
-  }
+  isVisible: boolean
+  onClose: () => void
+  duration?: number
+  position?: "top-right" | "top-left" | "bottom-right" | "bottom-left"
 }
 
-export function Notification({
+export default function Notification({
+  type,
   title,
   message,
-  type = 'info',
+  isVisible,
   onClose,
   duration = 5000,
-  action
+  position = "top-right",
 }: NotificationProps) {
-  const [isVisible, setIsVisible] = useState(true)
-  
   useEffect(() => {
-    if (duration) {
+    if (isVisible && duration > 0) {
       const timer = setTimeout(() => {
-        setIsVisible(false)
-        if (onClose) setTimeout(onClose, 300) // Allow animation to complete
+        onClose()
       }, duration)
-      
       return () => clearTimeout(timer)
     }
-  }, [duration, onClose])
-  
-  const handleClose = () => {
-    setIsVisible(false)
-    if (onClose) setTimeout(onClose, 300) // Allow animation to complete
+  }, [isVisible, duration, onClose])
+
+  const styles = {
+    success: {
+      container: "bg-white border-l-4 border-green-500 shadow-lg",
+      icon: <CheckCircle className="w-6 h-6 text-green-600" />,
+    },
+    error: {
+      container: "bg-white border-l-4 border-red-500 shadow-lg",
+      icon: <AlertCircle className="w-6 h-6 text-red-600" />,
+    },
+    warning: {
+      container: "bg-white border-l-4 border-yellow-500 shadow-lg",
+      icon: <AlertTriangle className="w-6 h-6 text-yellow-600" />,
+    },
+    info: {
+      container: "bg-white border-l-4 border-blue-500 shadow-lg",
+      icon: <Info className="w-6 h-6 text-blue-600" />,
+    },
   }
-  
-  const icons = {
-    success: <CheckCircle className="h-5 w-5 text-green-500" />,
-    error: <AlertCircle className="h-5 w-5 text-red-500" />,
-    info: <Info className="h-5 w-5 text-blue-500" />,
-    warning: <AlertTriangle className="h-5 w-5 text-amber-500" />
+
+  const positions = {
+    "top-right": "top-4 right-4",
+    "top-left": "top-4 left-4",
+    "bottom-right": "bottom-4 right-4",
+    "bottom-left": "bottom-4 left-4",
   }
-  
-  const bgColors = {
-    success: 'bg-white border-green-200',
-    error: 'bg-white border-red-200',
-    info: 'bg-white border-blue-200',
-    warning: 'bg-white border-amber-200'
-  }
-  
+
+  const style = styles[type]
+
+  if (!isVisible) return null
+
   return (
-    <div 
-      className={`flex p-4 rounded-sm border shadow-md max-w-md transition-all duration-300 ${bgColors[type]} ${
-        isVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-4'
-      }`}
-    >
-      <div className="flex-shrink-0 ml-3">
-        {icons[type]}
-      </div>
-      
-      <div className="flex-1 ml-3">
-        <div className="flex items-start justify-between">
-          <h3 className="text-base font-medium">{title}</h3>
-          <button onClick={handleClose} className="text-gray-400 hover:text-gray-600 ml-3">
-            <X className="h-5 w-5" />
+    <div className={`fixed ${positions[position]} z-50 max-w-sm w-full`}>
+      <div
+        className={`rounded-lg p-4 ${style.container} transform transition-all duration-300 ${
+          isVisible ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
+        }`}
+      >
+        <div className="flex items-start gap-3">
+          {style.icon}
+          <div className="flex-1 text-right">
+            {title && <h4 className="font-semibold text-gray-900 mb-1">{title}</h4>}
+            <p className="text-sm text-gray-700">{message}</p>
+          </div>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors">
+            <X className="w-4 h-4" />
           </button>
         </div>
-        
-        <div className="mt-1 text-sm text-gray-600">{message}</div>
-        
-        {action && (
-          <div className="mt-3">
-            <button
-              onClick={() => {
-                action.onClick()
-                handleClose()
-              }}
-              className="text-sm font-medium text-[#00998F] hover:text-[#00998F]/80"
-            >
-              {action.label}
-            </button>
-          </div>
-        )}
       </div>
-    </div>
-  )
-}
-
-
-export function NotificationCenter({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="fixed top-4 right-4 z-50 flex flex-col gap-3">
-      {children}
     </div>
   )
 }

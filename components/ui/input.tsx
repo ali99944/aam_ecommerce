@@ -1,51 +1,46 @@
-import { LucideIcon } from 'lucide-react'
-import React from 'react'
-import { IconType } from 'react-icons'
+"use client"
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string
-  error?: string
-  icon?: LucideIcon | IconType
-  iconPosition?: 'left' | 'right'
+import { InputHTMLAttributes, ReactNode } from "react"
+
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  size?: "sm" | "md" | "lg"
+  icon?: ReactNode
+  iconPosition?: "left" | "right"
 }
 
-export function Input({ 
-  label, 
-  error, 
-  icon: Icon, 
-  iconPosition = 'right', 
-  className = '', 
+export default function Input({ 
+  size = "sm", 
+  icon, 
+  iconPosition = "right", 
+  className = "", 
   ...props 
 }: InputProps) {
-  return (
-    <div className="w-full">
-      {label && (
-        <label className="block text-base font-medium mb-1 text-right">
-          {label}
-        </label>
-      )}
-      
+  const baseClasses = "border border-gray-300 rounded focus:outline-none focus:ring focus:ring-primary focus:border-primary transition-all duration-200 w-full"
+  
+  const sizes = {
+    sm: "px-3 py-2 text-sm",
+    md: "px-4 py-3 text-base",
+    lg: "px-5 py-4 text-lg"
+  }
+
+  if (icon) {
+    return (
       <div className="relative">
-        <input
-          className={`w-full bg-white border border-gray-200 rounded py-1.5 px-4 text-base focus:outline-none focus:ring placeholder:text-sm focus:ring-[#00998F] focus:border-[#00998F] transition-colors
-            ${error ? 'border-red-500' : ''}
-            ${iconPosition === 'left' ? 'pl-10' : ''}
-            ${iconPosition === 'right' ? 'pr-10' : ''}
-            ${className}
-          `}
+        <input 
+          className={`${baseClasses} ${sizes[size]} ${iconPosition === 'right' ? 'pr-10' : 'pl-10'} ${className}`}
           {...props}
         />
-        
-        {Icon && (
-          <div className={`absolute top-1/2 transform -translate-y-1/2 text-gray-400 ${iconPosition === 'left' ? 'left-3' : 'right-3'}`}>
-            <Icon className='w-4 h-4' />
-          </div>
-        )}
+        <div className={`absolute top-1/2 transform -translate-y-1/2 ${iconPosition === 'right' ? 'right-3' : 'left-3'} text-gray-400`}>
+          {icon}
+        </div>
       </div>
-      
-      {error && (
-        <p className="mt-1 text-sm text-red-500 text-right">{error}</p>
-      )}
-    </div>
+    )
+  }
+
+  return (
+    <input 
+      className={`${baseClasses} ${sizes[size]} ${className}`}
+      {...props}
+    />
   )
 }

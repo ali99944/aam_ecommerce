@@ -1,48 +1,58 @@
-import Image from 'next/image'
+import { cn } from "@/lib/utils"
 
 interface AvatarProps {
   src?: string
   alt?: string
-  fallback?: string
-  size?: 'sm' | 'md' | 'lg' | 'xl'
+  size?: "xs" | "sm" | "md" | "lg" | "xl"
   className?: string
+  onClick?: () => void
+  fallback?: string
 }
 
-export function Avatar({ 
+const sizeClasses = {
+  xs: "w-6 h-6 text-xs",
+  sm: "w-8 h-8 text-sm",
+  md: "w-12 h-12 text-base",
+  lg: "w-16 h-16 text-lg",
+  xl: "w-20 h-20 text-xl",
+}
+
+export default function Avatar({ 
   src, 
-  alt = 'Avatar', 
-  fallback,
-  size = 'md',
-  className = ''
+  alt = "Avatar", 
+  size = "md", 
+  className, 
+  onClick,
+  fallback 
 }: AvatarProps) {
-  const sizeClasses = {
-    sm: 'h-8 w-8 text-xs',
-    md: 'h-10 w-10 text-sm',
-    lg: 'h-12 w-12 text-base',
-    xl: 'h-16 w-16 text-lg'
-  }
-  
-  if (!src && !fallback) {
-    fallback = alt.charAt(0).toUpperCase()
-  }
-  
+  const initials = fallback || alt?.split(' ').map(n => n[0]).join('').toUpperCase() || "U"
+
   return (
-    <div 
-      className={`relative rounded-full overflow-hidden flex items-center justify-center ${
-        sizeClasses[size]
-      } ${className}`}
+    <div
+      className={cn(
+        "relative inline-flex items-center justify-center rounded-full bg-gray-100 overflow-hidden",
+        sizeClasses[size],
+        onClick && "cursor-pointer",
+        className
+      )}
+      onClick={onClick}
     >
       {src ? (
-        <Image
+        <img
           src={src || "/placeholder.svg"}
           alt={alt}
-          fill
-          className="object-cover"
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement
+            target.style.display = 'none'
+            const parent = target.parentElement
+            if (parent) {
+              parent.innerHTML = `<span class="font-medium text-gray-600">${initials}</span>`
+            }
+          }}
         />
       ) : (
-        <div className="bg-[#00998F] text-white w-full h-full flex items-center justify-center font-medium">
-          {fallback}
-        </div>
+        <span className="font-medium text-gray-600">{initials}</span>
       )}
     </div>
   )

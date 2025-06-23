@@ -66,7 +66,7 @@ export function CheckboxItem({ value, label, description, disabled = false, clas
       <div className="flex-shrink-0 mt-1">
         <div
           className={`h-4 w-4 rounded-sm border ${
-            isChecked ? "border-[#00998F] bg-[#00998F]" : "border-gray-300 bg-white"
+            isChecked ? "border-primary bg-primary" : "border-gray-300 bg-white"
           } flex items-center justify-center`}
         >
           {isChecked && (

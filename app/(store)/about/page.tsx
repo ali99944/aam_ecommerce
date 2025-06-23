@@ -1,240 +1,208 @@
-import Image from "next/image"
-import { Award, Target, TrendingUp, CheckCircle, Calendar, Truck, ShieldCheck, ThumbsUp } from 'lucide-react'
-import Header from "@/components/header"
-import Footer from "@/components/footer"
-import { Button } from "@/components/ui/button"
-import {
-  Breadcrumb,
-} from "@/components/ui/breadcrumb"
+"use client"
+
+import { Users, Target, Award, Heart, Truck, Shield, Clock, Star, Eye } from 'lucide-react'
+import Navbar from "@/components/header"
+import Footer from "@/components/custom/footer"
+import Button from "@/components/ui/button"
+import Card from '@/components/ui/card'
+import Link from 'next/link'
 
 export default function AboutPage() {
+  const stats = [
+    { number: "50,000+", label: "عميل راضٍ", icon: Users },
+    { number: "10,000+", label: "منتج متنوع", icon: Target },
+    { number: "5", label: "سنوات خبرة", icon: Award },
+    { number: "99%", label: "رضا العملاء", icon: Heart },
+  ]
+
+  const features = [
+    {
+      icon: Truck,
+      title: "شحن مجاني",
+      description: "شحن مجاني لجميع الطلبات أكثر من 200 ريال"
+    },
+    {
+      icon: Shield,
+      title: "ضمان الجودة",
+      description: "جميع منتجاتنا أصلية ومضمونة 100%"
+    },
+    {
+      icon: Clock,
+      title: "خدمة 24/7",
+      description: "فريق خدمة العملاء متاح على مدار الساعة"
+    },
+    {
+      icon: Star,
+      title: "تقييم عالي",
+      description: "أكثر من 50 ألف تقييم إيجابي من عملائنا"
+    },
+  ]
+
+  const team = [
+    {
+      name: "أحمد محمد",
+      position: "المدير التنفيذي",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop",
+      description: "خبرة أكثر من 10 سنوات في مجال التجارة الإلكترونية"
+    },
+    {
+      name: "فاطمة علي",
+      position: "مديرة التسويق",
+      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop",
+      description: "متخصصة في استراتيجيات التسويق الرقمي والعلامات التجارية"
+    },
+    {
+      name: "محمد السعيد",
+      position: "مدير التقنية",
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop",
+      description: "خبير في تطوير المنصات الإلكترونية والتقنيات الحديثة"
+    },
+  ]
+
+  const values = [
+    {
+      icon: Target,
+      title: "رؤيتنا",
+      description: "أن نكون المتجر الإلكتروني الرائد في المنطقة العربية، ونقدم أفضل تجربة تسوق رقمية تجمع بين الجودة والابتكار.",
+    },
+    {
+      icon: Eye,
+      title: "رسالتنا",
+      description: "نسعى لجعل التكنولوجيا في متناول الجميع من خلال توفير منتجات عالية الجودة بأسعار تنافسية وخدمة عملاء استثنائية.",
+    },
+    {
+      icon: Heart,
+      title: "قيمنا",
+      description: "الثقة، الجودة، الابتكار، والالتزام بتقديم أفضل خدمة للعملاء مع الحفاظ على أعلى معايير الأمان والموثوقية.",
+    },
+  ]
+
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      
-      <main className="flex-grow">
+    <div className="min-h-screen bg-background" dir="rtl">
+      <Navbar />
+
+      <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Hero Section */}
-        <section className="relative bg-[#00998F] text-white py-16">
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute -left-10 -top-10 w-40 h-40 rounded-full bg-white opacity-10"></div>
-            <div className="absolute right-20 top-10 w-20 h-20 rounded-full bg-white opacity-5"></div>
-            <div className="absolute left-1/3 bottom-10 w-32 h-32 rounded-full bg-white opacity-5"></div>
-          </div>
-          
-          <div className="container mx-auto px-4 relative z-10">
-            {/* <Breadcrumb 
-              items={[
-                { label: "الرئيسية", href: "/" },
-                { label: "من نحن" }
-              ]}
-              className=" text-white"
-            /> */}
-            
-            <div className="flex flex-col md:flex-row items-center">
-              <div className="md:w-1/2 text-right mb-8 md:mb-0">
-            <h1 className="text-4xl font-bold mb-2">محلات علي ابو مسعود</h1>
-                <div className="h-1 w-24 bg-white mb-6 mr-1"></div>
-                <p className="text-xl mb-6">نحن نقدم أفضل مواد البناء والعدد الكهربائية منذ أكثر من 25 عاماً</p>
-                <p className="mb-8 opacity-90">
-                  تأسست محلات علي ابو مسعود عام 1998 لتكون واحدة من أكبر المحلات المتخصصة في مجال مواد البناء والعدد الكهربائية والمواد الزراعية في الأردن. نسعى دائماً لتقديم منتجات ذات جودة عالية وخدمة متميزة لعملائنا.
-                </p>
-              </div>
-              
-              <div className="md:w-1/2">
-                <div className="relative h-72 w-full">
-                  <div className="absolute inset-0 bg-[#D2EAE8] rounded-sm transform rotate-3"></div>
-                  <Image
-                    src="/placeholder.svg?height=400&width=600"
-                    alt="محلات علي ابو مسعود"
-                    fill
-                    className="object-cover rounded-sm transform -rotate-3 hover:rotate-0 transition-transform duration-300"
-                  />
-                </div>
-              </div>
+        <div className="text-center mb-16">
+          <h1 className="text-4xl font-bold text-primary mb-6">من نحن</h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            نحن متجر محلاتنا، وجهتك الأولى للتسوق الإلكتروني في المملكة العربية السعودية. 
+            نقدم أفضل المنتجات بأسعار تنافسية وخدمة عملاء متميزة.
+          </p>
+        </div>
+
+        {/* Stats Section */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+          {stats.map((stat, index) => (
+            <div key={index} className="bg-white rounded-xl p-4 text-center border border-gray-100">
+              <stat.icon className="w-12 h-12 text-primary mx-auto mb-4" />
+              <div className="text-3xl font-bold text-primary mb-2">{stat.number}</div>
+              <div className="text-gray-600">{stat.label}</div>
             </div>
-          </div>
-          
-        </section>
-        
-        {/* Our Story Section */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">قصتنا</h2>
-              <div className="h-1 w-24 bg-[#00998F] mx-auto mb-6"></div>
-              <p className="max-w-2xl mx-auto text-gray-600">
-                بدأت رحلتنا منذ أكثر من 25 عاماً بهدف توفير أفضل المنتجات وتقديم خدمة متميزة لعملائنا
+          ))}
+        </div>
+
+        {/* Story Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-8">
+          <div>
+            <h2 className="text-3xl font-bold text-primary mb-6">قصتنا</h2>
+            <div className="space-y-4 text-gray-700 leading-relaxed">
+              <p>
+                بدأت رحلتنا في عام 2019 بحلم بسيط: جعل التسوق الإلكتروني أسهل وأكثر متعة للجميع. 
+                انطلقنا من فكرة توفير منصة موثوقة تجمع أفضل المنتجات من مختلف الفئات في مكان واحد.
+              </p>
+              <p>
+                اليوم، نفخر بخدمة أكثر من 50 ألف عميل راضٍ، ونقدم أكثر من 10 آلاف منتج متنوع 
+                يلبي احتياجات جميع أفراد الأسرة. نؤمن بأن كل عميل يستحق تجربة تسوق استثنائية.
+              </p>
+              <p>
+                رؤيتنا هي أن نكون المتجر الإلكتروني الأول في المنطقة، ونواصل العمل يومياً 
+                لتحقيق هذا الهدف من خلال الابتكار والتطوير المستمر.
               </p>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className=" p-6 rounded-sm  bg-[#D2EAE8] text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#00998F] rounded-full mb-4">
-                  <Calendar className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">التأسيس</h3>
-                <p className="text-gray-600">
-                  تأسست محلات علي ابو مسعود عام 1998 كمتجر صغير في وسط عمان، وبدأت بتوفير مواد البناء الأساسية للمقاولين والأفراد.
-                </p>
-              </div>
-              
-              <div className=" p-6 rounded-sm  bg-[#D2EAE8] text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#00998F] rounded-full mb-4">
-                  <TrendingUp className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">النمو والتطور</h3>
-                <p className="text-gray-600">
-                  توسعت أعمالنا على مدار السنوات لتشمل العدد الكهربائية والمواد الزراعية، وافتتحنا فروعاً جديدة في مختلف مناطق المملكة.
-                </p>
-              </div>
-              
-              <div className=" p-6 rounded-sm  bg-[#D2EAE8] text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#00998F] rounded-full mb-4">
-                  <Target className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">الحاضر والمستقبل</h3>
-                <p className="text-gray-600">
-                  اليوم، نفخر بأننا أصبحنا من أكبر المحلات في مجالنا، ونسعى دائماً للتطوير وتقديم أفضل المنتجات والخدمات لعملائنا.
-                </p>
-              </div>
-            </div>
           </div>
-        </section>
-        
-        {/* Vision & Mission Section */}
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="bg-[#D2EAE8] p-4 rounded-sm  border border-gray-100">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="flex-shrink-0 w-12 h-12 bg-[#00998F] rounded-full flex items-center justify-center">
-                    <Target className="h-6 w-6 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold">رؤيتنا</h3>
-                </div>
-                <p className="text-gray-600 mb-4">
-                  أن نكون الخيار الأول والأفضل في مجال مواد البناء والعدد الكهربائية والمواد الزراعية في الأردن، من خلال تقديم منتجات ذات جودة عالية وخدمة متميزة.
-                </p>
-                <ul className="space-y-2">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-[#00998F]" />
-                    <span>توفير منتجات عالية الجودة</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-[#00998F]" />
-                    <span>تقديم خدمة متميزة للعملاء</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-[#00998F]" />
-                    <span>المساهمة في تطوير قطاع البناء</span>
-                  </li>
-                </ul>
-              </div>
-              
-              <div className="bg-[#D2EAE8] p-4 rounded-sm  border border-gray-100">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="flex-shrink-0 w-12 h-12 bg-[#00998F] rounded-full flex items-center justify-center">
-                    <Award className="h-6 w-6 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold">رسالتنا</h3>
-                </div>
-                <p className="text-gray-600 mb-4">
-                  نسعى لتوفير منتجات ذات جودة عالية وبأسعار منافسة، مع تقديم خدمة متميزة لعملائنا وتلبية احتياجاتهم بكفاءة وسرعة.
-                </p>
-                <ul className="space-y-2">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-[#00998F]" />
-                    <span>توفير منتجات متنوعة تلبي احتياجات العملاء</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-[#00998F]" />
-                    <span>تقديم استشارات فنية متخصصة</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-[#00998F]" />
-                    <span>بناء علاقات طويلة الأمد مع العملاء</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
+          <div className="relative">
+            <img
+              src="https://img.freepik.com/premium-photo/boxes-trolley-laptop_36051-524.jpg?ga=GA1.1.1052836384.1750646072&semt=ais_hybrid&w=740"
+              alt="قصة متجر محلاتنا"
+              className="w-full h-96 object-cover rounded-xl"
+            />
+            <div className="absolute inset-0 bg-black/20 rounded-xl"></div>
           </div>
-        </section>
-        
-        {/* Why Choose Us Section */}
-        <section className="py-16 bg-[#D2EAE8]">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-2">لماذا تختارنا</h2>
-              <div className="h-0.5 w-24 bg-[#00998F] mx-auto mb-6"></div>
-              <p className="max-w-2xl mx-auto text-gray-600">
-                نحن نسعى دائماً لتقديم أفضل المنتجات والخدمات لعملائنا
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white p-6 rounded-sm ">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-[#00998F] rounded-full flex items-center justify-center">
-                    <ShieldCheck className="h-6 w-6 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold">جودة عالية</h3>
+        </div>
+
+      {/* Vision, Mission, Values */}
+      <section className=" bg-[var(--background)] mb-20">
+        <div className="max-w-7xl">
+
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {values.map((value, index) => (
+              <Card key={index} className="text-center p-4  !border-none">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <value.icon className="w-8 h-8 text-primary" />
                 </div>
-                <p className="text-gray-600">
-                  نوفر منتجات ذات جودة عالية من أفضل الماركات العالمية، مع ضمان على جميع المنتجات.
-                </p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-sm ">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-[#00998F] rounded-full flex items-center justify-center">
-                    <Truck className="h-6 w-6 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold">توصيل سريع</h3>
-                </div>
-                <p className="text-gray-600">
-                  نقدم خدمة توصيل سريعة وموثوقة لجميع مناطق المملكة، مع إمكانية التوصيل في نفس اليوم للطلبات العاجلة.
-                </p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-sm ">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-[#00998F] rounded-full flex items-center justify-center">
-                    <ThumbsUp className="h-6 w-6 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold">خدمة متميزة</h3>
-                </div>
-                <p className="text-gray-600">
-                  فريق خدمة العملاء لدينا متاح دائماً للإجابة على استفساراتكم وتقديم المشورة الفنية المتخصصة.
-                </p>
-              </div>
-            </div>
+                <h3 className="text-2xl font-bold text-primary mb-4">{value.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{value.description}</p>
+              </Card>
+            ))}
           </div>
-        </section>
-        
+        </div>
+      </section>
+
+        {/* Features */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-primary text-center mb-12">لماذا نحن مختلفون؟</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {features.map((feature, index) => (
+              <div key={index} className="bg-white rounded-xl p-4 text-center border border-gray-100 hover:shadow-lg transition-shadow">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <feature.icon className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-lg font-bold text-primary mb-3">{feature.title}</h3>
+                <p className="text-gray-600 text-sm">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Team Section */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-primary text-center mb-12">فريق العمل</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {team.map((member, index) => (
+              <div key={index} className="bg-white rounded-xl p-4 text-center border border-gray-100">
+                <img
+                  src={member.image || "/placeholder.svg"}
+                  alt={member.name}
+                  className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                />
+                <h3 className="text-xl font-bold text-primary mb-2">{member.name}</h3>
+                <p className="text-[var(--accent)] font-medium mb-3">{member.position}</p>
+                <p className="text-gray-600 text-sm">{member.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+
         {/* CTA Section */}
-        <section className="py-16 bg-[#00998F] text-white">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-6">هل أنت مستعد للتعاون معنا؟</h2>
-            <p className="max-w-2xl mx-auto mb-8 opacity-90">
-              نحن نتطلع دائماً للتعاون مع عملاء جدد وتقديم أفضل الخدمات والمنتجات. تواصل معنا اليوم!
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                variant="secondary"
-              >
-                تواصل معنا
-              </Button>
-              <Button 
-                variant="outline"
-                className="border-white text-white hover:bg-white/20"
-              >
-                تصفح منتجاتنا
-              </Button>
-            </div>
+        <div className="text-center bg-gray-900 px-4 py-8 rounded-xl">
+          <h2 className="text-3xl font-bold text-white/85 mb-2">انضم إلى متجر محلاتنا</h2>
+          <p className="text-white/60 mb-8 max-w-2xl mx-auto">
+            اكتشف آلاف المنتجات المتميزة واستمتع بتجربة تسوق لا تُنسى مع خدمة عملاء استثنائية
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Button variant="primary" size="sm">
+              <Link href="/products">تسوق الآن</Link>
+            </Button>
+            <Button variant="secondary" size="sm">
+              <a href="/contact">تواصل معنا</a>
+            </Button>
           </div>
-        </section>
-      </main>
-      
+        </div>
+      </div>
+
       <Footer />
     </div>
   )
