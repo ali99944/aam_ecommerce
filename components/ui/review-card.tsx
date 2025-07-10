@@ -36,7 +36,7 @@ export default function ReviewCard({ review }: ReviewCardProps) {
     <div className="bg-white rounded-xl p-6 border border-gray-100">
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[var(--primary)] rounded-full flex items-center justify-center">
+          <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
             <span className="text-white font-semibold text-sm">
               {review.userName.charAt(0)}
             </span>
@@ -61,7 +61,7 @@ export default function ReviewCard({ review }: ReviewCardProps) {
       <p className="text-gray-700 leading-relaxed mb-4">{review.comment}</p>
 
       <div className="flex items-center justify-between">
-        <button className="flex items-center gap-2 text-sm text-gray-500 hover:text-[var(--primary)] transition-colors">
+        <button className="flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition-colors">
           <ThumbsUp className="w-4 h-4" />
           <span>مفيد ({review.helpful})</span>
         </button>

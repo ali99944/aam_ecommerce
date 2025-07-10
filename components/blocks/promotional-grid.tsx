@@ -14,10 +14,12 @@ export default function PromotionalGrid() {
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gray-900/60">
-              <div className="relative h-full p-4 flex flex-col justify-center">
-                <p className="text-sm text-white mb-2">سماعات رقمية</p>
-                <h3 className="text-xl font-bold text-white mb-4">أفضل صوت نقي</h3>
-                <Button variant="primary" size="sm">
+              <div className="relative h-full p-4 flex flex-col justify-between">
+                <div>
+                  <p className="text-sm text-white mb-2">سماعات رقمية</p>
+                  <h3 className="text-xl font-bold text-white mb-4">أفضل صوت نقي</h3>
+                </div>
+                <Button className="w-fit" variant="primary" size="sm">
                   تسوق الآن
                 </Button>
               </div>
@@ -32,10 +34,12 @@ export default function PromotionalGrid() {
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gray-900/60">
-              <div className="relative h-full p-4 flex flex-col justify-center">
-                <p className="text-sm text-blue-100 mb-2">سماعات رقمية</p>
-                <h3 className="text-xl font-bold text-white mb-4">أفضل صوت نقي</h3>
-                <Button variant="accent" size="sm">
+              <div className="relative h-full p-4 flex flex-col justify-between">
+                <div>
+                  <p className="text-sm text-blue-100 mb-2">سماعات رقمية</p>
+                  <h3 className="text-xl font-bold text-white mb-4">أفضل صوت نقي</h3>
+                </div>
+                <Button className="w-fit" variant="accent" size="sm">
                   تسوق الآن
                 </Button>
               </div>
@@ -50,10 +54,12 @@ export default function PromotionalGrid() {
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gray-900/60">
-              <div className="relative h-full p-4 flex flex-col justify-center">
-                <p className="text-sm text-white mb-2">سماعات رقمية</p>
-                <h3 className="text-xl font-bold text-white mb-4">أفضل صوت نقي</h3>
-                <Button variant="primary" size="sm">
+              <div className="relative h-full p-4 flex flex-col justify-between">
+                <div>
+                  <p className="text-sm text-white mb-2">سماعات رقمية</p>
+                  <h3 className="text-xl font-bold text-white mb-4">أفضل صوت نقي</h3>
+                </div>
+                <Button className="w-fit" variant="primary" size="sm">
                   تسوق الآن
                 </Button>
               </div>
@@ -70,9 +76,11 @@ export default function PromotionalGrid() {
           />
           <div className="absolute inset-0 bg-gray-900/60">
             <div className="relative h-full p-8 flex flex-col items-center justify-center">
-              <p className="text-sm text-white mb-2">سماعات رقمية</p>
-              <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">أفضل صوت نقي</h3>
-              <Button variant="accent" size="md">
+              <div>
+                <p className="text-sm text-white mb-2">سماعات رقمية</p>
+                <h3 className="text-xl font-bold text-white mb-4">أفضل صوت نقي</h3>
+              </div>
+              <Button className="w-fit" variant="accent" size="sm">
                 تسوق الآن
               </Button>
             </div>

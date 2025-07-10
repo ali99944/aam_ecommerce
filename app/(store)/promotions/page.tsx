@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 import { Calendar, Tag, Zap, Wrench, Hammer, Truck, Mail } from 'lucide-react'
-import Navbar from "@/components/header"
-import Footer from "@/components/custom/footer"
+import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
 import Button from "@/components/ui/button"
 import Input from "@/components/ui/input"
 
@@ -134,7 +134,7 @@ export default function PromotionsPage() {
         {/* Header */}
         <div className="text-center mb-12">
           <p className="text-sm text-gray-500 uppercase tracking-wide mb-2">أدوات ومعدات تحتاجها</p>
-          <h1 className="text-4xl font-bold text-[var(--primary)] mb-4">العروض والتخفيضات</h1>
+          <h1 className="text-4xl font-bold text-primary mb-4">العروض والتخفيضات</h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
             اكتشف أفضل العروض على الأدوات الكهربائية ومعدات السباكة ومواد البناء والخرسانة
           </p>
@@ -148,7 +148,7 @@ export default function PromotionsPage() {
               onClick={() => setFilter(category.id)}
               className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 filter === category.id
-                  ? "bg-[var(--primary)] text-white"
+                  ? "bg-primary text-white"
                   : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200"
               }`}
             >
@@ -207,7 +207,7 @@ export default function PromotionsPage() {
 
         {/* Newsletter Signup */}
         <div className="mt-16 bg-white rounded-xl p-8 text-center border border-gray-100">
-          <h3 className="text-2xl font-bold text-[var(--primary)] mb-4">لا تفوت العروض القادمة</h3>
+          <h3 className="text-2xl font-bold text-primary mb-4">لا تفوت العروض القادمة</h3>
           <p className="text-gray-600 mb-6">اشترك في نشرتنا البريدية لتصلك أحدث العروض والتخفيضات</p>
           <div className="flex gap-4 max-w-md mx-auto">
             <Input

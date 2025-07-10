@@ -1,6 +1,6 @@
 'use server'
 
-import { Seo } from "@/src/types"
+import { Seo } from "@/src/types/old"
 import axiosHttp from "./axios_client"
 import { Metadata } from "next"
 

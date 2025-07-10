@@ -49,7 +49,7 @@ export default function RatingDialog({ isOpen, onClose, product, onSubmit }: Rat
     <Dialog isOpen={isOpen} onClose={onClose}>
       <div className=" rounded-lg w-full">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-[var(--primary)]">تقييم المنتج</h2>
+          <h2 className="text-xl font-bold text-primary">تقييم المنتج</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
             <X className="w-6 h-6" />
           </button>
@@ -63,7 +63,7 @@ export default function RatingDialog({ isOpen, onClose, product, onSubmit }: Rat
             className="w-16 h-16 object-cover rounded"
           />
           <div>
-            <h3 className="font-medium text-[var(--primary)]">{product.name}</h3>
+            <h3 className="font-medium text-primary">{product.name}</h3>
           </div>
         </div>
 
@@ -89,7 +89,7 @@ export default function RatingDialog({ isOpen, onClose, product, onSubmit }: Rat
               </button>
             ))}
           </div>
-          <p className="text-sm font-medium text-[var(--primary)]">
+          <p className="text-sm font-medium text-primary">
             {getRatingText(hoveredRating || rating)}
           </p>
         </div>

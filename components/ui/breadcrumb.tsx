@@ -16,8 +16,8 @@ interface BreadcrumbProps {
 export default function Breadcrumb({ items, className = "", variant = "light" }: BreadcrumbProps) {
   const variants = {
     light: {
-      link: "text-gray-600 hover:text-[var(--primary)]",
-      current: "text-[var(--primary)] font-medium",
+      link: "text-gray-600 hover:text-primary",
+      current: "text-primary font-medium",
       separator: "text-gray-400",
     },
     dark: {

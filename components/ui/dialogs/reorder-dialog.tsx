@@ -65,7 +65,7 @@ export default function ReorderDialog({ isOpen, onClose, orderItems, onReorder }
     <Dialog isOpen={isOpen} onClose={onClose}>
       <div className=" rounded-lg  w-full max-w-2xl max-h-[80vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-[var(--primary)]">إعادة الطلب</h2>
+          <h2 className="text-xl font-bold text-primary">إعادة الطلب</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
             <X className="w-6 h-6" />
           </button>
@@ -81,7 +81,7 @@ export default function ReorderDialog({ isOpen, onClose, orderItems, onReorder }
                 type="checkbox"
                 checked={item.selected}
                 onChange={() => toggleItem(item.id)}
-                className="w-4 h-4 text-[var(--primary)] rounded"
+                className="w-4 h-4 text-primary rounded"
               /> */}
 
               <Checkbox
@@ -96,8 +96,8 @@ export default function ReorderDialog({ isOpen, onClose, orderItems, onReorder }
               />
               
               <div className="flex-1">
-                <h3 className="font-medium text-[var(--primary)] mb-1">{item.name}</h3>
-                <p className="text-[var(--primary)] font-bold">ريال {item.price.toFixed(2)}</p>
+                <h3 className="font-medium text-primary mb-1">{item.name}</h3>
+                <p className="text-primary font-bold">ريال {item.price.toFixed(2)}</p>
               </div>
 
               <div className="flex items-center gap-2">
@@ -125,7 +125,7 @@ export default function ReorderDialog({ isOpen, onClose, orderItems, onReorder }
         <div className="bg-gray-50 rounded p-4 mb-6">
           <div className="flex justify-between items-center">
             <span className="text-gray-600">المنتجات المحددة: {totalItems}</span>
-            <span className="text-lg font-bold text-[var(--primary)]">
+            <span className="text-lg font-bold text-primary">
               المجموع: ريال {totalPrice.toFixed(2)}
             </span>
           </div>

@@ -37,7 +37,7 @@ export default function InvoicePage({ params }: { params: { id: string } }) {
       address: "شارع الملك فهد، حي العليا، الرياض 12345",
     },
     company: {
-      name: "متجر محلاتنا",
+      name: "محلات علي ابو مسعود",
       address: "شارع التحلية، الرياض 11564",
       phone: "920000000",
       email: "info@mahallatna.com",
@@ -65,7 +65,7 @@ export default function InvoicePage({ params }: { params: { id: string } }) {
               <Button variant="secondary" size="sm">
                 <a href={`/orders/${params.id}`}>العودة للطلب</a>
               </Button>
-              <h1 className="text-xl font-bold text-[var(--primary)]">فاتورة رقم: {invoiceData.id}</h1>
+              <h1 className="text-xl font-bold text-primary">فاتورة رقم: {invoiceData.id}</h1>
             </div>
             <div className="flex gap-2">
               <Button variant="secondary" size="sm" icon={Download} onClick={handleDownload}>
@@ -83,9 +83,9 @@ export default function InvoicePage({ params }: { params: { id: string } }) {
       <div className="max-w-4xl mx-auto p-8" ref={printRef}>
         <div className="bg-white rounded-lg p-8 print:shadow-none print:rounded-none">
           {/* Header */}
-          <div className="flex justify-between items-start mb-8 pb-6 border-b-2 border-[var(--primary)]">
+          <div className="flex justify-between items-start mb-8 pb-6 border-b-2 border-primary">
             <div>
-              <h1 className="text-3xl font-bold text-[var(--primary)] mb-2">{invoiceData.company.name}</h1>
+              <h1 className="text-3xl font-bold text-primary mb-2">{invoiceData.company.name}</h1>
               <div className="text-gray-600 space-y-1">
                 <p>{invoiceData.company.address}</p>
                 <p>هاتف: {invoiceData.company.phone}</p>
@@ -95,7 +95,7 @@ export default function InvoicePage({ params }: { params: { id: string } }) {
               </div>
             </div>
             <div className="text-start">
-              <div className="bg-[var(--primary)] w-fit text-white px-6 py-2 rounded flex justify-end">
+              <div className="bg-primary w-fit text-white px-6 py-2 rounded flex justify-end">
                 <h2 className="text-xl ">فاتورة</h2>
               </div>
               <div className="mt-4 space-y-2">
@@ -123,9 +123,9 @@ export default function InvoicePage({ params }: { params: { id: string } }) {
 
           {/* Customer Info */}
           <div className="mb-8">
-            <h3 className="text-lg font-bold text-[var(--primary)] mb-3">فاتورة إلى:</h3>
+            <h3 className="text-lg font-bold text-primary mb-3">فاتورة إلى:</h3>
             <div className="bg-gray-50 p-4 rounded">
-              <p className="font-bold text-[var(--primary)] mb-2">{invoiceData.customer.name}</p>
+              <p className="font-bold text-primary mb-2">{invoiceData.customer.name}</p>
               <div className="text-gray-600 space-y-1">
                 <p>{invoiceData.customer.address}</p>
                 <p>هاتف: {invoiceData.customer.phone}</p>
@@ -138,7 +138,7 @@ export default function InvoicePage({ params }: { params: { id: string } }) {
           <div className="mb-8">
             <table className="w-full">
               <thead>
-                <tr className="bg-[var(--primary)] text-white">
+                <tr className="bg-primary text-white">
                   <th className="text-right p-3 rounded-tr">المنتج</th>
                   <th className="text-center p-3">الكمية</th>
                   <th className="text-center p-3">السعر</th>
@@ -149,7 +149,7 @@ export default function InvoicePage({ params }: { params: { id: string } }) {
                 {invoiceData.items.map((item, index) => (
                   <tr key={index} className="border-b border-gray-200">
                     <td className="p-3">
-                      <div className="font-medium text-[var(--primary)]">{item.name}</div>
+                      <div className="font-medium text-primary">{item.name}</div>
                     </td>
                     <td className="p-3 text-center">{item.quantity}</td>
                     <td className="p-3 text-center">ريال {item.price.toFixed(2)}</td>
@@ -176,10 +176,10 @@ export default function InvoicePage({ params }: { params: { id: string } }) {
                   <span className="text-gray-600">ضريبة القيمة المضافة (15%):</span>
                   <span>ريال {invoiceData.tax.toFixed(2)}</span>
                 </div>
-                <div className="border-t-2 border-[var(--primary)] pt-2">
+                <div className="border-t-2 border-primary pt-2">
                   <div className="flex justify-between py-2">
-                    <span className="text-xl font-bold text-[var(--primary)]">المجموع الكلي:</span>
-                    <span className="text-xl font-bold text-[var(--primary)]">ريال {invoiceData.total.toFixed(2)}</span>
+                    <span className="text-xl font-bold text-primary">المجموع الكلي:</span>
+                    <span className="text-xl font-bold text-primary">ريال {invoiceData.total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>

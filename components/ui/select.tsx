@@ -15,9 +15,10 @@ interface SelectProps {
   placeholder?: string
   className?: string
   size?: "sm" | "md" | "lg"
+  disabled?: boolean
 }
 
-export default function Select({ options, value, onChange, placeholder = "اختر...", className = "", size = "sm" }: SelectProps) {
+export default function Select({ options, value, onChange, placeholder = "اختر...", className = "", size = "sm", disabled = false }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false)
   const selectRef = useRef<HTMLDivElement>(null)
 
@@ -43,17 +44,19 @@ export default function Select({ options, value, onChange, placeholder = "اخت
   return (
     <div className="relative" ref={selectRef}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`w-full border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-all duration-200 flex items-center justify-between text-right ${sizes[size]} ${className}`}
+        type="button"
+        onClick={disabled ? undefined : () => setIsOpen(!isOpen)}
+        disabled={disabled}
+        className={`w-full border border-gray-200 bg-white rounded focus:outline-none focus:ring focus:ring-primary focus:border-primary transition-all duration-200 flex items-center justify-between text-right ${sizes[size]} ${className} ${disabled ? "cursor-not-allowed opacity-50" : ""}`}
       >
-        <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+        <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
         <span className={selectedOption ? "text-gray-900" : "text-gray-500"}>
           {selectedOption ? selectedOption.label : placeholder}
         </span>
       </button>
 
       {isOpen && (
-        <div className="absolute top-full mt-1 w-full bg-white border border-gray-200 rounded-lg shadow z-50 max-h-60 overflow-y-auto">
+        <div className="absolute border border-gray-300 top-full mt-2 w-full bg-white rounded-lg z-50 max-h-60 overflow-y-auto custom-scroll">
           {options.map((option) => (
             <button
               key={option.value}
@@ -61,9 +64,10 @@ export default function Select({ options, value, onChange, placeholder = "اخت
                 onChange(option.value)
                 setIsOpen(false)
               }}
-              className="w-full px-4 py-3 text-right hover:bg-gray-50 transition-colors flex items-center justify-between"
+              disabled={disabled}
+              className="w-full px-4 py-2 text-right hover:bg-gray-50 transition-colors flex items-center gap-2"
             >
-              {option.value === value && <Check className="w-4 h-4 text-[var(--accent)]" />}
+              {option.value === value && <Check className="w-4 h-4 text-accent" />}
               <span>{option.label}</span>
             </button>
           ))}
@@ -72,3 +76,4 @@ export default function Select({ options, value, onChange, placeholder = "اخت
     </div>
   )
 }
+

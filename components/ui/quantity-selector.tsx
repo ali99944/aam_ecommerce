@@ -38,37 +38,25 @@ export default function QuantitySelector({
     }
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = Number.parseInt(e.target.value) || min
-    if (newValue >= min && newValue <= max) {
-      setQuantity(newValue)
-      onChange?.(newValue)
-    }
-  }
 
   return (
-    <div className={`flex items-center bg-white border border-gray-200 rounded-lg overflow-hidden ${className}`}>
+    <div className={`flex items-center bg-white  rounded-lg overflow-hidden ${className}`}>
       <button
         onClick={handleDecrease}
         disabled={quantity <= min}
-        className="w-10 h-10 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors bg-white"
+        className="w-8 h-8 rounded-2xl cursor-pointer text-white bg-primary flex items-center justify-center  disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
         <Minus className="w-4 h-4" />
       </button>
 
-      <input
-        type="number"
-        value={quantity}
-        onChange={handleInputChange}
-        min={min}
-        max={max}
-        className="w-16 h-10 text-center border-0 focus:outline-none focus:ring-0 bg-white"
-      />
+      <span className="w-16 h-10 flex items-center justify-center bg-white">
+        {quantity}
+      </span>
 
       <button
         onClick={handleIncrease}
         disabled={quantity >= max}
-        className="w-10 h-10 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors bg-white"
+        className="w-8 h-8 rounded-2xl cursor-pointer text-white bg-primary flex items-center justify-center  disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
         <Plus className="w-4 h-4" />
       </button>

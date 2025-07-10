@@ -1,9 +1,14 @@
 import type React from "react"
 import type { Metadata } from "next"
 import "./globals.css"
-export const metadata: Metadata = {
-  title: "محلاتنا - أفضل متجر إلكتروني",
-  description: "تسوق أحدث الأجهزة الإلكترونية والتقنية من محلاتنا",
+import { AppProviders } from "@/src/providers/app-providers"
+import { constructMetadata } from "@/lib/seo_fetcher"
+import { ReduxProvider } from "@/src/providers/redux-provider"
+
+
+export async function generateMetadata(): Promise<Metadata> {
+    const metadata = await constructMetadata('home')
+    return metadata
 }
 
 export default function RootLayout({
@@ -14,7 +19,11 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <body className="font-arabic antialiased">
-        {children}
+        <ReduxProvider>
+          <AppProviders>
+            {children}
+          </AppProviders>
+        </ReduxProvider>
       </body>
     </html>
   )

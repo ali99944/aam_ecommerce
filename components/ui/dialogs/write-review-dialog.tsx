@@ -1,54 +1,63 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
-import { Star, X } from 'lucide-react'
-import Button from "@/components/ui/button"
-import Input from "@/components/ui/input"
-import Textarea from "@/components/ui/textarea"
-import Dialog from "../dialog"
+import { Star, X } from "lucide-react"
+import Button from "../button"
 
 interface WriteReviewDialogProps {
   isOpen: boolean
   onClose: () => void
-  onSubmit: (review: { rating: number; comment: string; userName: string }) => void
+  onSubmit: (review: { rating: number; comment: string }) => void
+  loading?: boolean
 }
 
-export default function WriteReviewDialog({ isOpen, onClose, onSubmit }: WriteReviewDialogProps) {
+export default function WriteReviewDialog({ isOpen, onClose, onSubmit, loading = false }: WriteReviewDialogProps) {
   const [rating, setRating] = useState(0)
   const [hoveredRating, setHoveredRating] = useState(0)
   const [comment, setComment] = useState("")
-  const [userName, setUserName] = useState("")
-
-  if (!isOpen) return null
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (rating > 0 && comment.trim() && userName.trim()) {
-      onSubmit({ rating, comment: comment.trim(), userName: userName.trim() })
-      setRating(0)
-      setComment("")
-      setUserName("")
-      onClose()
-    }
+    if (rating === 0) return
+
+    onSubmit({ rating, comment })
+
+    // Reset form
+    setRating(0)
+    setHoveredRating(0)
+    setComment("")
   }
 
+  const handleClose = () => {
+    setRating(0)
+    setHoveredRating(0)
+    setComment("")
+    onClose()
+  }
+
+  if (!isOpen) return null
+
   return (
-    <Dialog isOpen={isOpen} onClose={onClose}>
-        <div>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" dir="rtl">
+      <div className="bg-white rounded-xl max-w-md w-full p-6">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold text-[var(--primary)]">نشر تقييمك</h3>
+          <h3 className="text-xl font-bold text-primary">اكتب تقييمك</h3>
           <button
-            onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+            onClick={handleClose}
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            disabled={loading}
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Rating */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">التقييم</label>
-            <div className="flex items-center gap-1">
+            <label className="block text-sm font-medium text-gray-700 mb-3">التقييم *</label>
+            <div className="flex gap-1">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
                   key={star}
@@ -56,52 +65,66 @@ export default function WriteReviewDialog({ isOpen, onClose, onSubmit }: WriteRe
                   onClick={() => setRating(star)}
                   onMouseEnter={() => setHoveredRating(star)}
                   onMouseLeave={() => setHoveredRating(0)}
-                  className="p-1"
+                  className="p-1 transition-transform hover:scale-110"
+                  disabled={loading}
                 >
                   <Star
-                    className={`w-6 h-6 transition-colors ${
-                      star <= (hoveredRating || rating)
-                        ? "text-yellow-400 fill-yellow-400"
-                        : "text-gray-300"
+                    className={`w-8 h-8 ${
+                      star <= (hoveredRating || rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
                     }`}
                   />
                 </button>
               ))}
             </div>
+            {rating > 0 && (
+              <p className="text-sm text-gray-600 mt-2">
+                {rating === 1 && "سيء جداً"}
+                {rating === 2 && "سيء"}
+                {rating === 3 && "متوسط"}
+                {rating === 4 && "جيد"}
+                {rating === 5 && "ممتاز"}
+              </p>
+            )}
           </div>
 
+          {/* Comment */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">الاسم</label>
-            <Input
-              type="text"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-              placeholder="أدخل اسمك"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">التعليق</label>
-            <Textarea
+            <label className="block text-sm font-medium text-gray-700 mb-2">التعليق</label>
+            <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              placeholder="اكتب تقييمك هنا..."
+              placeholder="شاركنا رأيك في المنتج..."
               rows={4}
-              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+              disabled={loading}
             />
           </div>
 
-          <div className="flex gap-3 pt-4">
-            <Button type="submit" variant="primary" size="sm" className="flex-1">
-              نشر التقييم
-            </Button>
-            <Button type="button" variant="secondary" size="sm" onClick={onClose}>
+          {/* Actions */}
+          <div className="flex gap-3">
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              onClick={handleClose}
+              disabled={loading}
+              className="flex-1"
+            >
               إلغاء
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              size="sm"
+              disabled={rating === 0 || loading}
+              loading={loading}
+              className="flex-1"
+            >
+              نشر التقييم
             </Button>
           </div>
         </form>
       </div>
-    </Dialog>
+    </div>
   )
 }

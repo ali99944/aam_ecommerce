@@ -23,12 +23,12 @@ export default function PaymentMethods() {
 
   return (
     <div className="bg-white rounded-xl p-4 border border-gray-100 mb-4">
-      <h3 className="text-lg font-bold text-[var(--primary)] mb-4">طرق الدفع المتاحة</h3>
+      <h3 className="text-lg font-bold text-primary mb-4">طرق الدفع المتاحة</h3>
       
       <div className="grid grid-cols-3 gap-4">
         {paymentMethods.map((method, index) => (
           <div key={index} className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
-            <div className="w-10 h-10 bg-[var(--primary)] rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
               <method.icon className="w-5 h-5 text-white" />
             </div>
             <div>

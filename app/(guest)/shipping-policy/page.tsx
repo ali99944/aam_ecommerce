@@ -1,8 +1,8 @@
 "use client"
 
 import { Truck, Package, MapPin, Clock, Shield, AlertTriangle, Calculator } from "lucide-react"
-import Navbar from "@/components/header"
-import Footer from "@/components/custom/footer"
+import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
 import Breadcrumb from "@/components/ui/breadcrumb"
 import Collapsible from "@/components/ui/collabsible"
 import Select from "@/components/ui/select"
@@ -115,7 +115,7 @@ export default function ShippingPolicyPage() {
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header Section */}
-        <div className="relative overflow-hidden rounded-xl mb-12 bg-[var(--primary)]">
+        <div className="relative overflow-hidden rounded-xl mb-12 bg-primary">
           <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 p-8 lg:p-12">
             {/* Left Content */}
             <div className="text-white">
@@ -139,7 +139,7 @@ export default function ShippingPolicyPage() {
 
         {/* Processing Times */}
         <div className="mb-12">
-          <h2 className="text-2xl font-bold text-[var(--primary)] mb-8">أوقات المعالجة</h2>
+          <h2 className="text-2xl font-bold text-primary mb-8">أوقات المعالجة</h2>
           <div className="bg-white rounded-xl p-8 border border-gray-100">
             <p className="text-gray-600 mb-6">
               أوقات المعالجة تختلف حسب نوع المنتج وتوفره في المخزون. جميع الأوقات المذكورة هي أيام عمل (السبت إلى
@@ -149,13 +149,13 @@ export default function ShippingPolicyPage() {
               {processingTimes.map((item, index) => (
                 <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                   <div>
-                    <h3 className="font-bold text-[var(--primary)]">{item.category}</h3>
+                    <h3 className="font-bold text-primary">{item.category}</h3>
                     <p className="text-sm text-gray-600">{item.availability}</p>
                   </div>
                   <div className="text-left">
                     <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-[var(--accent)]" />
-                      <span className="font-medium text-[var(--accent)]">{item.time}</span>
+                      <Clock className="w-4 h-4 text-accent" />
+                      <span className="font-medium text-accent">{item.time}</span>
                     </div>
                   </div>
                 </div>
@@ -166,7 +166,7 @@ export default function ShippingPolicyPage() {
 
         {/* Shipping Zones */}
         <div className="mb-12">
-          <h2 className="text-2xl font-bold text-[var(--primary)] mb-8">مناطق الشحن</h2>
+          <h2 className="text-2xl font-bold text-primary mb-8">مناطق الشحن</h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             {shippingZones.map((zone, index) => (
               <div
@@ -174,8 +174,8 @@ export default function ShippingPolicyPage() {
                 className="bg-white rounded-xl p-4 border border-gray-100 "
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <MapPin className="w-6 h-6 text-[var(--primary)]" />
-                  <h3 className="text-lg font-bold text-[var(--primary)]">{zone.zone}</h3>
+                  <MapPin className="w-6 h-6 text-primary" />
+                  <h3 className="text-lg font-bold text-primary">{zone.zone}</h3>
                 </div>
                 <div className="space-y-3 mb-4">
                   <div>
@@ -185,11 +185,11 @@ export default function ShippingPolicyPage() {
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <span className="text-gray-500">الشحن العادي:</span>
-                      <p className="font-medium text-[var(--primary)]">{zone.standardTime}</p>
+                      <p className="font-medium text-primary">{zone.standardTime}</p>
                     </div>
                     <div>
                       <span className="text-gray-500">الشحن السريع:</span>
-                      <p className="font-medium text-[var(--accent)]">{zone.expressTime}</p>
+                      <p className="font-medium text-accent">{zone.expressTime}</p>
                     </div>
                   </div>
                 </div>
@@ -203,7 +203,7 @@ export default function ShippingPolicyPage() {
 
         {/* Special Handling */}
         <div className="mb-12">
-          <h2 className="text-2xl font-bold text-[var(--primary)] mb-8">المعالجة الخاصة</h2>
+          <h2 className="text-2xl font-bold text-primary mb-8">المعالجة الخاصة</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {specialHandling.map((item, index) => (
               <div
@@ -211,20 +211,20 @@ export default function ShippingPolicyPage() {
                 className="bg-white rounded-xl p-4 border border-gray-100 "
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-[var(--primary)]/10 rounded-lg flex items-center justify-center">
-                    <item.icon className="w-6 h-6 text-[var(--primary)]" />
+                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <item.icon className="w-6 h-6 text-primary" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-bold text-[var(--primary)] mb-2">{item.category}</h3>
+                    <h3 className="text-lg font-bold text-primary mb-2">{item.category}</h3>
                     <p className="text-gray-600 text-sm mb-3">{item.description}</p>
                     <div className="space-y-2">
                       <div className="flex justify-between">
                         <span className="text-gray-500 text-sm">نوع المعالجة:</span>
-                        <span className="text-[var(--primary)] text-sm font-medium">{item.handling}</span>
+                        <span className="text-primary text-sm font-medium">{item.handling}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-500 text-sm">التكلفة الإضافية:</span>
-                        <span className="text-[var(--accent)] text-sm font-medium">{item.additionalCost}</span>
+                        <span className="text-accent text-sm font-medium">{item.additionalCost}</span>
                       </div>
                     </div>
                   </div>
@@ -236,14 +236,14 @@ export default function ShippingPolicyPage() {
 
         {/* Insurance and Liability */}
         <div className="mb-12">
-          <h2 className="text-2xl font-bold text-[var(--primary)] mb-8">التأمين والمسؤولية</h2>
+          <h2 className="text-2xl font-bold text-primary mb-8">التأمين والمسؤولية</h2>
           <div className="bg-white rounded-xl p-8 border border-gray-100">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
                 <div className="flex items-start gap-4 mb-6">
                   <Shield className="w-6 h-6 text-green-600 mt-1" />
                   <div>
-                    <h3 className="text-lg font-bold text-[var(--primary)] mb-2">التأمين الشامل</h3>
+                    <h3 className="text-lg font-bold text-primary mb-2">التأمين الشامل</h3>
                     <p className="text-gray-600 text-sm leading-relaxed">
                       جميع الشحنات مؤمنة ضد التلف والفقدان بقيمة كاملة. التأمين يشمل الأدوات الكهربائية، المعدات
                       الثقيلة، والمواد الحساسة.
@@ -260,7 +260,7 @@ export default function ShippingPolicyPage() {
                 <div className="flex items-start gap-4 mb-6">
                   <AlertTriangle className="w-6 h-6 text-yellow-600 mt-1" />
                   <div>
-                    <h3 className="text-lg font-bold text-[var(--primary)] mb-2">المسؤولية والاستثناءات</h3>
+                    <h3 className="text-lg font-bold text-primary mb-2">المسؤولية والاستثناءات</h3>
                     <p className="text-gray-600 text-sm leading-relaxed">
                       نتحمل المسؤولية الكاملة عن سلامة البضاعة حتى التسليم. هناك استثناءات محدودة للظروف القاهرة.
                     </p>
@@ -278,12 +278,12 @@ export default function ShippingPolicyPage() {
 
         {/* Shipping Calculator */}
         <div className="mb-12">
-          <h2 className="text-2xl font-bold text-[var(--primary)] mb-8">حاسبة الشحن</h2>
+          <h2 className="text-2xl font-bold text-primary mb-8">حاسبة الشحن</h2>
           <div className="bg-white rounded-xl p-8 border border-gray-100">
             <div className="flex items-start gap-4 mb-6">
-              <Calculator className="w-6 h-6 text-[var(--primary)] mt-1" />
+              <Calculator className="w-6 h-6 text-primary mt-1" />
               <div>
-                <h3 className="text-lg font-bold text-[var(--primary)] mb-2">احسب تكلفة الشحن</h3>
+                <h3 className="text-lg font-bold text-primary mb-2">احسب تكلفة الشحن</h3>
                 <p className="text-gray-600 mb-4">
                   استخدم حاسبة الشحن لمعرفة التكلفة الدقيقة والوقت المتوقع للتوصيل بناءً على موقعك ونوع المنتجات.
                 </p>
@@ -308,11 +308,11 @@ export default function ShippingPolicyPage() {
                 <input
                   type="number"
                   placeholder="0"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
               <div className="flex items-end">
-                <button className="w-full bg-[var(--primary)] text-white px-4 py-2 rounded-lg hover:bg-[var(--primary)]/90 transition-colors">
+                <button className="w-full bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
                   احسب التكلفة
                 </button>
               </div>
@@ -322,7 +322,7 @@ export default function ShippingPolicyPage() {
 
         {/* FAQs */}
         <div className="mb-12">
-          <h2 className="text-2xl font-bold text-[var(--primary)] mb-8">الأسئلة الشائعة</h2>
+          <h2 className="text-2xl font-bold text-primary mb-8">الأسئلة الشائعة</h2>
           <div className="space-y-4">
             {shippingFaqs.map((faq, index) => (
               <Collapsible key={index} title={faq.question}>
@@ -333,11 +333,11 @@ export default function ShippingPolicyPage() {
         </div>
 
         {/* Contact Support */}
-        <div className="bg-[var(--primary)] rounded-xl p-8 text-white text-center">
+        <div className="bg-primary rounded-xl p-8 text-white text-center">
           <h3 className="text-2xl font-bold mb-4">هل تحتاج مساعدة في الشحن؟</h3>
           <p className="text-white/90 mb-6">فريق خدمة العملاء متاح لمساعدتك في جميع استفسارات الشحن والتوصيل</p>
           <div className="flex gap-4 justify-center">
-            <button className="bg-white text-[var(--primary)] px-6 py-2 rounded-lg font-medium hover:bg-white/90 transition-colors">
+            <button className="bg-white text-primary px-6 py-2 rounded-lg font-medium hover:bg-white/90 transition-colors">
               تواصل معنا
             </button>
             <button className="bg-white/20 text-white px-6 py-2 rounded-lg font-medium hover:bg-white/30 transition-colors">

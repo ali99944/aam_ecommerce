@@ -1,11 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import { Heart, Share2, ShoppingCart, Star, Truck, Shield, RotateCcw, CheckCircle, MessageSquare } from "lucide-react"
-import Navbar from "@/components/header"
-import Footer from "@/components/custom/footer"
+import { useParams } from "next/navigation"
+import { Heart, Share2, ShoppingCart, Star, MessageSquare, Eye, Users, Package, Shield } from "lucide-react"
+import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
 import Button from "@/components/ui/button"
-import Select from "@/components/ui/select"
 import Tabs from "@/components/ui/tabs"
 import ImageGallery from "@/components/ui/image-gallery"
 import QuantitySelector from "@/components/ui/quantity-selector"
@@ -14,141 +14,151 @@ import ProductCard from "@/components/custom/product-card"
 import Breadcrumb from "@/components/ui/breadcrumb"
 import PaymentMethods from "@/components/ui/payment-methods"
 import WriteReviewDialog from "@/components/ui/dialogs/write-review-dialog"
+import { useGetQuery, useMutationAction } from "@/src/hooks/queries-actions"
+import { useNotifications } from "@/src/hooks/use-notification"
+import { useCart } from "@/src/redux/hooks-operations/use-cart"
 
-// Mock product data
-const mockProduct = {
-  id: 1,
-  name: "سماعات أبل إيربودز برو 3 مع علبة الشحن اللاسلكية",
-  category: "سماعات",
-  brand: "أبل",
-  images: [
-    "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=500&h=500&fit=crop",
-    "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=500&h=500&fit=crop",
-    "https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?w=500&h=500&fit=crop",
-    "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=500&h=500&fit=crop",
-    "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=500&h=500&fit=crop",
-    "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=500&h=500&fit=crop",
-  ],
-  price: 850.0,
-  originalPrice: 1200.0,
-  discount: 29,
-  rating: 4.7,
-  reviewCount: 324,
-  inStock: true,
-  stockCount: 15,
-  description:
-    "سماعات أبل إيربودز برو الجيل الثالث مع تقنية إلغاء الضوضاء النشطة وجودة صوت استثنائية. تأتي مع علبة شحن لاسلكية توفر حتى 30 ساعة من الاستماع.",
-  features: [
-    "تقنية إلغاء الضوضاء النشطة",
-    "مقاومة للماء والعرق (IPX4)",
-    "شحن لاسلكي سريع",
-    "عمر بطارية يصل إلى 6 ساعات",
-    "تحكم باللمس",
-    "متوافق مع Siri",
-  ],
-  specifications: {
-    النوع: "سماعات لاسلكية",
-    التوصيل: "Bluetooth 5.3",
-    "عمر البطارية": "6 ساعات + 24 ساعة مع العلبة",
-    "مقاومة الماء": "IPX4",
-    الوزن: "5.4 جرام لكل سماعة",
-    "الألوان المتاحة": "أبيض",
-  },
+
+// Types
+interface Product {
+  id: number
+  name: string
+  description: string
+  main_image: string
+  cost_price: string
+  sell_price: string
+  total_views: number
+  favorites_views: number
+  stock: number
+  lower_stock_warn: number
+  favorites_count: number
+  sku_code: string
+  barcode: string | null
+  overall_rating: string
+  total_rating: number
+  sub_category_id: number
+  brand_id: number
+  discount_id: number | null
+  status: string
+  is_public: boolean
+  is_featured: boolean
+  created_at: string
+  updated_at: string
+  brand: {
+    id: number
+    name: string
+    image: string
+    total_products: number
+  }
+  sub_category: {
+    id: number
+    category_id: number
+    name: string
+    description: string
+    category: {
+      id: number
+      name: string
+      description: string
+      slug: string
+    }
+  }
+  discount: any[]
+  images: string[]
+  specs: Array<{
+    id: number
+    name: string
+    value: string
+  }>
+  addons: any[]
+  feedbacks: Feedback[]
 }
 
-const mockReviews = [
-  {
-    id: 1,
-    userName: "أحمد محمد",
-    rating: 5,
-    date: "منذ أسبوع",
-    comment: "سماعات ممتازة جداً، جودة الصوت رائعة وتقنية إلغاء الضوضاء تعمل بشكل مثالي. أنصح بها بشدة.",
-    helpful: 12,
-    verified: true,
-  },
-  {
-    id: 2,
-    userName: "فاطمة علي",
-    rating: 4,
-    date: "منذ أسبوعين",
-    comment: "سماعات جيدة جداً، الصوت واضح والبطارية تدوم طويلاً. الوحيد العيب أن السعر مرتفع قليلاً.",
-    helpful: 8,
-    verified: true,
-  },
-  {
-    id: 3,
-    userName: "محمد السعيد",
-    rating: 5,
-    date: "منذ شهر",
-    comment: "أفضل سماعات استخدمتها على الإطلاق. التوصيل سريع والجودة عالية جداً.",
-    helpful: 15,
-    verified: false,
-  },
-]
+interface Feedback {
+  id: number
+  customer_id: number
+  rating: number
+  comment: string
+  created_at: string
+  customer: {
+    id: number
+    first_name: string
+    last_name: string
+  }
+}
 
-const relatedProducts = [
-  {
-    id: 2,
-    name: "سماعات سوني WH-1000XM4",
-    category: "سماعات",
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=200&fit=crop",
-    price: 1200.0,
-    originalPrice: 1500.0,
-    discount: 20,
-    badge: "خصم 20%",
-    rating: 4.6,
-    reviewCount: 89,
-  },
-  {
-    id: 3,
-    name: "سماعات بوز QuietComfort",
-    category: "سماعات",
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=200&fit=crop",
-    price: 950.0,
-    originalPrice: 1100.0,
-    discount: 14,
-    badge: "خصم 14%",
-    rating: 4.4,
-    reviewCount: 156,
-  },
-  {
-    id: 4,
-    name: "سماعات JBL Live 650BTNC",
-    category: "سماعات",
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=200&fit=crop",
-    price: 450.0,
-    badge: "جديد",
-    rating: 4.2,
-    reviewCount: 67,
-  },
-  {
-    id: 5,
-    name: "سماعات Beats Studio3",
-    category: "سماعات",
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=200&fit=crop",
-    price: 800.0,
-    originalPrice: 950.0,
-    discount: 16,
-    badge: "خصم 16%",
-    rating: 4.3,
-    reviewCount: 234,
-  },
-]
-
-const colorOptions = [
-  { value: "white", label: "أبيض", color: "#FFFFFF" },
-  { value: "black", label: "أسود", color: "#000000" },
-]
+interface RelatedProduct {
+  id: number
+  name: string
+  main_image: string
+  sell_price: string
+  overall_rating: string
+  total_rating: number
+  brand: {
+    name: string
+  }
+}
 
 export default function ProductDetailsPage() {
-  const [selectedColor, setSelectedColor] = useState("white")
+  const params = useParams()
+  const productId = params.id as string
+
   const [quantity, setQuantity] = useState(1)
   const [isWishlisted, setIsWishlisted] = useState(false)
   const [isWriteReviewOpen, setIsWriteReviewOpen] = useState(false)
-  const [reviews, setReviews] = useState(mockReviews)
   const [reviewsPage, setReviewsPage] = useState(1)
-  const reviewsPerPage = 3
   const [activeTab, setActiveTab] = useState("description")
+
+  const { addToCart, loading: cartLoading } = useCart()
+  const { notify } = useNotifications()
+
+  // Fetch product details
+  const {
+    data: product,
+    isLoading: productLoading,
+    error: productError,
+    refetch: refetchProduct,
+  } = useGetQuery<Product>({
+    key: ["product", productId],
+    url: `products/${productId}`,
+  })
+
+  // Fetch related products
+  const { data: relatedProducts, isLoading: relatedLoading } = useGetQuery<RelatedProduct[]>({
+    key: ["related-products", productId],
+    url: `products/${productId}/related`,
+    options: {
+      enabled: !!productId,
+    },
+  })
+
+  // Create feedback mutation
+  const createFeedbackMutation = useMutationAction({
+    method: "post",
+    url: `products/${productId}/feedbacks`,
+    onSuccessCallback: () => {
+      notify.success("تم إضافة تقييمك بنجاح")
+      setIsWriteReviewOpen(false)
+      refetchProduct()
+    },
+    onErrorCallback: (error: any) => {
+      notify.error(error.response?.data?.message || "حدث خطأ أثناء إضافة التقييم")
+    },
+  })
+
+  // Add to wishlist mutation
+  const toggleWishlistMutation = useMutationAction({
+    method: isWishlisted ? "delete" : "post",
+    url: isWishlisted ? `wishlist/${productId}` : "wishlist",
+    onSuccessCallback: () => {
+      setIsWishlisted(!isWishlisted)
+      notify.success(isWishlisted ? "تم إزالة المنتج من المفضلة" : "تم إضافة المنتج للمفضلة")
+    },
+    onErrorCallback: (error: any) => {
+      notify.error(error.response?.data?.message || "حدث خطأ")
+    },
+  })
+
+  const reviewsPerPage = 5
 
   const renderStars = (rating: number) => {
     return (
@@ -160,13 +170,91 @@ export default function ProductDetailsPage() {
     )
   }
 
-  const handleAddToCart = () => {
-    console.log("Added to cart:", { product: mockProduct, quantity, color: selectedColor })
+  const handleAddToCart = async () => {
+    if (!product) return
+    try {
+      await addToCart(product.id, quantity)
+    } catch (error) {
+      // Error handled by useCart hook
+    }
   }
 
   const handleToggleWishlist = () => {
-    setIsWishlisted(!isWishlisted)
+    if (!product) return
+    toggleWishlistMutation.mutate(isWishlisted ? {} : { product_id: product.id })
   }
+
+  const handleShareProduct = () => {
+    if (navigator.share && product) {
+      navigator.share({
+        title: product.name,
+        text: product.description,
+        url: window.location.href,
+      })
+    } else {
+      navigator.clipboard.writeText(window.location.href)
+      notify.success("تم نسخ رابط المنتج")
+    }
+  }
+
+  const handleSubmitReview = (reviewData: { rating: number; comment: string }) => {
+    createFeedbackMutation.mutate(reviewData)
+  }
+
+  if (productLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="animate-pulse">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="aspect-square bg-gray-200 rounded-xl"></div>
+              <div className="space-y-4">
+                <div className="h-8 bg-gray-200 rounded w-3/4"></div>
+                <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                <div className="h-6 bg-gray-200 rounded w-1/4"></div>
+                <div className="h-12 bg-gray-200 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    )
+  }
+
+  if (productError || !product) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="text-center py-16">
+            <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">المنتج غير موجود</h1>
+            <p className="text-gray-600 mb-6">عذراً، لم نتمكن من العثور على المنتج المطلوب</p>
+            <Button variant="primary" size="sm">
+              العودة للمنتجات
+            </Button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    )
+  }
+
+  // Prepare images for gallery
+  // const galleryImages = product.images.length > 0 ? product.images : [product.main_image]
+  const galleryImages = product.images.length > 0 ? product.images : [product.main_image]
+
+  // Calculate discount percentage
+  const discountPercentage =
+    product.discount?.length > 0
+      ? Math.round(
+          ((Number.parseFloat(product.cost_price) - Number.parseFloat(product.sell_price)) /
+            Number.parseFloat(product.cost_price)) *
+            100,
+        )
+      : 0
 
   const tabs = [
     {
@@ -175,90 +263,160 @@ export default function ProductDetailsPage() {
       content: (
         <div className="space-y-6">
           <div>
-            <h3 className="text-lg font-bold text-[var(--primary)] mb-4">وصف المنتج</h3>
-            <p className="text-gray-700 leading-relaxed">{mockProduct.description}</p>
+            <h3 className="text-lg font-bold text-primary mb-4">وصف المنتج</h3>
+            <p className="text-gray-700 leading-relaxed">{product.description}</p>
           </div>
 
-          <div>
-            <h3 className="text-lg font-bold text-[var(--primary)] mb-4">المميزات</h3>
-            <ul className="space-y-2">
-              {mockProduct.features.map((feature, index) => (
-                <li key={index} className="flex items-center gap-3 text-gray-700">
-                  <div className="w-2 h-2 bg-[var(--accent)] rounded-full"></div>
-                  {feature}
-                </li>
-              ))}
-            </ul>
+          {product.specs.length > 0 && (
+            <div>
+              <h3 className="text-lg font-bold text-primary mb-4">المواصفات</h3>
+              <div className="space-y-3">
+                {product.specs.map((spec) => (
+                  <div key={spec.id} className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="font-medium text-gray-900">{spec.name}</span>
+                    <span className="text-gray-700">{spec.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
+            <div className="text-center">
+              <Eye className="w-6 h-6 text-primary mx-auto mb-2" />
+              <div className="text-lg font-bold text-primary">{product.total_views}</div>
+              <div className="text-sm text-gray-600">مشاهدة</div>
+            </div>
+            <div className="text-center">
+              <Heart className="w-6 h-6 text-red-500 mx-auto mb-2" />
+              <div className="text-lg font-bold text-primary">{product.favorites_count}</div>
+              <div className="text-sm text-gray-600">إعجاب</div>
+            </div>
+            <div className="text-center">
+              <Star className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
+              <div className="text-lg font-bold text-primary">
+                {Number.parseFloat(product.overall_rating).toFixed(1)}
+              </div>
+              <div className="text-sm text-gray-600">التقييم</div>
+            </div>
+            <div className="text-center">
+              <Package className="w-6 h-6 text-green-500 mx-auto mb-2" />
+              <div className="text-lg font-bold text-primary">{product.stock}</div>
+              <div className="text-sm text-gray-600">متوفر</div>
+            </div>
           </div>
         </div>
       ),
     },
     {
       id: "specifications",
-      label: "المواصفات",
+      label: "التفاصيل",
       content: (
-        <div>
-          <h3 className="text-lg font-bold text-[var(--primary)] mb-4">المواصفات التقنية</h3>
-          <div className="space-y-4">
-            {Object.entries(mockProduct.specifications).map(([key, value]) => (
-              <div key={key} className="flex justify-between items-center py-3 border-b border-gray-100">
-                <span className="font-semibold text-gray-900">{key}</span>
-                <span className="text-gray-700">{value}</span>
+        <div className="space-y-6">
+          <div>
+            <h3 className="text-lg font-bold text-primary mb-4">معلومات المنتج</h3>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                <span className="font-semibold text-gray-900">رمز المنتج</span>
+                <span className="text-gray-700 font-mono">{product.sku_code}</span>
               </div>
-            ))}
+              <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                <span className="font-semibold text-gray-900">العلامة التجارية</span>
+                <span className="text-gray-700">{product.brand.name}</span>
+              </div>
+              <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                <span className="font-semibold text-gray-900">الفئة</span>
+                <span className="text-gray-700">
+                  {product.sub_category.category.name} - {product.sub_category.name}
+                </span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-900">الكمية المتاحة</span>
+                <span className="text-gray-700">{product.stock} قطعة</span>
+              </div>
+              {product.barcode && (
+                <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                  <span className="font-semibold text-gray-900">الباركود</span>
+                  <span className="text-gray-700 font-mono">{product.barcode}</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       ),
     },
     {
       id: "reviews",
-      label: `التقييمات (${reviews.length})`,
+      label: `التقييمات (${(product.feedbacks ?? []).length})`,
       content: (
         <div className="space-y-6">
-          <div className="bg-gray-50 rounded-xl p-6">
+          <div className="bg-gray-50 rounded-xl p-4">
             <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-4">
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-[var(--primary)]">{mockProduct.rating}</div>
-                  <div className="flex items-center justify-center mt-1">
-                    {renderStars(Math.floor(mockProduct.rating))}
+                  <div className="text-4xl font-bold text-primary">
+                    {Number.parseFloat(product.overall_rating).toFixed(1)}
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">{reviews.length} تقييم على المنتج</div>
+                  <div className="flex items-center justify-center mt-1">
+                    {renderStars(Math.floor(Number.parseFloat(product.overall_rating)))}
+                  </div>
+                  <div className="text-sm text-gray-600 mt-1">{product.total_rating} تقييم</div>
                 </div>
-
                 <div className="flex-1 space-y-2">
-                  {[5, 4, 3, 2, 1].map((stars) => (
-                    <div key={stars} className="flex items-center gap-3">
-                      <span className="text-sm w-8">{stars}</span>
-                      <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                      <div className="flex-1 bg-gray-200 rounded-full h-2">
-                        <div
-                          className="bg-yellow-400 h-2 rounded-full"
-                          style={{ width: `${Math.random() * 80 + 10}%` }}
-                        ></div>
+                  {[5, 4, 3, 2, 1].map((stars) => {
+                    const count = (product.feedbacks ?? []).filter((f) => f.rating === stars).length
+                    const percentage = (product.feedbacks ?? []).length > 0 ? (count / (product.feedbacks ?? []).length) * 100 : 0
+                    return (
+                      <div key={stars} className="flex items-center gap-3">
+                        <span className="text-sm w-8">{stars}</span>
+                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                        <div className="flex-1 bg-gray-200 rounded-full h-2">
+                          <div className="bg-yellow-400 h-2 rounded-full" style={{ width: `${percentage}%` }}></div>
+                        </div>
+                        <span className="text-sm text-gray-600 w-8">{count}</span>
                       </div>
-                      <span className="text-sm text-gray-600 w-8">{Math.floor(Math.random() * 50)}</span>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
               </div>
-
               <Button variant="primary" size="sm" icon={MessageSquare} onClick={() => setIsWriteReviewOpen(true)}>
-                نشر تقييمك
+                اكتب تقييمك
               </Button>
             </div>
           </div>
 
           <div className="space-y-4">
-            {reviews.slice(0, reviewsPage * reviewsPerPage).map((review) => (
-              <ReviewCard key={review.id} review={review} />
+            {(product.feedbacks ?? []).slice(0, reviewsPage * reviewsPerPage).map((feedback) => (
+              <ReviewCard
+                key={feedback.id}
+                review={{
+                  id: feedback.id,
+                  userName: `${feedback.customer.first_name} ${feedback.customer.last_name}`,
+                  rating: feedback.rating,
+                  date: new Date(feedback.created_at).toLocaleDateString("ar-SA"),
+                  comment: feedback.comment,
+                  helpful: 0,
+                  verified: true,
+                }}
+              />
             ))}
           </div>
 
-          {reviews.length > reviewsPage * reviewsPerPage && (
+          {(product.feedbacks ?? []).length > reviewsPage * reviewsPerPage && (
             <div className="flex justify-center">
               <Button variant="secondary" size="sm" onClick={() => setReviewsPage((prev) => prev + 1)}>
                 عرض المزيد
+              </Button>
+            </div>
+          )}
+
+          {(product.feedbacks ?? []).length === 0 && (
+            <div className="text-center py-8">
+              <MessageSquare className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">لا توجد تقييمات بعد</h3>
+              <p className="text-gray-600 mb-4">كن أول من يقيم هذا المنتج</p>
+              <Button variant="primary" size="sm" onClick={() => setIsWriteReviewOpen(true)}>
+                اكتب أول تقييم
               </Button>
             </div>
           )}
@@ -268,7 +426,7 @@ export default function ProductDetailsPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" dir="rtl">
       <Navbar />
 
       {/* Breadcrumb */}
@@ -277,91 +435,145 @@ export default function ProductDetailsPage() {
           items={[
             { label: "الرئيسية", href: "/" },
             { label: "المنتجات", href: "/products" },
-            { label: mockProduct.category, href: `/products?category=${mockProduct.category}` },
-            { label: mockProduct.name, href: "#" },
+            {
+              label: product.sub_category.category.name,
+              href: `/products?category=${product.sub_category.category.slug}`,
+            },
+            { label: product.sub_category.name, href: `/products?subcategory=${product.sub_category.id}` },
+            { label: product.name },
           ]}
           variant="light"
         />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-12">
           {/* Product Images */}
           <div>
-            <ImageGallery images={mockProduct.images} productName={mockProduct.name} discount={mockProduct.discount} />
+            <ImageGallery images={galleryImages} productName={product.name} discount={discountPercentage} />
           </div>
 
           {/* Product Info */}
-          <div className="space-y-6 ">
-            <div className="bg-white p-4 rounded-xl">
+          <div className="space-y-6">
+            {/* Basic Info */}
+            <div className="bg-white p-4 rounded-xl ">
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-sm text-gray-500">{mockProduct.brand}</span>
+                <span className="text-sm text-gray-500">{product.brand.name}</span>
                 <span className="text-sm text-gray-300">•</span>
-                <span className="text-sm text-gray-500">{mockProduct.category}</span>
+                <span className="text-sm text-gray-500">{product.sub_category.name}</span>
               </div>
-              <h1 className="text-xl lg:text-2xl font-bold text-[var(--primary)] mb-4">{mockProduct.name}</h1>
+              <h1 className="text-2xl lg:text-3xl font-bold text-primary mb-4">{product.name}</h1>
 
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 mb-4">
                 <div className="flex items-center gap-2">
-                  {renderStars(Math.floor(mockProduct.rating))}
-                  <span className="text-sm text-gray-600">({mockProduct.reviewCount} تقييم)</span>
+                  {renderStars(Math.floor(Number.parseFloat(product.overall_rating)))}
+                  <span className="text-sm text-gray-600">({product.total_rating} تقييم)</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <Eye className="w-4 h-4" />
+                  <span>{product.total_views} مشاهدة</span>
                 </div>
               </div>
-            </div>
 
+              {/* Price */}
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-3xl font-bold text-red-500">
+                  {Number.parseFloat(product.sell_price).toFixed(2)} ريال
+                </span>
+                {discountPercentage > 0 && (
+                  <>
+                    <span className="text-lg text-gray-400 line-through">
+                      {Number.parseFloat(product.cost_price).toFixed(2)} ريال
+                    </span>
+                    <span className="bg-red-100 text-red-800 text-sm font-bold px-2 py-1 rounded">
+                      خصم {discountPercentage}%
+                    </span>
+                  </>
+                )}
+              </div>
 
-            
+              {/* Stock Status */}
+              <div className="mb-4">
+                {product.stock > 0 ? (
+                  <div className="flex items-center gap-2 text-green-600">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span className="text-sm font-medium">متوفر في المخزون ({product.stock} قطعة)</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 text-red-600">
+                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                    <span className="text-sm font-medium">غير متوفر حالياً</span>
+                  </div>
+                )}
 
-            {/* Quantity and Add to Cart */}
-            <div className="space-y-4 bg-white p-4 rounded-xl">
-            <div className="flex gap-4 w-[60%]">
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-3">اللون</h3>
-              <Select
-                  options={colorOptions}
-                  value={selectedColor}
-                  onChange={setSelectedColor}
-                  placeholder="اختر اللون"
-                  className="w-full bg-white"
-                />
-            </div>
-              <div>
-                <h3 className="font-semibold text-gray-900 mb-3">الكمية</h3>
-                <QuantitySelector
-                  value={quantity}
-                  onChange={setQuantity}
-                  max={mockProduct.stockCount}
-                  className="bg-white h-10"
-                />
+                {product.stock <= product.lower_stock_warn && product.stock > 0 && (
+                  <p className="text-sm text-orange-600 mt-1">الكمية محدودة - اطلب الآن!</p>
+                )}
               </div>
             </div>
 
-              <div className="flex gap-4">
+            {/* Quantity and Actions */}
+            <div className="bg-white p-4 rounded-xl ">
+              <div className="flex gap-4 mb-6">
+                <div className="flex-1">
+                  <h3 className="font-semibold text-gray-900 mb-3">الكمية</h3>
+                  <QuantitySelector
+                    value={quantity}
+                    onChange={setQuantity}
+                    max={product.stock}
+                    className="bg-white h-12"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-3">
                 <Button
                   variant="primary"
                   size="sm"
                   icon={ShoppingCart}
                   onClick={handleAddToCart}
-                  disabled={!mockProduct.inStock}
-                  className="flex-1"
+                  disabled={product.stock === 0 || cartLoading}
+                  loading={cartLoading}
+                  className="w-full"
                 >
                   أضف إلى السلة
                 </Button>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  icon={Heart}
-                  onClick={handleToggleWishlist}
-                  className={isWishlisted ? "text-red-500 border-red-500" : ""}
-                >
-                  {isWishlisted ? "مضاف للمفضلة" : "أضف للمفضلة"}
-                </Button>
-                <Button variant="secondary" size="sm" icon={Share2}>
-                  مشاركة
-                </Button>
+
+                <div className="flex gap-3">
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    icon={Heart}
+                    onClick={handleToggleWishlist}
+                    loading={toggleWishlistMutation.isPending}
+                    className={`flex-1 ${isWishlisted ? "text-red-500 border-red-500" : ""}`}
+                  >
+                    {isWishlisted ? "مضاف للمفضلة" : "أضف للمفضلة"}
+                  </Button>
+                  <Button variant="secondary" size="sm" icon={Share2} onClick={handleShareProduct} className="flex-1">
+                    مشاركة
+                  </Button>
+                </div>
               </div>
             </div>
 
+            {/* Trust Badges */}
+            <div className="bg-white p-4 rounded-xl">
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div>
+                  <Shield className="w-6 h-6 text-primary mx-auto mb-2" />
+                  <p className="text-xs text-gray-600">ضمان الجودة</p>
+                </div>
+                <div>
+                  <Package className="w-6 h-6 text-primary mx-auto mb-2" />
+                  <p className="text-xs text-gray-600">شحن سريع</p>
+                </div>
+                <div>
+                  <Users className="w-6 h-6 text-primary mx-auto mb-2" />
+                  <p className="text-xs text-gray-600">دعم 24/7</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -374,35 +586,36 @@ export default function ProductDetailsPage() {
         <PaymentMethods />
 
         {/* Related Products */}
-        <div>
-          <h2 className="text-2xl font-bold text-[var(--primary)] mb-8">منتجات ذات صلة</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {relatedProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                showRating={true}
-                onAddToCart={(product) => console.log("Add to cart:", product)}
-                onToggleWishlist={(product) => console.log("Toggle wishlist:", product)}
-              />
-            ))}
+        {relatedProducts && relatedProducts.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-2xl font-bold text-primary mb-8">منتجات ذات صلة</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {relatedProducts.map((relatedProduct) => (
+                <ProductCard
+                  key={relatedProduct.id}
+                  product={{
+                    id: relatedProduct.id,
+                    name: relatedProduct.name,
+                    category: relatedProduct.brand.name,
+                    image: relatedProduct.main_image,
+                    image: relatedProduct.main_image,
+                    price: Number.parseFloat(relatedProduct.sell_price),
+                    rating: Number.parseFloat(relatedProduct.overall_rating),
+                    reviewCount: relatedProduct.total_rating,
+                  }}
+                  showRating={true}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Write Review Dialog */}
         <WriteReviewDialog
           isOpen={isWriteReviewOpen}
           onClose={() => setIsWriteReviewOpen(false)}
-          onSubmit={(newReview) => {
-            const review = {
-              ...newReview,
-              id: reviews.length + 1,
-              date: "الآن",
-              helpful: 0,
-              verified: false,
-            }
-            setReviews((prev) => [review, ...prev])
-          }}
+          onSubmit={handleSubmitReview}
+          loading={createFeedbackMutation.isPending}
         />
       </div>
 

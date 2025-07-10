@@ -20,11 +20,11 @@ export default function Collapsible({ title, children, defaultOpen = false, clas
         onClick={() => setIsOpen(!isOpen)}
         className="w-full p-3 text-right flex items-center justify-between hover:bg-gray-50 transition-colors group"
       >
-        <h3 className="font-semibold text-[var(--primary)] text-lg">{title}</h3>
+        <h3 className="font-semibold text-primary text-lg">{title}</h3>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="text-gray-400 group-hover:text-[var(--primary)] transition-colors"
+          className="text-gray-400 group-hover:text-primary transition-colors"
         >
           <ChevronDown className="w-5 h-5" />
         </motion.div>

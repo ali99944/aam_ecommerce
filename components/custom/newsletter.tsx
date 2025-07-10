@@ -16,7 +16,7 @@ export default function NewsletterSection() {
     e.preventDefault()
     if (email) {
       setIsSuccessOpen(true)
-      setEmail("")
+      setEmail(email)
     }
   }
 

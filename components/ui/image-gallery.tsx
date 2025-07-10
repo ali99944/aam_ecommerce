@@ -32,11 +32,11 @@ export default function ImageGallery({ images, productName, discount }: ImageGal
           />
           
           {/* Discount Overlay */}
-          {discount && (
+          {/* {discount && (
             <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold z-10">
               خصم {discount}%
             </div>
-          )}
+          )} */}
 
           {/* Navigation Arrows */}
           {images.length > 1 && (
@@ -67,7 +67,7 @@ export default function ImageGallery({ images, productName, discount }: ImageGal
               onClick={() => setSelectedImage(index)}
               className={`flex-shrink-0 w-20 h-20 rounded-lg border-2 overflow-hidden transition-all ${
                 selectedImage === index
-                  ? "border-[var(--primary)] "
+                  ? "border-primary "
                   : "border-gray-200 hover:border-gray-300"
               }`}
             >

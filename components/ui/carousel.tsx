@@ -1,141 +1,176 @@
 "use client"
 
 import type React from "react"
+import { useRef, useState } from "react"
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Navigation, Pagination } from "swiper/modules"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import type { Swiper as SwiperType } from "swiper"
 
-import { useState, useRef, useEffect } from "react"
-import { ChevronRight, ChevronLeft } from "lucide-react"
-import { IconButton } from "./button"
+// Import Swiper styles
+import "swiper/css"
+import "swiper/css/navigation"
+import "swiper/css/pagination"
 
 interface CarouselProps {
   children: React.ReactNode[]
-  autoPlay?: boolean
-  interval?: number
-  showArrows?: boolean
-  showDots?: boolean
+  slidesPerView?: {
+    small_mobile: number
+    mobile?: number
+    tablet?: number
+    desktop?: number
+  }
+  spaceBetween?: number
   className?: string
+  title: string
+  loop?: boolean
+  showPagination?: boolean
+  autoplay?: boolean
+  autoplayDelay?: number
 }
 
-export function Carousel({
+export default function Carousel({
   children,
-  autoPlay = false,
-  interval = 5000,
-  showArrows = true,
-  showDots = true,
+  slidesPerView = {
+    small_mobile: 1,
+    mobile: 2,
+    tablet: 3,
+    desktop: 4
+  },
+  spaceBetween = 24,
   className = "",
+  title,
+  loop = false,
+  showPagination = false,
+  autoplay = false,
+  autoplayDelay = 3000,
 }: CarouselProps) {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [isHovered, setIsHovered] = useState(false)
-  const totalSlides = children.length
-  const slideRef = useRef<HTMLDivElement>(null)
+  const swiperRef = useRef<SwiperType | null>(null)
+  const [isBeginning, setIsBeginning] = useState(true)
+  const [isEnd, setIsEnd] = useState(false)
 
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % totalSlides)
+  const handlePrevSlide = () => {
+    if (swiperRef.current) {
+      swiperRef.current.slidePrev()
+    }
   }
 
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + totalSlides) % totalSlides)
+  const handleNextSlide = () => {
+    if (swiperRef.current) {
+      swiperRef.current.slideNext()
+    }
   }
 
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index)
+  const handleSlideChange = (swiper: SwiperType) => {
+    setIsBeginning(swiper.isBeginning)
+    setIsEnd(swiper.isEnd)
   }
-
-  // Auto play functionality
-  useEffect(() => {
-    if (!autoPlay || isHovered) return
-
-    const interval_id = setInterval(nextSlide, interval)
-    return () => clearInterval(interval_id)
-  }, [autoPlay, interval, isHovered])
 
   return (
-    <div
-      className={`relative overflow-hidden rounded-sm ${className}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div
-        ref={slideRef}
-        className="flex transition-transform duration-500 ease-in-out"
-        style={{ transform: `translateX(${currentIndex * 100 * -1}%)` }}
-      >
-        {children.map((child, index) => (
-          <div key={index} className="w-full flex-shrink-0">
-            {child}
-          </div>
-        ))}
+    <div className={`relative ${className}`} dir="rtl">
+      {/* Header with title and navigation */}
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-lg md:text-xl font-bold text-primary">{title}</h2>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handlePrevSlide}
+            disabled={!loop && isBeginning}
+            className={`
+              w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200
+              border border-gray-200 hover:border-primary
+              ${
+                !loop && isBeginning
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-white hover:bg-primary text-gray-600 hover:text-white cursor-pointer"
+              }
+            `}
+            aria-label="Previous slide"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+
+          <button
+            onClick={handleNextSlide}
+            disabled={!loop && isEnd}
+            className={`
+              w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200
+              border border-gray-200 hover:border-primary
+              ${
+                !loop && isEnd
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-white hover:bg-primary text-gray-600 hover:text-white cursor-pointer"
+              }
+            `}
+            aria-label="Next slide"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+        </div>
       </div>
 
-      {showArrows && totalSlides > 1 && (
-        <>
-          <div className="absolute top-1/2 left-2 transform -translate-y-1/2">
-            <IconButton
-              icon={ChevronRight}
-              variant="primary"
-              onClick={nextSlide}
-              aria-label="Next slide"
-              className="bg-white/80 text-primary hover:bg-white"
-            />
-          </div>
-          <div className="absolute top-1/2 right-2 transform -translate-y-1/2">
-            <IconButton
-              icon={ChevronLeft}
-              variant="primary"
-              onClick={prevSlide}
-              aria-label="Previous slide"
-              className="bg-white/80 text-primary hover:bg-white"
-            />
-          </div>
-        </>
-      )}
-
-      {showDots && totalSlides > 1 && (
-        <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1">
-          {Array.from({ length: totalSlides }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`h-2 w-2 rounded-full transition-all ${
-                index === currentIndex ? "bg-primary w-4" : "bg-white/70"
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
+      {/* Swiper Container */}
+      <div className="relative">
+        <Swiper
+          modules={[Navigation, Pagination]}
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper
+            handleSlideChange(swiper)
+          }}
+          onSlideChange={handleSlideChange}
+          spaceBetween={spaceBetween}
+          loop={loop}
+          autoplay={
+            autoplay
+              ? {
+                  delay: autoplayDelay,
+                  disableOnInteraction: false,
+                }
+              : false
+          }
+          pagination={
+            showPagination
+              ? {
+                  clickable: true,
+                  bulletClass: "swiper-pagination-bullet !bg-gray-300",
+                  bulletActiveClass: "swiper-pagination-bullet-active !bg-primary",
+                }
+              : false
+          }
+          breakpoints={{
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 16,
+            },
+            480: {
+              slidesPerView: slidesPerView.small_mobile || 2,
+              spaceBetween: 16,
+            },
+            640: {
+              slidesPerView: slidesPerView.mobile || 1,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: slidesPerView.tablet || 2,
+              spaceBetween: spaceBetween,
+            },
+            1024: {
+              slidesPerView: slidesPerView.desktop || 4,
+              spaceBetween: spaceBetween,
+            },
+          }}
+          className="!pb-8"
+          style={{
+            overflow: "hidden", // This is key - prevents showing all slides
+          }}
+        >
+          {children.map((child, index) => (
+            <SwiperSlide key={index} className="h-auto">
+              {child}
+            </SwiperSlide>
           ))}
-        </div>
-      )}
+        </Swiper>
+      </div>
     </div>
   )
 }
-
-export const CarouselContent = ({ children }: { children: React.ReactNode }) => {
-  return <div className="flex">{children}</div>
-}
-
-export const CarouselItem = ({ children }: { children: React.ReactNode }) => {
-  return <div className="w-full flex-shrink-0">{children}</div>
-}
-
-export const CarouselPrevious = ({ onClick }: { onClick: () => void }) => {
-  return (
-    <IconButton
-      icon={ChevronLeft}
-      variant="primary"
-      onClick={onClick}
-      aria-label="Previous slide"
-      className="bg-white/80 text-primary hover:bg-white"
-    />
-  )
-}
-
-export const CarouselNext = ({ onClick }: { onClick: () => void }) => {
-  return (
-    <IconButton
-      icon={ChevronRight}
-      variant="primary"
-      onClick={onClick}
-      aria-label="Next slide"
-      className="bg-white/80 text-primary hover:bg-white"
-    />
-  )
-}
-

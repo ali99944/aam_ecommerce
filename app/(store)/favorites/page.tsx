@@ -1,14 +1,20 @@
 "use client"
 
-import { useState } from "react"
-import { Heart, ShoppingCart, Trash2, Share2 } from 'lucide-react'
+import { Heart } from 'lucide-react'
 import Button from "@/components/ui/button"
 import Breadcrumb from "@/components/ui/breadcrumb"
-import Navbar from "@/components/header"
-import Footer from "@/components/custom/footer"
+import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
+import Link from "next/link"
+import ProductCard from "@/components/custom/product-card"
+import { ProductCardSkeleton } from '@/components/ui/skeletons'
+import { useGetQuery } from '@/src/hooks/queries-actions'
+import { Product } from '@/src/types'
+import Carousel from '@/components/ui/carousel'
 
 export default function FavoritesPage() {
-  const [favorites, setFavorites] = useState([
+
+  const favorites = [
     {
       id: 1,
       name: "آيفون 15 برو ماكس - 256 جيجا",
@@ -49,16 +55,14 @@ export default function FavoritesPage() {
       inStock: true,
       addedDate: "منذ 5 أيام"
     }
-  ])
+  ]
 
-  const removeFavorite = (id: number) => {
-    setFavorites(favorites.filter(item => item.id !== id))
-  }
+  const { data: products, isFetching: is_products_loading } = useGetQuery<Product[]>({
+    url: 'products/listings/recommended',
+    key: ['products', 'recommended']
+  })
 
-  const addToCart = (item: any) => {
-    // Add to cart logic
-    console.log('Added to cart:', item)
-  }
+  if (is_products_loading) return <ProductCardSkeleton />
 
   return (
     <>
@@ -75,82 +79,27 @@ export default function FavoritesPage() {
 
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-[var(--primary)] mb-2">قائمة المفضلة</h1>
+            <h1 className="text-2xl font-bold text-primary mb-2">قائمة المفضلة</h1>
             <p className="text-gray-600">{favorites.length} منتج في قائمة المفضلة</p>
           </div>
-          <Heart className="w-6 h-6 text-red-500" />
+          {/* <Heart className="w-6 h-6 text-red-500" /> */}
         </div>
 
         {favorites.length === 0 ? (
           <div className="bg-white rounded-lg p-12 text-center">
-            <Heart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h2 className="text-xl font-bold text-[var(--primary)] mb-2">قائمة المفضلة فارغة</h2>
+            <Heart className="w-20 h-20 text-gray-300 mx-auto mb-4" />
+            <h2 className="text-xl font-bold text-primary mb-2">قائمة المفضلة فارغة</h2>
             <p className="text-gray-600 mb-6">لم تقم بإضافة أي منتجات إلى قائمة المفضلة بعد</p>
-            <Button variant="primary" size="sm">
-              <a href="/">تصفح المنتجات</a>
-            </Button>
+            <div className="flex justify-center">
+              <Button variant="primary" size="sm">
+                <Link href="/">تصفح المنتجات</Link>
+              </Button>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {favorites.map((item) => (
-              <div key={item.id} className="bg-white rounded-lg overflow-hidden border border-gray-200">
-                <div className="relative">
-                  <img
-                    src={item.image || "/placeholder.svg"}
-                    alt={item.name}
-                    className="w-full h-48 object-cover"
-                  />
-                  <button
-                    onClick={() => removeFavorite(item.id)}
-                    className="absolute top-3 left-3 w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-red-50 transition-colors"
-                  >
-                    <Trash2 className="w-4 h-4 text-red-500" />
-                  </button>
-                  {!item.inStock && (
-                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                      <span className="bg-red-500 text-white px-3 py-1 rounded text-sm font-medium">
-                        غير متوفر
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-4">
-                  <p className="text-sm text-gray-500 mb-1">{item.category}</p>
-                  <h3 className="font-semibold text-[var(--primary)] mb-2 line-clamp-2">
-                    {item.name}
-                  </h3>
-                  
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-lg font-bold text-red-500">
-                      ريال {item.price.toFixed(2)}
-                    </span>
-                    {item.originalPrice && (
-                      <span className="text-sm text-gray-400 line-through">
-                        ريال {item.originalPrice.toFixed(2)}
-                      </span>
-                    )}
-                  </div>
-
-                  <p className="text-xs text-gray-500 mb-4">أُضيف {item.addedDate}</p>
-
-                  <div className="flex gap-2">
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      className="flex-1"
-                      disabled={!item.inStock}
-                      onClick={() => addToCart(item)}
-                    >
-                      <ShoppingCart className="w-4 h-4 ml-2" />
-                      {item.inStock ? 'أضف للسلة' : 'غير متوفر'}
-                    </Button>
-                    <Button variant="secondary" size="sm">
-                      <Share2 className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </div>
+            {favorites.map((product) => (
+              <ProductCard key={product.id} product={product}/>
             ))}
           </div>
         )}
@@ -158,12 +107,24 @@ export default function FavoritesPage() {
         {/* Recommendations */}
         {favorites.length > 0 && (
           <div className="mt-12">
-            <div className="bg-white rounded-lg p-4">
-              <h2 className="text-xl font-bold text-[var(--primary)] mb-4">قد يعجبك أيضاً</h2>
-              <p className="text-gray-600 mb-6">منتجات مشابهة لما في قائمة المفضلة</p>
-              <Button variant="primary" size="sm">
-                عرض التوصيات
-              </Button>
+            <div className=" rounded-lg p-4">
+              <div>
+                          <Carousel
+                            slidesPerView={{
+                              small_mobile: 2,
+                              mobile: 2,
+                              tablet: 3,
+                              desktop: 4,
+                            }}
+                            spaceBetween={18}
+                            loop={false}
+                            title="قد يعجبك أيضاً"
+                          >
+                            {(products ?? [])?.map((product) => (
+                              <ProductCard key={product.id} product={product} />
+                            ))}
+                          </Carousel>
+                        </div>
             </div>
           </div>
         )}

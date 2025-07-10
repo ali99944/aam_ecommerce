@@ -64,7 +64,7 @@ export default function SupportTicketDialog({ isOpen, onClose }: SupportTicketDi
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" dir="rtl">
       <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between p-6 border-b">
-          <h2 className="text-xl font-bold text-[var(--primary)]">إنشاء تذكرة دعم جديدة</h2>
+          <h2 className="text-xl font-bold text-primary">إنشاء تذكرة دعم جديدة</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
             <X className="w-6 h-6" />
           </button>

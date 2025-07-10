@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { Calendar, Clock, Share2, Heart } from "lucide-react"
-import Navbar from "@/components/header"
-import Footer from "@/components/custom/footer"
+import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
 import Button from "@/components/ui/button"
 import Breadcrumb from "@/components/ui/breadcrumb"
 import ProductCard from "@/components/custom/product-card"

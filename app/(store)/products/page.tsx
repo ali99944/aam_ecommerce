@@ -2,9 +2,9 @@
 
 import { useState, useMemo } from "react"
 import {  ChevronDown, ChevronUp, ShoppingBasket, Star } from "lucide-react"
-import Footer from "@/components/custom/footer"
+import Footer from "@/components/footer"
 import ProductCard from "@/components/custom/product-card"
-import Navbar from "@/components/header"
+import Navbar from "@/components/navbar"
 import Button from "@/components/ui/button"
 import Checkbox from "@/components/ui/checkbox"
 import Input from "@/components/ui/input"
@@ -299,7 +299,7 @@ export default function ProductsPage() {
             <div className="bg-white rounded-xl p-4  border border-gray-100">
               <button
                 onClick={() => setShowCategories(!showCategories)}
-                className="flex items-center justify-between w-full text-right font-bold text-[var(--primary)] text-lg hover:text-[var(--primary)]/80 transition-colors"
+                className="flex items-center justify-between w-full text-right font-bold text-primary text-lg hover:text-primary/80 transition-colors"
               >
                 الفئة
                 {showCategories ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
@@ -317,7 +317,7 @@ export default function ProductsPage() {
                           }
                           onChange={() => handleCategoryChange(category.name)}
                         />
-                        <span className="text-gray-700 hover:text-[var(--primary)] transition-colors cursor-pointer">
+                        <span className="text-gray-700 hover:text-primary transition-colors cursor-pointer">
                           {category.name}
                         </span>
                       </div>
@@ -332,7 +332,7 @@ export default function ProductsPage() {
             <div className="bg-white rounded-xl p-4  border border-gray-100">
               <button
                 onClick={() => setShowBrands(!showBrands)}
-                className="flex items-center justify-between w-full text-right font-bold text-[var(--primary)] text-lg hover:text-[var(--primary)]/80 transition-colors"
+                className="flex items-center justify-between w-full text-right font-bold text-primary text-lg hover:text-primary/80 transition-colors"
               >
                 الماركة
                 {showBrands ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
@@ -348,7 +348,7 @@ export default function ProductsPage() {
                           }
                           onChange={() => handleBrandChange(brand.name)}
                         />
-                        <span className="text-gray-700 hover:text-[var(--primary)] transition-colors cursor-pointer">
+                        <span className="text-gray-700 hover:text-primary transition-colors cursor-pointer">
                           {brand.name}
                         </span>
                       </div>
@@ -363,7 +363,7 @@ export default function ProductsPage() {
             <div className="bg-white rounded-xl p-4  border border-gray-100">
               <button
                 onClick={() => setShowPrice(!showPrice)}
-                className="flex items-center justify-between w-full text-right font-bold text-[var(--primary)] text-lg hover:text-[var(--primary)]/80 transition-colors"
+                className="flex items-center justify-between w-full text-right font-bold text-primary text-lg hover:text-primary/80 transition-colors"
               >
                 السعر
                 {showPrice ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
@@ -379,7 +379,7 @@ export default function ProductsPage() {
             <div className="bg-white rounded-xl p-4  border border-gray-100">
               <button
                 onClick={() => setShowColors(!showColors)}
-                className="flex items-center justify-between w-full text-right font-bold text-[var(--primary)] text-lg hover:text-[var(--primary)]/80 transition-colors"
+                className="flex items-center justify-between w-full text-right font-bold text-primary text-lg hover:text-primary/80 transition-colors"
               >
                 اللون
                 {showColors ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
@@ -402,7 +402,7 @@ export default function ProductsPage() {
                               style={{ backgroundColor: color.color }}
                             ></div>
                           )}
-                          <span className="text-gray-700 hover:text-[var(--primary)] transition-colors cursor-pointer">
+                          <span className="text-gray-700 hover:text-primary transition-colors cursor-pointer">
                             {color.name}
                           </span>
                         </div>
@@ -418,7 +418,7 @@ export default function ProductsPage() {
             <div className="bg-white rounded-xl p-4  border border-gray-100">
               <button
                 onClick={() => setShowRating(!showRating)}
-                className="flex items-center justify-between w-full text-right font-bold text-[var(--primary)] text-lg hover:text-[var(--primary)]/80 transition-colors"
+                className="flex items-center justify-between w-full text-right font-bold text-primary text-lg hover:text-primary/80 transition-colors"
               >
                 التقييم
                 {showRating ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
@@ -512,7 +512,7 @@ export default function ProductsPage() {
                 <div className="w-32 h-32 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
                   <ShoppingBasket className="w-20 h-20 text-gray-300" />
                 </div>
-                <h3 className="text-2xl font-bold text-[var(--primary)] mb-2">لا توجد منتجات حتى الآن</h3>
+                <h3 className="text-2xl font-bold text-primary mb-2">لا توجد منتجات حتى الآن</h3>
                 <p className="text-gray-600 mb-8 text-lg">يمكنك أن تبدأ بأي منتجات</p>
                 <div className="flex justify-center items-center">
                 <Button 

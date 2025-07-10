@@ -59,7 +59,7 @@ export default function RangeSlider({ min, max, value, onChange, step = 1, class
       <div ref={sliderRef} className="relative h-2 bg-gray-200 rounded-full cursor-pointer">
         {/* Track */}
         <div
-          className="absolute h-2 bg-[var(--accent)] rounded-full"
+          className="absolute h-2 bg-accent rounded-full"
           style={{
             left: `${getPercentage(value[0])}%`,
             width: `${getPercentage(value[1]) - getPercentage(value[0])}%`,
@@ -68,14 +68,14 @@ export default function RangeSlider({ min, max, value, onChange, step = 1, class
 
         {/* Min Handle */}
         <div
-          className="absolute w-5 h-5 bg-white border-2 border-[var(--accent)] rounded-full cursor-pointer transform -translate-x-1/2 -translate-y-1/2 top-1/2 hover:scale-110 transition-transform"
+          className="absolute w-5 h-5 bg-white border-2 border-accent rounded-full cursor-pointer transform -translate-x-1/2 -translate-y-1/2 top-1/2 hover:scale-110 transition-transform"
           style={{ left: `${getPercentage(value[0])}%` }}
           onMouseDown={handleMouseDown("min")}
         />
 
         {/* Max Handle */}
         <div
-          className="absolute w-5 h-5 bg-white border-2 border-[var(--accent)] rounded-full cursor-pointer transform -translate-x-1/2 -translate-y-1/2 top-1/2 hover:scale-110 transition-transform"
+          className="absolute w-5 h-5 bg-white border-2 border-accent rounded-full cursor-pointer transform -translate-x-1/2 -translate-y-1/2 top-1/2 hover:scale-110 transition-transform"
           style={{ left: `${getPercentage(value[1])}%` }}
           onMouseDown={handleMouseDown("max")}
         />

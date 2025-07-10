@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 import { Calendar, Eye, Clock, Share2, Heart, MessageCircle, Facebook, Twitter, Linkedin, Tag } from "lucide-react"
-import Navbar from "@/components/header"
-import Footer from "@/components/custom/footer"
+import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
 import Button from "@/components/ui/button"
 import Input from "@/components/ui/input"
 
@@ -150,7 +150,7 @@ export default function BlogDetailsPage() {
               <div className="p-4">
                 {/* Meta Info */}
                 <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-6">
-                  <span className="bg-[var(--primary)] text-white px-3 py-1 rounded-full">{blogPost.category}</span>
+                  <span className="bg-primary text-white px-3 py-1 rounded-full">{blogPost.category}</span>
                   <div className="flex items-center gap-1">
                     <Calendar className="w-4 h-4" />
                     <span>{blogPost.date}</span>
@@ -166,7 +166,7 @@ export default function BlogDetailsPage() {
                 </div>
 
                 {/* Title */}
-                <h1 className="text-3xl md:text-4xl font-bold text-[var(--primary)] mb-6 leading-tight">
+                <h1 className="text-3xl md:text-4xl font-bold text-primary mb-6 leading-tight">
                   {blogPost.title}
                 </h1>
 
@@ -178,7 +178,7 @@ export default function BlogDetailsPage() {
                     className="w-12 h-12 rounded-full object-cover"
                   />
                   <div className="flex-1">
-                    <h3 className="font-bold text-[var(--primary)]">{blogPost.author.name}</h3>
+                    <h3 className="font-bold text-primary">{blogPost.author.name}</h3>
                     <p className="text-gray-600 text-sm">{blogPost.author.bio}</p>
                   </div>
                 </div>
@@ -225,12 +225,12 @@ export default function BlogDetailsPage() {
 
                 {/* Tags */}
                 <div className="mt-8 pt-8 border-t border-gray-200">
-                  <h3 className="font-bold text-[var(--primary)] mb-4">الكلمات المفتاحية</h3>
+                  <h3 className="font-bold text-primary mb-4">الكلمات المفتاحية</h3>
                   <div className="flex flex-wrap gap-2">
                     {blogPost.tags.map((tag, index) => (
                       <button
                         key={index}
-                        className="bg-gray-100 hover:bg-[var(--primary)] hover:text-white px-3 py-1 rounded-full text-sm transition-colors"
+                        className="bg-gray-100 hover:bg-primary hover:text-white px-3 py-1 rounded-full text-sm transition-colors"
                       >
                         <Tag className="w-3 h-3 inline ml-1" />
                         {tag}
@@ -243,18 +243,18 @@ export default function BlogDetailsPage() {
 
             {/* Comments Section */}
             <div className="bg-white rounded-xl p-4 border border-gray-100 mb-8">
-              <h3 className="text-2xl font-bold text-[var(--primary)] mb-6">التعليقات ({blogPost.comments})</h3>
+              <h3 className="text-2xl font-bold text-primary mb-6">التعليقات ({blogPost.comments})</h3>
 
               {/* Add Comment */}
               <div className="mb-8 p-4 bg-gray-50 rounded-lg">
-                <h4 className="font-bold text-[var(--primary)] mb-4">أضف تعليقك</h4>
+                <h4 className="font-bold text-primary mb-4">أضف تعليقك</h4>
                 <div className="space-y-4">
                   <textarea
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     placeholder="اكتب تعليقك هنا..."
                     rows={4}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary)] resize-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
                   />
                   <Button variant="primary" size="sm">
                     نشر التعليق
@@ -274,17 +274,17 @@ export default function BlogDetailsPage() {
                     <div className="flex-1">
                       <div className="bg-gray-50 rounded-lg p-4">
                         <div className="flex items-center justify-between mb-2">
-                          <h5 className="font-bold text-[var(--primary)]">{comment.author}</h5>
+                          <h5 className="font-bold text-primary">{comment.author}</h5>
                           <span className="text-gray-500 text-sm">{comment.date}</span>
                         </div>
                         <p className="text-gray-700 leading-relaxed">{comment.content}</p>
                       </div>
                       <div className="flex items-center gap-4 mt-2">
-                        <button className="flex items-center gap-1 text-gray-500 hover:text-[var(--primary)] text-sm">
+                        <button className="flex items-center gap-1 text-gray-500 hover:text-primary text-sm">
                           <Heart className="w-4 h-4" />
                           <span>{comment.likes}</span>
                         </button>
-                        <button className="text-gray-500 hover:text-[var(--primary)] text-sm">رد</button>
+                        <button className="text-gray-500 hover:text-primary text-sm">رد</button>
                       </div>
                     </div>
                   </div>
@@ -293,17 +293,17 @@ export default function BlogDetailsPage() {
             </div>
 
             {/* Related Posts */}
-            <div className="bg-white rounded-xl p-4 border border-gray-100">
-              <h3 className="text-2xl font-bold text-[var(--primary)] mb-6">مقالات ذات صلة</h3>
+            <div className=" p-4">
+              <h3 className="text-2xl font-bold text-primary mb-6">مقالات ذات صلة</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {relatedPosts.map((post) => (
-                  <article key={post.id} className="group cursor-pointer">
+                  <article key={post.id} className="group cursor-pointer bg-white rounded-xl p-2">
                     <img
                       src={post.image || "/placeholder.svg"}
                       alt={post.title}
-                      className="w-full h-32 object-cover rounded-lg mb-3 group-hover:scale-105 transition-transform"
+                      className="w-full h-32 object-cover rounded-lg mb-3  transition-transform"
                     />
-                    <h4 className="font-bold text-[var(--primary)] mb-2 group-hover:text-[var(--accent)] transition-colors line-clamp-2">
+                    <h4 className="font-bold text-primary mb-2 group-hover:text-accent transition-colors line-clamp-2">
                       {post.title}
                     </h4>
                     <div className="flex items-center gap-4 text-sm text-gray-500">
@@ -327,13 +327,13 @@ export default function BlogDetailsPage() {
             <div className="space-y-6 sticky top-4">
               {/* Table of Contents */}
               <div className="bg-white rounded-xl p-4 border border-gray-100">
-                <h3 className="text-lg font-bold text-[var(--primary)] mb-4">محتويات المقال</h3>
+                <h3 className="text-lg font-bold text-primary mb-4">محتويات المقال</h3>
                 <nav className="space-y-2">
                   {tableOfContents.map((item) => (
                     <a
                       key={item.id}
                       href={`#${item.id}`}
-                      className="block text-gray-600 hover:text-[var(--primary)] text-sm py-1 transition-colors"
+                      className="block text-gray-600 hover:text-primary text-sm py-1 transition-colors"
                     >
                       {item.title}
                     </a>
@@ -349,9 +349,9 @@ export default function BlogDetailsPage() {
                     alt={blogPost.author.name}
                     className="w-20 h-20 rounded-full object-cover mx-auto mb-4"
                   />
-                  <h3 className="text-lg font-bold text-[var(--primary)] mb-2">{blogPost.author.name}</h3>
+                  <h3 className="text-lg font-bold text-primary mb-2">{blogPost.author.name}</h3>
                   <p className="text-gray-600 text-sm mb-4">{blogPost.author.bio}</p>
-                  <Button variant="secondary" size="sm" className="w-full">
+                  <Button variant="primary" size="sm" className="w-full">
                     عرض جميع المقالات
                   </Button>
                 </div>
@@ -363,7 +363,7 @@ export default function BlogDetailsPage() {
                 <p className="text-black/90 text-sm mb-4">احصل على أحدث المقالات والنصائح مباشرة في بريدك</p>
                 <div className="space-y-3">
                   <Input placeholder="بريدك الإلكتروني" />
-                  <Button variant="secondary" size="sm" className="w-full">
+                  <Button variant="primary" size="sm" className="w-full">
                     اشتراك
                   </Button>
                 </div>

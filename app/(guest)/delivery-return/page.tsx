@@ -1,8 +1,8 @@
 "use client"
 
 import { Truck, Package, MessageSquare, MapPin, Clock, Shield, RotateCcw, CheckCircle, AlertCircle } from "lucide-react"
-import Navbar from "@/components/header"
-import Footer from "@/components/custom/footer"
+import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
 import Breadcrumb from "@/components/ui/breadcrumb"
 import Collapsible from "@/components/ui/collabsible"
 
@@ -108,7 +108,7 @@ export default function DeliveryReturnPolicyPage() {
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header Section */}
-        <div className="relative overflow-hidden rounded-xl mb-12 bg-[var(--primary)]">
+        <div className="relative overflow-hidden rounded-xl mb-12 bg-primary">
           <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 p-8 lg:p-12">
             {/* Left Content */}
             <div className="text-white">
@@ -144,14 +144,14 @@ export default function DeliveryReturnPolicyPage() {
             {deliverySteps.map((step) => (
               <div key={step.step} className="relative">
                 <div className="bg-white rounded-xl p-6 border border-gray-100 transition-shadow">
-                  <div className="w-16 h-16 bg-[var(--primary)]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <step.icon className="w-8 h-8 text-[var(--primary)]" />
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <step.icon className="w-8 h-8 text-primary" />
                   </div>
-                  <h3 className="font-bold text-[var(--primary)] mb-2 text-center">{step.title}</h3>
+                  <h3 className="font-bold text-primary mb-2 text-center">{step.title}</h3>
                   <p className="text-gray-600 text-sm text-center">{step.description}</p>
                 </div>
                 {/* Step Number */}
-                <div className="absolute -top-3 -right-3 w-8 h-8 bg-[var(--primary)] text-white rounded-full flex items-center justify-center text-sm font-bold">
+                <div className="absolute -top-3 -right-3 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold">
                   {step.step}
                 </div>
               </div>
@@ -238,7 +238,7 @@ export default function DeliveryReturnPolicyPage() {
 
         {/* FAQs */}
         <div>
-          <h2 className="text-2xl font-bold text-[var(--primary)] mb-8">الأسئلة الشائعة</h2>
+          <h2 className="text-2xl font-bold text-primary mb-8">الأسئلة الشائعة</h2>
           <div className="space-y-4">
             {faqs.map((faq, index) => (
               <Collapsible key={index} title={faq.question}>
@@ -249,11 +249,11 @@ export default function DeliveryReturnPolicyPage() {
         </div>
 
         {/* Contact Support */}
-        <div className="mt-16 bg-[var(--primary)] rounded-xl p-8 text-white text-center">
+        <div className="mt-16 bg-primary rounded-xl p-8 text-white text-center">
           <h3 className="text-2xl font-bold mb-4">هل لديك أسئلة أخرى؟</h3>
           <p className="text-white/90 mb-6">فريق خدمة العملاء متاح لمساعدتك في أي استفسار</p>
           <div className="flex gap-4 justify-center">
-            <button className="bg-white text-[var(--primary)] px-6 py-2 rounded-lg font-medium hover:bg-white/90 transition-colors">
+            <button className="bg-white text-primary px-6 py-2 rounded-lg font-medium hover:bg-white/90 transition-colors">
               تواصل معنا
             </button>
             <button className="bg-white/20 text-white px-6 py-2 rounded-lg font-medium hover:bg-white/30 transition-colors">

@@ -1,4 +1,4 @@
-import AppConstants from "@/src/providers/constants/app_constants";
+import AppConstants from "@/src/constants/app_constants";
 import axios from "axios";
 
 

@@ -1,0 +1,202 @@
+/* Custom Scrollbar Styles for Arabic Ecommerce */
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #64748b;
+}
+
+::-webkit-scrollbar-corner {
+  background: #f1f5f9;
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+.dark ::-webkit-scrollbar-thumb:active {
+  background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-corner {
+  background: #1e293b;
+}
+
+/* Thin scrollbar variant */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+/* Wide scrollbar variant */
+.scrollbar-wide::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+/* Colored scrollbar variants */
+.scrollbar-primary::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+}
+
+.scrollbar-primary::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
+}
+
+.scrollbar-success::-webkit-scrollbar-thumb {
+  background: #10b981;
+}
+
+.scrollbar-success::-webkit-scrollbar-thumb:hover {
+  background: #059669;
+}
+
+.scrollbar-warning::-webkit-scrollbar-thumb {
+  background: #f59e0b;
+}
+
+.scrollbar-warning::-webkit-scrollbar-thumb:hover {
+  background: #d97706;
+}
+
+.scrollbar-error::-webkit-scrollbar-thumb {
+  background: #ef4444;
+}
+
+.scrollbar-error::-webkit-scrollbar-thumb:hover {
+  background: #dc2626;
+}
+
+/* Hidden scrollbar but still scrollable */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Firefox scrollbar styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.dark * {
+  scrollbar-color: #475569 #1e293b;
+}
+
+.scrollbar-primary {
+  scrollbar-color: #3b82f6 #f1f5f9;
+}
+
+.scrollbar-success {
+  scrollbar-color: #10b981 #f1f5f9;
+}
+
+.scrollbar-warning {
+  scrollbar-color: #f59e0b #f1f5f9;
+}
+
+.scrollbar-error {
+  scrollbar-color: #ef4444 #f1f5f9;
+}
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for specific containers */
+.product-grid::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+}
+
+.category-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.category-sidebar::-webkit-scrollbar-thumb {
+  background: #f59e0b;
+  border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 4px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: #10b981;
+  border-radius: 2px;
+}
+
+/* RTL specific scrollbar adjustments */
+[dir="rtl"] ::-webkit-scrollbar {
+  left: 0;
+  right: auto;
+}
+
+/* Hover effects for containers */
+.scrollable-container {
+  transition: all 0.2s ease;
+}
+
+.scrollable-container:hover::-webkit-scrollbar-thumb {
+  background: #64748b;
+}
+
+/* Mobile responsive scrollbar */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-wide::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+/* Animation for scrollbar appearance */
+@keyframes scrollbar-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+::-webkit-scrollbar-thumb {
+  animation: scrollbar-fade-in 0.3s ease;
+}

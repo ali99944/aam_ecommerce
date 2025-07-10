@@ -1,8 +1,8 @@
 "use client"
 
 import { Users, Target, Award, Heart, Truck, Shield, Clock, Star, Eye } from 'lucide-react'
-import Navbar from "@/components/header"
-import Footer from "@/components/custom/footer"
+import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
 import Button from "@/components/ui/button"
 import Card from '@/components/ui/card'
 import Link from 'next/link'
@@ -40,22 +40,22 @@ export default function AboutPage() {
 
   const team = [
     {
-      name: "أحمد محمد",
-      position: "المدير التنفيذي",
+      name: "ماجد عبد الرحمن",
+      position: "مالك المتجر",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop",
-      description: "خبرة أكثر من 10 سنوات في مجال التجارة الإلكترونية"
+      description: "ماجد هو مالك المتجر الإلكتروني الأصلي، وله خبرة طويلة في مجال التجارة الإلكترونية"
     },
     {
-      name: "فاطمة علي",
-      position: "مديرة التسويق",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop",
-      description: "متخصصة في استراتيجيات التسويق الرقمي والعلامات التجارية"
-    },
-    {
-      name: "محمد السعيد",
-      position: "مدير التقنية",
+      name: "أميرة عبد الله",
+      position: "شريك في أعمال المتجر",
       image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop",
-      description: "خبير في تطوير المنصات الإلكترونية والتقنيات الحديثة"
+      description: "أميرة شريك في أعمال المتجر الإلكتروني، وهي مسئولة عن تطوير المنتجات والخدمات"
+    },
+    {
+      name: "عبد الرحمن علي",
+      position: "مدير المخازن",
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop",
+      description: "عبد الرحمن هو مدير المخازن في المتجر الإلكتروني، وهو مسئول عن إدارة المخازن والشحن"
     },
   ]
 
@@ -86,7 +86,7 @@ export default function AboutPage() {
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-primary mb-6">من نحن</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            نحن متجر محلاتنا، وجهتك الأولى للتسوق الإلكتروني في المملكة العربية السعودية. 
+            نحن محلات علي ابو مسعود، وجهتك الأولى للتسوق الإلكتروني في المملكة العربية السعودية. 
             نقدم أفضل المنتجات بأسعار تنافسية وخدمة عملاء متميزة.
           </p>
         </div>
@@ -124,7 +124,7 @@ export default function AboutPage() {
           <div className="relative">
             <img
               src="https://img.freepik.com/premium-photo/boxes-trolley-laptop_36051-524.jpg?ga=GA1.1.1052836384.1750646072&semt=ais_hybrid&w=740"
-              alt="قصة متجر محلاتنا"
+              alt="قصة محلات علي ابو مسعود"
               className="w-full h-96 object-cover rounded-xl"
             />
             <div className="absolute inset-0 bg-black/20 rounded-xl"></div>
@@ -142,7 +142,7 @@ export default function AboutPage() {
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
                   <value.icon className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold text-primary mb-4">{value.title}</h3>
+                <h3 className="text-xl font-bold text-primary mb-4">{value.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{value.description}</p>
               </Card>
             ))}
@@ -155,7 +155,7 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold text-primary text-center mb-12">لماذا نحن مختلفون؟</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {features.map((feature, index) => (
-              <div key={index} className="bg-white rounded-xl p-4 text-center border border-gray-100 hover:shadow-lg transition-shadow">
+              <div key={index} className="bg-white rounded-xl p-4 text-center border border-gray-100 transition-shadow">
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <feature.icon className="w-8 h-8 text-primary" />
                 </div>
@@ -168,8 +168,8 @@ export default function AboutPage() {
 
         {/* Team Section */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-primary text-center mb-12">فريق العمل</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <h2 className="text-3xl font-bold text-primary text-center mb-12">اصحاب المتجر</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {team.map((member, index) => (
               <div key={index} className="bg-white rounded-xl p-4 text-center border border-gray-100">
                 <img
@@ -178,7 +178,7 @@ export default function AboutPage() {
                   className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
                 />
                 <h3 className="text-xl font-bold text-primary mb-2">{member.name}</h3>
-                <p className="text-[var(--accent)] font-medium mb-3">{member.position}</p>
+                <p className="text-accent font-medium mb-3">{member.position}</p>
                 <p className="text-gray-600 text-sm">{member.description}</p>
               </div>
             ))}
@@ -188,7 +188,7 @@ export default function AboutPage() {
 
         {/* CTA Section */}
         <div className="text-center bg-gray-900 px-4 py-8 rounded-xl">
-          <h2 className="text-3xl font-bold text-white/85 mb-2">انضم إلى متجر محلاتنا</h2>
+          <h2 className="text-3xl font-bold text-white/85 mb-2">انضم إلى محلات علي ابو مسعود</h2>
           <p className="text-white/60 mb-8 max-w-2xl mx-auto">
             اكتشف آلاف المنتجات المتميزة واستمتع بتجربة تسوق لا تُنسى مع خدمة عملاء استثنائية
           </p>

@@ -128,7 +128,7 @@ export default function StoreRatingDialog({ isOpen, onClose, onSubmit }: StoreRa
               {/* Header */}
               <div className="flex items-center justify-between p-6 border-b border-gray-200">
                 <div>
-                  <h2 className="text-2xl font-bold text-[var(--primary)]">تقييم المتجر</h2>
+                  <h2 className="text-2xl font-bold text-primary">تقييم المتجر</h2>
                   <p className="text-gray-600 mt-1">شاركنا رأيك لتحسين خدماتنا</p>
                 </div>
                 <button
@@ -148,8 +148,8 @@ export default function StoreRatingDialog({ isOpen, onClose, onSubmit }: StoreRa
                     return (
                       <div key={category.key} className="space-y-3">
                         <div className="flex items-center gap-3">
-                          <div className="p-2 bg-[var(--primary)]/10 rounded-lg">
-                            <IconComponent className="w-5 h-5 text-[var(--primary)]" />
+                          <div className="p-2 bg-primary/10 rounded-lg">
+                            <IconComponent className="w-5 h-5 text-primary" />
                           </div>
                           <div className="flex-1">
                             <h3 className="font-semibold text-gray-900">{category.label}</h3>

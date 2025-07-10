@@ -45,7 +45,7 @@ export default function BlogBrands() {
       <section className="py-16 bg-[var(--background)]">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-lg md:text-xl font-bold text-[var(--primary)]">أحدث المقالات</h2>
+            <h2 className="text-lg md:text-xl font-bold text-primary">أحدث المقالات</h2>
             <Button variant="secondary" size="sm">
               عرض الكل
             </Button>
@@ -64,11 +64,11 @@ export default function BlogBrands() {
                     className="w-full h-52 object-cover"
                   />
                   <div className="absolute top-4 right-4 bg-white rounded px-3 py-1">
-                    <span className="text-sm font-semibold text-[var(--primary)]">{article.date}</span>
+                    <span className="text-sm font-semibold text-primary">{article.date}</span>
                   </div>
                 </div>
                 <div className="p-3">
-                  <h3 className="text-xl font-bold text-[var(--primary)] mb-3 line-clamp-2">{article.title}</h3>
+                  <h3 className="text-xl font-bold text-primary mb-3 line-clamp-2">{article.title}</h3>
                   <p className="text-gray-600 text-sm leading-relaxed line-clamp-4">{article.excerpt}</p>
                 </div>
               </article>
@@ -81,7 +81,7 @@ export default function BlogBrands() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className=" items-center mb-8">
-            <h2 className="text-lg md:text-xl font-bold text-[var(--primary)]">الماركات التجارية</h2>
+            <h2 className="text-lg md:text-xl font-bold text-primary">الماركات التجارية</h2>
             <p className="text-gray-600">يمكنك التسوق من خلال الماركات التجارية</p>
           </div>
 

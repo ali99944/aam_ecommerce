@@ -4,10 +4,10 @@ import type React from "react"
 
 import { useState } from "react"
 import { Bell, Package, Heart, Star, Gift, AlertCircle, CheckCircle, Clock, Trash2 } from "lucide-react"
-import Footer from "@/components/custom/footer"
+import Footer from "@/components/footer"
 import Button from "@/components/ui/button"
 import Badge from "@/components/ui/badge"
-import Navbar from "@/components/header"
+import Navbar from "@/components/navbar"
 
 interface Notification {
   id: string
@@ -121,11 +121,11 @@ export default function NotificationsPage() {
 
   const getTypeColor = (type: string) => {
     const colors = {
-      order: "bg-blue-100 text-blue-800",
+      order: "bg-primary text-white",
       wishlist: "bg-red-100 text-red-800",
       review: "bg-yellow-100 text-yellow-800",
-      promotion: "bg-green-100 text-green-800",
-      system: "bg-gray-100 text-gray-800",
+      promotion: "text-white",
+      system: "text-white",
     }
     return colors[type as keyof typeof colors] || "bg-gray-100 text-gray-800"
   }
@@ -184,7 +184,7 @@ export default function NotificationsPage() {
               return (
                 <div
                   key={notification.id}
-                  className={`bg-white rounded-xl p-4 border transition-all  ${
+                  className={`bg-white rounded-xl p-4  transition-all  ${
                     !notification.read ? "border-primary/20 bg-primary/5" : "border-gray-200"
                   }`}
                 >

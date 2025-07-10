@@ -47,9 +47,9 @@ export default function AboutSection() {
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-[var(--primary)] mb-6">من نحن</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">من نحن</h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            متجر محلاتنا هو وجهتك الأولى للتسوق الإلكتروني في المملكة العربية السعودية. نقدم لك أفضل المنتجات التقنية
+            محلات علي ابو مسعود هو وجهتك الأولى للتسوق الإلكتروني في المملكة العربية السعودية. نقدم لك أفضل المنتجات التقنية
             والإلكترونية من أشهر الماركات العالمية بأسعار تنافسية وخدمة عملاء متميزة
           </p>
         </div>
@@ -57,7 +57,7 @@ export default function AboutSection() {
         {/* Hero Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
           <div className="order-2 lg:order-1">
-            <h3 className="text-2xl md:text-3xl font-bold text-[var(--primary)] mb-6">رؤيتنا ورسالتنا</h3>
+            <h3 className="text-2xl md:text-3xl font-bold text-primary mb-6">رؤيتنا ورسالتنا</h3>
             <p className="text-gray-600 mb-6 leading-relaxed">
               نسعى لأن نكون المتجر الإلكتروني الرائد في المنطقة، ونهدف إلى تقديم تجربة تسوق استثنائية تجمع بين الجودة
               والسعر المناسب والخدمة المتميزة. رسالتنا هي جعل التكنولوجيا في متناول الجميع.
@@ -94,7 +94,7 @@ export default function AboutSection() {
         </div>
 
         {/* Stats Section */}
-        <div className="bg-[var(--primary)] rounded p-6 mb-16">
+        <div className="bg-primary rounded-xl p-6 mb-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
             {stats.map((stat, index) => (
               <div key={index}>
@@ -107,8 +107,8 @@ export default function AboutSection() {
 
         {/* Features Grid */}
         <div className="mb-16">
-          <h3 className="text-2xl md:text-3xl font-bold text-[var(--primary)] text-center mb-12">
-            لماذا تختار متجر محلاتنا؟
+          <h3 className="text-2xl md:text-3xl font-bold text-primary text-center mb-12">
+            لماذا تختار محلات علي ابو مسعود؟
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => (
@@ -119,7 +119,7 @@ export default function AboutSection() {
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <feature.icon className="w-8 h-8 text-primary" />
                 </div>
-                <h4 className="text-xl font-bold text-[var(--primary)] mb-3">{feature.title}</h4>
+                <h4 className="text-xl font-bold text-primary mb-3">{feature.title}</h4>
                 <p className="text-gray-600 leading-relaxed">{feature.description}</p>
               </div>
             ))}
@@ -139,7 +139,7 @@ export default function AboutSection() {
             <Button
               variant="secondary"
               size="sm"
-              className="border-white text-white hover:bg-white hover:text-[var(--primary)]"
+              className="border-white text-white hover:bg-white hover:text-primary"
             >
               تواصل معنا
             </Button>

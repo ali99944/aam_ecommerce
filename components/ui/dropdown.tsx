@@ -11,7 +11,7 @@ interface DropdownProps {
 
 export default function Dropdown({ trigger, children, className = "", align = "right" }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [position, setPosition] = useState({ top: 0, left: 0, right: 0 })
+  const [, setPosition] = useState({ top: 0, left: 0, right: 0 })
   const dropdownRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLDivElement>(null)
 
@@ -32,7 +32,7 @@ export default function Dropdown({ trigger, children, className = "", align = "r
       const viewportWidth = window.innerWidth
       const viewportHeight = window.innerHeight
       
-      let newPosition = {
+      const newPosition = {
         top: triggerRect.bottom + window.scrollY,
         left: triggerRect.left + window.scrollX,
         right: viewportWidth - triggerRect.right - window.scrollX
@@ -76,7 +76,7 @@ export default function Dropdown({ trigger, children, className = "", align = "r
       </div>
       {isOpen && (
         <div
-          className={`absolute top-full mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-max ${getAlignmentClasses()} ${className}`}
+          className={`absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-lg shadow z-50 max-w-md ${getAlignmentClasses()} ${className}`}
           style={{
             maxHeight: '80vh',
             overflowY: 'auto'

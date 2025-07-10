@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 import { Search, Calendar, User, Tag, Eye } from 'lucide-react'
-import Navbar from "@/components/header"
-import Footer from "@/components/custom/footer"
+import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
 import Button from "@/components/ui/button"
 import Input from "@/components/ui/input"
 import Breadcrumb from "@/components/ui/breadcrumb"
@@ -43,6 +43,19 @@ export default function BlogsPage() {
       date: "12 يناير 2024",
       readTime: "6 دقائق",
       views: 980,
+      featured: true,
+    },
+
+    {
+      id: 3,
+      title: "أدوات كهربائية شائعة الاستخدام في المشاريع والورش",
+      excerpt: "تعرف على أهم الأدوات الكهربائية التي يحتاجها كل حرفي ومقاول في مشاريعه",
+      image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=400&fit=crop",
+      category: "أدلة التشغيل",
+      author: "محمد أحمد",
+      date: "8 يناير 2024",
+      readTime: "10 دقائق",
+      views: 780,
       featured: true,
     },
   ]
@@ -159,13 +172,13 @@ export default function BlogsPage() {
       <div className="max-w-7xl mx-auto px-4 py-8">
 
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
           {/* Main Content */}
           <div className="lg:col-span-3">
             {/* Featured Posts */}
             <div className="mb-12">
-              <h2 className="text-2xl font-bold text-[var(--primary)] mb-8">المقالات المميزة</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <h2 className="text-2xl font-bold text-primary mb-8">المقالات المميزة</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {featuredPosts.map((post) => (
                   <article
                     key={post.id}
@@ -177,8 +190,8 @@ export default function BlogsPage() {
                         alt={post.title}
                         className="w-full h-48 object-cover"
                       />
-                      <div className="absolute top-4 right-4">
-                        <span className="bg-[var(--primary)] text-white px-3 py-1 rounded-full text-xs font-medium">
+                      <div className="absolute top-2 right-2">
+                        <span className="bg-primary text-white px-3 py-1 rounded-full text-xs font-medium">
                           مميز
                         </span>
                       </div>
@@ -191,22 +204,22 @@ export default function BlogsPage() {
                           <span>{post.date}</span>
                         </div>
                       </div>
-                      <h3 className="text-xl font-bold text-[var(--primary)] mb-3 group-hover:text-[var(--accent)] transition-colors">
+                      <h3 className="text-xl font-bold text-primary mb-3 group-hover:text-accent transition-colors">
                         {post.title}
                       </h3>
                       <p className="text-gray-600 mb-4 leading-relaxed">{post.excerpt}</p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 text-sm text-gray-500">
-                          <div className="flex items-center gap-1">
+                          {/* <div className="flex items-center gap-1">
                             <User className="w-4 h-4" />
                             <span>{post.author}</span>
-                          </div>
+                          </div> */}
                           <div className="flex items-center gap-1">
                             <Eye className="w-4 h-4" />
                             <span>{post.views}</span>
                           </div>
                         </div>
-                        <span className="text-[var(--accent)] text-sm font-medium">{post.readTime}</span>
+                        <span className="text-accent text-sm font-medium">{post.readTime}</span>
                       </div>
                     </div>
                   </article>
@@ -232,7 +245,7 @@ export default function BlogsPage() {
                       onClick={() => setSelectedCategory(category.id)}
                       className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                         selectedCategory === category.id
-                          ? "bg-[var(--primary)] text-white"
+                          ? "bg-primary text-white"
                           : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200"
                       }`}
                     >
@@ -244,7 +257,7 @@ export default function BlogsPage() {
             </div>
 
             {/* Blog Posts Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
               {filteredPosts.map((post) => (
                 <article
                   key={post.id}
@@ -265,7 +278,7 @@ export default function BlogsPage() {
                         <span>{post.date}</span>
                       </div>
                     </div>
-                    <h3 className="text-lg font-bold text-[var(--primary)] mb-3 group-hover:text-[var(--accent)] transition-colors">
+                    <h3 className="text-lg font-bold text-primary mb-3 group-hover:text-accent transition-colors">
                       {post.title}
                     </h3>
                     <p className="text-gray-600 mb-4 leading-relaxed text-sm">{post.excerpt}</p>
@@ -280,7 +293,7 @@ export default function BlogsPage() {
                           <span>{post.views}</span>
                         </div>
                       </div>
-                      <span className="text-[var(--accent)] text-sm font-medium">{post.readTime}</span>
+                      <span className="text-accent text-sm font-medium">{post.readTime}</span>
                     </div>
                   </div>
                 </article>
@@ -300,7 +313,7 @@ export default function BlogsPage() {
             <div className="space-y-8">
               {/* Newsletter Signup */}
               <div className="bg-white rounded-xl p-4 border border-gray-100">
-                <h3 className="text-lg font-bold text-[var(--primary)] mb-4">اشترك في النشرة البريدية</h3>
+                <h3 className="text-lg font-bold text-primary mb-4">اشترك في النشرة البريدية</h3>
                 <p className="text-gray-600 text-sm mb-4">
                   احصل على أحدث المقالات والنصائح مباشرة في بريدك الإلكتروني
                 </p>
@@ -314,12 +327,12 @@ export default function BlogsPage() {
 
               {/* Popular Tags */}
               <div className="bg-white rounded-xl p-4 border border-gray-100">
-                <h3 className="text-lg font-bold text-[var(--primary)] mb-4">الكلمات المفتاحية</h3>
+                <h3 className="text-lg font-bold text-primary mb-4">الكلمات المفتاحية</h3>
                 <div className="flex flex-wrap gap-2">
                   {popularTags.map((tag, index) => (
                     <button
                       key={index}
-                      className="bg-gray-100 hover:bg-[var(--primary)] hover:text-white px-3 py-1 rounded-full text-sm transition-colors"
+                      className="bg-gray-100 hover:bg-primary hover:text-white px-3 py-1 rounded-full text-sm transition-colors"
                     >
                       <Tag className="w-3 h-3 inline ml-1" />
                       {tag}
@@ -330,7 +343,7 @@ export default function BlogsPage() {
 
               {/* Recent Posts */}
               <div className="bg-white rounded-xl p-4 border border-gray-100">
-                <h3 className="text-lg font-bold text-[var(--primary)] mb-4">المقالات الحديثة</h3>
+                <h3 className="text-lg font-bold text-primary mb-4">المقالات الحديثة</h3>
                 <div className="space-y-4">
                   {blogPosts.slice(0, 4).map((post) => (
                     <div key={post.id} className="flex gap-3 group cursor-pointer">
@@ -340,7 +353,7 @@ export default function BlogsPage() {
                         className="w-16 h-16 object-cover rounded-lg"
                       />
                       <div className="flex-1">
-                        <h4 className="font-medium text-[var(--primary)] text-sm mb-1 group-hover:text-[var(--accent)] transition-colors line-clamp-2">
+                        <h4 className="font-medium text-primary text-sm mb-1 group-hover:text-accent transition-colors line-clamp-2">
                           {post.title}
                         </h4>
                         <div className="flex items-center gap-2 text-xs text-gray-500">
@@ -355,7 +368,7 @@ export default function BlogsPage() {
 
               {/* Categories */}
               <div className="bg-white rounded-xl p-4 border border-gray-100">
-                <h3 className="text-lg font-bold text-[var(--primary)] mb-4">الفئات</h3>
+                <h3 className="text-lg font-bold text-primary mb-4">الفئات</h3>
                 <div className="space-y-2">
                   {categories.slice(1).map((category) => (
                     <button

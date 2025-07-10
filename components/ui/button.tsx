@@ -3,14 +3,18 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react"
 import type { LucideIcon } from "lucide-react"
 import { Loader2 } from 'lucide-react'
+import { IconType } from "react-icons/lib"
+import Link from "next/link"
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "accent" | "outline" | "ghost" | "danger"
   size?: "xs" | "sm" | "md" | "lg" | "xl"
   loading?: boolean
-  icon?: LucideIcon
+  icon?: LucideIcon | IconType
   iconPosition?: "left" | "right"
-  children: ReactNode
+  children?: ReactNode
+  asLink?: boolean
+  href?: string
 }
 
 export default function Button({ 
@@ -21,6 +25,8 @@ export default function Button({
   iconPosition = "left",
   children, 
   className = "", 
+  asLink = false,
+  href,
   disabled,
   ...props 
 }: ButtonProps) {
@@ -28,11 +34,11 @@ export default function Button({
     " rounded transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
 
   const variants = {
-    primary: "bg-[var(--primary)] hover:bg-[var(--primary)]/90 text-white",
-    secondary: "bg-[var(--secondary)] hover:bg-[var(--secondary)]/90 text-white",
-    accent: "bg-[var(--accent)] hover:bg-[var(--accent)]/90 text-white",
-    outline: "border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white",
-    ghost: "text-[var(--primary)] hover:bg-[var(--primary)]/10",
+    primary: "bg-primary hover:bg-primary/90 text-white",
+    secondary: "bg-secondary hover:bg-secondary/90 text-white",
+    accent: "bg-accent hover:bg-accent/90 text-white",
+    outline: "border-2 border-primary text-primary hover:bg-primary hover:text-white",
+    ghost: "text-primary hover:bg-primary/10",
     danger: "bg-red-500 hover:bg-red-600 text-white",
   }
 
@@ -45,6 +51,19 @@ export default function Button({
   }
 
   const isDisabled = disabled || loading
+
+  if (asLink) {
+    return (
+      <Link href={href ?? '#'}>
+        <button className={`${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`} disabled={isDisabled} {...props}>
+          {loading && <Loader2 className="w-4 h-4 animate-spin" />}
+          {!loading && Icon && iconPosition === "left" && <Icon className="w-4 h-4" />}
+          {children}
+          {!loading && Icon && iconPosition === "right" && <Icon className="w-4 h-4" />}
+        </button>
+      </Link>
+    )
+  }
 
   return (
     <button 
@@ -59,3 +78,4 @@ export default function Button({
     </button>
   )
 }
+

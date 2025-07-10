@@ -9,7 +9,7 @@ export default function SecondaryHero() {
           <div className="text-center lg:text-right order-2 lg:order-1">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">أفضل التخفيضات 2022</h2>
             <p className="text-lg text-gray-300 mb-8 leading-relaxed">
-              متجر محلاتنا يوفر لك كل ما تحتاجه من كمبيوترات أو أجهزة ذكية بأفضل التخفيضات على المنتجات. 
+              محلات علي ابو مسعود يوفر لك كل ما تحتاجه من كمبيوترات أو أجهزة ذكية بأفضل التخفيضات على المنتجات. 
               أفضل التخفيضات على المنتجات، تسوق الآن واستمتع بكل التخفيضات على المنتجات
             </p>
             <Button variant="accent" size="sm">

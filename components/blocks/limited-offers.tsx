@@ -97,8 +97,8 @@ export default function LimitedOffers() {
       <section className="py-16 bg-[var(--background)]">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-[var(--primary)] mb-2">عروض لثنين فقط</h2>
-            <p className="text-gray-600">تسوق أحدث المنتجات المميزة الجديدة</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-primary mb-2">عروض خاصة لهذا الأسبوع</h2>
+            <p className="text-gray-600">اكتشف أحدث العروض والخصومات على منتجاتنا المميزة</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
@@ -116,7 +116,7 @@ export default function LimitedOffers() {
                   <div className="lg:w-1/2 flex flex-col justify-between">
                     <div>
                       <p className="text-sm text-gray-500 mb-2">{product.category}</p>
-                      <h3 className="text-xl font-bold text-[var(--primary)] mb-3">{product.name}</h3>
+                      <h3 className="text-xl font-bold text-primary mb-3">{product.name}</h3>
 
                       <div className="flex items-center gap-1 mb-3">
                         <div className="flex">
@@ -145,7 +145,7 @@ export default function LimitedOffers() {
                       <div className="grid grid-cols-4 gap-2 mb-4">
                         <div className="text-center">
                           <div className="bg-gray-100 rounded-lg p-2">
-                            <div className="text-xl font-bold text-[var(--primary)]">
+                            <div className="text-xl font-bold text-primary">
                               {timeLeft.days.toString().padStart(2, "0")}
                             </div>
                           </div>
@@ -153,7 +153,7 @@ export default function LimitedOffers() {
                         </div>
                         <div className="text-center">
                           <div className="bg-gray-100 rounded-lg p-2">
-                            <div className="text-xl font-bold text-[var(--primary)]">
+                            <div className="text-xl font-bold text-primary">
                               {timeLeft.hours.toString().padStart(2, "0")}
                             </div>
                           </div>
@@ -161,7 +161,7 @@ export default function LimitedOffers() {
                         </div>
                         <div className="text-center">
                           <div className="bg-gray-100 rounded-lg p-2">
-                            <div className="text-xl font-bold text-[var(--primary)]">
+                            <div className="text-xl font-bold text-primary">
                               {timeLeft.minutes.toString().padStart(2, "0")}
                             </div>
                           </div>
@@ -169,7 +169,7 @@ export default function LimitedOffers() {
                         </div>
                         <div className="text-center">
                           <div className="bg-gray-100 rounded-lg p-2">
-                            <div className="text-xl font-bold text-[var(--primary)]">
+                            <div className="text-xl font-bold text-primary">
                               {timeLeft.seconds.toString().padStart(2, "0")}
                             </div>
                           </div>

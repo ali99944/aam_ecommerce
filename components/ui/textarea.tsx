@@ -9,7 +9,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 
 export default function Textarea({ size = "md", error, className = "", ...props }: TextareaProps) {
   const baseClasses =
-    "border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-[var(--primary)] focus:border-[var(--primary)] transition-all duration-200 resize-none"
+    "border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-primary focus:border-primary transition-all duration-200 resize-none"
 
   const sizes = {
     sm: "px-3 py-2 text-sm",
